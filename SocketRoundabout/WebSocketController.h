@@ -11,7 +11,8 @@
 
 #import "SRWebSocket.h"
 
-#define KS_WEBSOCKETCONTROL (@"WSWEBSOCKETCONTROL")
+#define KS_WEBSOCKETCONTROL (@"KS_WEBSOCKETCONTROL")
+
 typedef enum{
     KS_WEBSOCKETCONTROL_CONNECTTOA = 0,
     KS_WEBSOCKETCONTROL_CONNECTTOB,
@@ -37,4 +38,6 @@ typedef enum{
 
 - (void) connectToA:(NSString * )connectTargetAddress withIdentity:(NSString * )connectionId;
 - (void) connectToB:(NSString * )connectTargetAddress withIdentity:(NSString * )connectionId;
+
+- (void) closeMessengerConnection;
 @end

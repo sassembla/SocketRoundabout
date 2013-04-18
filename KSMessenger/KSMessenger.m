@@ -861,7 +861,6 @@
 	
 	
 	NSAssert1([self hasParent], @"指定した親が存在しないようです。connectParentに指定している名前を確認してください_現在探して見つからなかった親の名前は_%@",[self myParentName]);
-	
 }
 
 /**
@@ -1165,7 +1164,7 @@
 		return nil;
 	}
 	
-	NSAssert(false, @"親設定が無い");
+	NSAssert1(false, @"親設定が無い, %@", [self myName]);
     return nil;
 }
 

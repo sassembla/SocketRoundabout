@@ -16,9 +16,6 @@
 #define ADDRESS_A   (@"ws://127.0.0.1:8823")
 #define ADDRESS_B   (@"ws://127.0.0.1:8824")
 
-#define TEST_CONNECTION_A (@"2013/04/18 14:57:07")
-#define TEST_CONNECTION_B (@"2013/04/18 14:57:13")
-
 
 @interface SocketRoundaboutTests : SenTestCase {
     KSMessenger * messenger;
@@ -45,6 +42,7 @@
 - (void)tearDown
 {
     [messenger closeConnection];
+    [wsCont closeMessengerConnection];
     [m_connectionIdArray removeAllObjects];
     [m_receivedMessageArray removeAllObjects];
     
@@ -78,6 +76,7 @@
 
 
 - (void) testConnect8823 {
+    NSString * TEST_CONNECTION_A = @"2013/04/18 16:14:50";
     [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOA,
      [messenger tag:@"targetURL" val:ADDRESS_A],
      [messenger tag:@"connectionId" val:TEST_CONNECTION_A],
@@ -95,6 +94,7 @@
 
 
 - (void) testConnect8824 {
+    NSString * TEST_CONNECTION_B = @"2013/04/18 16:15:05";
     [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOB,
      [messenger tag:@"targetURL" val:ADDRESS_B],
      [messenger tag:@"connectionId" val:TEST_CONNECTION_B],
@@ -110,6 +110,9 @@
 }
 
 - (void) testConnectToAandB {
+    NSString * TEST_CONNECTION_A = @"2013/04/18 16:15:21";
+    NSString * TEST_CONNECTION_B = @"2013/04/18 16:15:36";
+    
     [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOA,
      [messenger tag:@"targetURL" val:ADDRESS_A],
      [messenger tag:@"connectionId" val:TEST_CONNECTION_A],
@@ -134,7 +137,8 @@
  A,B両方にメッセージを送付して、それぞれが返信される
  */
 - (void) testBroadcastReceived {
-    
+    NSString * TEST_CONNECTION_A = @"2013/04/18 16:15:55";
+    NSString * TEST_CONNECTION_B = @"2013/04/18 16:16:05";
     [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOA,
      [messenger tag:@"targetURL" val:ADDRESS_A],
      [messenger tag:@"connectionId" val:TEST_CONNECTION_A],
@@ -166,50 +170,52 @@
     STAssertEqualObjects([m_receivedMessageArray objectAtIndex:1], @"hereComes", @"not match");
 }
 
-///**
-// Aからメッセージを受け取り、Bに伝播する
-// */
-//- (void) testTransmitReceived {
-//    [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOA,
-//     [messenger tag:@"targetURL" val:ADDRESS_A],
-//     [messenger tag:@"connectionId" val:TEST_CONNECTION_A],
-//     nil];
-//    
-//    [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOB,
-//     [messenger tag:@"targetURL" val:ADDRESS_B],
-//     [messenger tag:@"connectionId" val:TEST_CONNECTION_B],
-//     nil];
-//    
-//    //wait for connect
-//    while ([m_connectionIdArray count] != 2) {
-//        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-//    }
-//    
-//    
-////    [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_SET_TRANSMITMODE,
-////     [messenger tag:@"isTransmit" val:[NSNumber numberWithBool:true]],
-////     nil];
-//    
-//    
-//    //to B
-//    [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_SENDMESSAGE,
-//     [messenger tag:@"connectionId" val:TEST_CONNECTION_B],
-//     [messenger tag:@"message" val:@"ss@broadcastMessage:{\"message\":\"hereComes\"}"],
-//     nil];
-//    
-//    
-//    //message returned
-//    
-//    //message transmitted to A
-//    
-//    //wait received from A
-//    while ([m_receivedMessageArray count] != 2) {
-//        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-//    }
-//    
-//    NSLog(@"over");
-//    
-//}
+/**
+ Aからメッセージを受け取り、Bに伝播する
+ */
+- (void) testTransmitReceived {
+    NSString * TEST_CONNECTION_A = @"2013/04/18 16:16:16";
+    NSString * TEST_CONNECTION_B = @"2013/04/18 16:16:32";
+    [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOA,
+     [messenger tag:@"targetURL" val:ADDRESS_A],
+     [messenger tag:@"connectionId" val:TEST_CONNECTION_A],
+     nil];
+    
+    [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOB,
+     [messenger tag:@"targetURL" val:ADDRESS_B],
+     [messenger tag:@"connectionId" val:TEST_CONNECTION_B],
+     nil];
+    
+    //wait for connect
+    while ([m_connectionIdArray count] != 2) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+    }
+    
+    
+    [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_SET_TRANSMITMODE,
+     [messenger tag:@"isTransmit" val:[NSNumber numberWithBool:true]],
+     nil];
+    
+    
+    //to A
+    [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_SENDMESSAGE,
+     [messenger tag:@"connectionId" val:TEST_CONNECTION_A],
+     [messenger tag:@"message" val:@"ss@broadcastMessage:{\"message\":\"hereComesFromClient\"}"],
+     nil];
+
+    
+    //message returned
+    
+    //message transmitted from A to B
+    
+    //wait received from B
+    while ([m_receivedMessageArray count] != 2) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+    }
+    
+    NSLog(@"over");
+    
+}
 
 
 

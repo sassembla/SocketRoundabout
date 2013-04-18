@@ -79,6 +79,19 @@ bool m_transmit = false;
         default:
             break;
     }
+    
+    switch ([messenger execFrom:[messenger myName] viaNotification:notif]) {
+        case KS_WEBSOCKETCONTROL_SENDMESSAGE:{
+            NSAssert([dict valueForKey:@"connectionId"], @"connectionId required");
+            NSAssert([dict valueForKey:@"message"], @"message required");
+            
+            [self sendMessageToWebSocket:[dict valueForKey:@"connectionId"] message:[dict valueForKey:@"message"]];
+            break;
+        }
+            
+        default:
+            break;
+    }
 }
 
 /**
@@ -166,15 +179,16 @@ bool m_transmit = false;
         
         [messenger callMyself:KS_WEBSOCKETCONTROL_SENDMESSAGE,
          [messenger tag:@"connectionId" val:anotherConnectionId],
-         [messenger tag:@"message" val:@"ss@message"],
+         [messenger tag:@"message" val:@"ss@broadcastMessage:{\"message\":\"hereComes2\"}"],
          nil];
     }
 }
 
 - (void)webSocket:(SRWebSocket * )webSocket didCloseWithCode:(NSInteger)code reason:(NSString * )reason wasClean:(BOOL)wasClean {
-    NSLog(@"closed  %ld, %@", (long)code, reason);
-//    NSString * connectionId = [[connectionDict allKeysForObject:webSocket] objectAtIndex:0];
-//    
+    NSString * connectionId = [[connectionDict allKeysForObject:webSocket] objectAtIndex:0];
+    NSLog(@"closed  %ld, %@, %@", (long)code, reason, connectionId);
+    
+//
 //    [messenger callParent:KS_WEBSOCKETCONTROL_CLOSED,
 //     [messenger tag:@"code" val:[NSNumber numberWithInt:code]],
 //     [messenger tag:@"reason" val:reason],
@@ -187,6 +201,16 @@ bool m_transmit = false;
 //    _webSocket = nil;
 }
 
+
+- (void) closeMessengerConnection {
+    [messenger closeConnection];
+    
+    for (SRWebSocket * socket in [connectionDict allValues]) {
+        socket.delegate = nil;
+    }
+    
+    [connectionDict removeAllObjects];
+}
 
 
 @end
