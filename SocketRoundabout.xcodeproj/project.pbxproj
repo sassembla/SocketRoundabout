@@ -17,6 +17,18 @@
 		13E21206171E92AD00AD84BB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E211E6171E92AD00AD84BB /* Cocoa.framework */; };
 		13E2120E171E92AD00AD84BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 13E2120C171E92AD00AD84BB /* InfoPlist.strings */; };
 		13E21211171E92AD00AD84BB /* SocketRoundaboutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E21210171E92AD00AD84BB /* SocketRoundaboutTests.m */; };
+		13E2121C171E92C700AD84BB /* WebSocketController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E2121A171E92C700AD84BB /* WebSocketController.m */; };
+		13E2121D171E92C700AD84BB /* WebSocketController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E2121A171E92C700AD84BB /* WebSocketController.m */; };
+		13E21226171E92CD00AD84BB /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 13E2121F171E92CD00AD84BB /* base64.c */; };
+		13E21227171E92CD00AD84BB /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 13E2121F171E92CD00AD84BB /* base64.c */; };
+		13E21228171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E21222171E92CD00AD84BB /* NSData+SRB64Additions.m */; };
+		13E21229171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E21222171E92CD00AD84BB /* NSData+SRB64Additions.m */; };
+		13E2122A171E92CD00AD84BB /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E21225171E92CD00AD84BB /* SRWebSocket.m */; };
+		13E2122B171E92CD00AD84BB /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E21225171E92CD00AD84BB /* SRWebSocket.m */; };
+		13E2122F171E942700AD84BB /* KSMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E2122E171E942700AD84BB /* KSMessenger.m */; };
+		13E21230171E942700AD84BB /* KSMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E2122E171E942700AD84BB /* KSMessenger.m */; };
+		13E21233171E946200AD84BB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E21231171E945900AD84BB /* Security.framework */; };
+		13E21234171EAC8F00AD84BB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E21231171E945900AD84BB /* Security.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,8 +59,19 @@
 		13E21204171E92AD00AD84BB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		13E2120B171E92AD00AD84BB /* SocketRoundaboutTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SocketRoundaboutTests-Info.plist"; sourceTree = "<group>"; };
 		13E2120D171E92AD00AD84BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		13E2120F171E92AD00AD84BB /* SocketRoundaboutTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocketRoundaboutTests.h; sourceTree = "<group>"; };
 		13E21210171E92AD00AD84BB /* SocketRoundaboutTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutTests.m; sourceTree = "<group>"; };
+		13E2121A171E92C700AD84BB /* WebSocketController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketController.m; sourceTree = "<group>"; };
+		13E2121B171E92C700AD84BB /* WebSocketController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketController.h; sourceTree = "<group>"; };
+		13E2121F171E92CD00AD84BB /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
+		13E21220171E92CD00AD84BB /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
+		13E21221171E92CD00AD84BB /* NSData+SRB64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SRB64Additions.h"; sourceTree = "<group>"; };
+		13E21222171E92CD00AD84BB /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SRB64Additions.m"; sourceTree = "<group>"; };
+		13E21223171E92CD00AD84BB /* SocketRocket-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SocketRocket-Prefix.pch"; sourceTree = "<group>"; };
+		13E21224171E92CD00AD84BB /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
+		13E21225171E92CD00AD84BB /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
+		13E2122D171E942700AD84BB /* KSMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSMessenger.h; sourceTree = "<group>"; };
+		13E2122E171E942700AD84BB /* KSMessenger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSMessenger.m; sourceTree = "<group>"; };
+		13E21231171E945900AD84BB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13E21233171E946200AD84BB /* Security.framework in Frameworks */,
 				13E211E7171E92AD00AD84BB /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13E21234171EAC8F00AD84BB /* Security.framework in Frameworks */,
 				13E21205171E92AD00AD84BB /* SenTestingKit.framework in Frameworks */,
 				13E21206171E92AD00AD84BB /* Cocoa.framework in Frameworks */,
 			);
@@ -75,6 +100,8 @@
 		13E211DA171E92AD00AD84BB = {
 			isa = PBXGroup;
 			children = (
+				13E2122C171E942700AD84BB /* KSMessenger */,
+				13E2121E171E92CD00AD84BB /* SocketRocket */,
 				13E211EC171E92AD00AD84BB /* SocketRoundabout */,
 				13E21209171E92AD00AD84BB /* SocketRoundaboutTests */,
 				13E211E5171E92AD00AD84BB /* Frameworks */,
@@ -94,6 +121,7 @@
 		13E211E5171E92AD00AD84BB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				13E21231171E945900AD84BB /* Security.framework */,
 				13E211E6171E92AD00AD84BB /* Cocoa.framework */,
 				13E21204171E92AD00AD84BB /* SenTestingKit.framework */,
 				13E211E8171E92AD00AD84BB /* Other Frameworks */,
@@ -114,6 +142,8 @@
 		13E211EC171E92AD00AD84BB /* SocketRoundabout */ = {
 			isa = PBXGroup;
 			children = (
+				13E2121B171E92C700AD84BB /* WebSocketController.h */,
+				13E2121A171E92C700AD84BB /* WebSocketController.m */,
 				13E211F8171E92AD00AD84BB /* AppDelegate.h */,
 				13E211F9171E92AD00AD84BB /* AppDelegate.m */,
 				13E211FB171E92AD00AD84BB /* MainMenu.xib */,
@@ -137,7 +167,6 @@
 		13E21209171E92AD00AD84BB /* SocketRoundaboutTests */ = {
 			isa = PBXGroup;
 			children = (
-				13E2120F171E92AD00AD84BB /* SocketRoundaboutTests.h */,
 				13E21210171E92AD00AD84BB /* SocketRoundaboutTests.m */,
 				13E2120A171E92AD00AD84BB /* Supporting Files */,
 			);
@@ -151,6 +180,29 @@
 				13E2120C171E92AD00AD84BB /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		13E2121E171E92CD00AD84BB /* SocketRocket */ = {
+			isa = PBXGroup;
+			children = (
+				13E2121F171E92CD00AD84BB /* base64.c */,
+				13E21220171E92CD00AD84BB /* base64.h */,
+				13E21221171E92CD00AD84BB /* NSData+SRB64Additions.h */,
+				13E21222171E92CD00AD84BB /* NSData+SRB64Additions.m */,
+				13E21223171E92CD00AD84BB /* SocketRocket-Prefix.pch */,
+				13E21224171E92CD00AD84BB /* SRWebSocket.h */,
+				13E21225171E92CD00AD84BB /* SRWebSocket.m */,
+			);
+			path = SocketRocket;
+			sourceTree = "<group>";
+		};
+		13E2122C171E942700AD84BB /* KSMessenger */ = {
+			isa = PBXGroup;
+			children = (
+				13E2122D171E942700AD84BB /* KSMessenger.h */,
+				13E2122E171E942700AD84BB /* KSMessenger.m */,
+			);
+			path = KSMessenger;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +315,11 @@
 			files = (
 				13E211F3171E92AD00AD84BB /* main.m in Sources */,
 				13E211FA171E92AD00AD84BB /* AppDelegate.m in Sources */,
+				13E2121C171E92C700AD84BB /* WebSocketController.m in Sources */,
+				13E21226171E92CD00AD84BB /* base64.c in Sources */,
+				13E21228171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */,
+				13E2122A171E92CD00AD84BB /* SRWebSocket.m in Sources */,
+				13E2122F171E942700AD84BB /* KSMessenger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +328,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				13E21211171E92AD00AD84BB /* SocketRoundaboutTests.m in Sources */,
+				13E2121D171E92C700AD84BB /* WebSocketController.m in Sources */,
+				13E21227171E92CD00AD84BB /* base64.c in Sources */,
+				13E21229171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */,
+				13E2122B171E92CD00AD84BB /* SRWebSocket.m in Sources */,
+				13E21230171E942700AD84BB /* KSMessenger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

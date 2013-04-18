@@ -12,7 +12,18 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    NSLog(@"来ました");
+    /*
+     2つ通信を発生させる。
+     ひとつはローカルの127.0.0.1:8823
+     もう一つはリモートのlambdaboutへ。
+     アドレスの指定はinfo.plistでいいか。
+     
+     今は直書き。
+     
+     */
+    
+    
 }
 
 @end
