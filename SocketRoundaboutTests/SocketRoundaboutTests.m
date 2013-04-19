@@ -137,8 +137,8 @@
  A,B両方にメッセージを送付して、それぞれが返信される
  */
 - (void) testBroadcastReceived {
-    NSString * TEST_CONNECTION_A = @"2013/04/18 16:15:55";
-    NSString * TEST_CONNECTION_B = @"2013/04/18 16:16:05";
+    NSString * TEST_CONNECTION_A = [KSMessenger generateMID];
+    NSString * TEST_CONNECTION_B = [KSMessenger generateMID];
     [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOA,
      [messenger tag:@"targetURL" val:ADDRESS_A],
      [messenger tag:@"connectionId" val:TEST_CONNECTION_A],
@@ -172,10 +172,11 @@
 
 /**
  Aからメッセージを受け取り、Bに伝播する
+ 無制限な回数発生する反射
  */
 - (void) testTransmitReceived {
-    NSString * TEST_CONNECTION_A = @"2013/04/18 16:16:16";
-    NSString * TEST_CONNECTION_B = @"2013/04/18 16:16:32";
+    NSString * TEST_CONNECTION_A = [KSMessenger generateMID];
+    NSString * TEST_CONNECTION_B = [KSMessenger generateMID];
     [messenger call:KS_WEBSOCKETCONTROL withExec:KS_WEBSOCKETCONTROL_CONNECTTOA,
      [messenger tag:@"targetURL" val:ADDRESS_A],
      [messenger tag:@"connectionId" val:TEST_CONNECTION_A],
@@ -209,14 +210,18 @@
     //message transmitted from A to B
     
     //wait received from B
-    while ([m_receivedMessageArray count] != 2) {
+    while ([m_receivedMessageArray count] < 2) {
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
     }
-    
-    NSLog(@"over");
-    
 }
 
+
+/**
+ メッセージがAtoBだけに対して機能するように、transitを経由する前提のデータ構造を用意する
+ */
+- (void) testSetDirectionFromAToB {
+//2013/04/19 13:09:28 制作中断、先にChromeでのGradleコントロールを行う。    
+}
 
 
 
