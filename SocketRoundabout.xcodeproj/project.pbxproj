@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13B961601726C29E00766021 /* SocketRoundaboutTests_singleConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B9615F1726C29E00766021 /* SocketRoundaboutTests_singleConnection.m */; };
+		13B961631726C45200766021 /* RoundaboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B961621726C45200766021 /* RoundaboutController.m */; };
+		13B961641726C45200766021 /* RoundaboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B961621726C45200766021 /* RoundaboutController.m */; };
+		13B961671726C5DA00766021 /* WebSocketConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B961661726C5DA00766021 /* WebSocketConnectionOperation.m */; };
+		13B961681726C5DA00766021 /* WebSocketConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B961661726C5DA00766021 /* WebSocketConnectionOperation.m */; };
 		13E211E7171E92AD00AD84BB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E211E6171E92AD00AD84BB /* Cocoa.framework */; };
 		13E211F1171E92AD00AD84BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 13E211EF171E92AD00AD84BB /* InfoPlist.strings */; };
 		13E211F3171E92AD00AD84BB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E211F2171E92AD00AD84BB /* main.m */; };
@@ -42,6 +47,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		13B9615F1726C29E00766021 /* SocketRoundaboutTests_singleConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutTests_singleConnection.m; sourceTree = "<group>"; };
+		13B961611726C45200766021 /* RoundaboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundaboutController.h; sourceTree = "<group>"; };
+		13B961621726C45200766021 /* RoundaboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundaboutController.m; sourceTree = "<group>"; };
+		13B961651726C5DA00766021 /* WebSocketConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebSocketConnectionOperation.h; path = Operation/WebSocketConnectionOperation.h; sourceTree = "<group>"; };
+		13B961661726C5DA00766021 /* WebSocketConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebSocketConnectionOperation.m; path = Operation/WebSocketConnectionOperation.m; sourceTree = "<group>"; };
 		13E211E3171E92AD00AD84BB /* SocketRoundabout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocketRoundabout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13E211E6171E92AD00AD84BB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		13E211E9171E92AD00AD84BB /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -148,6 +158,10 @@
 				13E211F9171E92AD00AD84BB /* AppDelegate.m */,
 				13E211FB171E92AD00AD84BB /* MainMenu.xib */,
 				13E211ED171E92AD00AD84BB /* Supporting Files */,
+				13B961611726C45200766021 /* RoundaboutController.h */,
+				13B961621726C45200766021 /* RoundaboutController.m */,
+				13B961651726C5DA00766021 /* WebSocketConnectionOperation.h */,
+				13B961661726C5DA00766021 /* WebSocketConnectionOperation.m */,
 			);
 			path = SocketRoundabout;
 			sourceTree = "<group>";
@@ -169,6 +183,7 @@
 			children = (
 				13E21210171E92AD00AD84BB /* SocketRoundaboutTests.m */,
 				13E2120A171E92AD00AD84BB /* Supporting Files */,
+				13B9615F1726C29E00766021 /* SocketRoundaboutTests_singleConnection.m */,
 			);
 			path = SocketRoundaboutTests;
 			sourceTree = "<group>";
@@ -320,6 +335,8 @@
 				13E21228171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */,
 				13E2122A171E92CD00AD84BB /* SRWebSocket.m in Sources */,
 				13E2122F171E942700AD84BB /* KSMessenger.m in Sources */,
+				13B961631726C45200766021 /* RoundaboutController.m in Sources */,
+				13B961671726C5DA00766021 /* WebSocketConnectionOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +350,9 @@
 				13E21229171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */,
 				13E2122B171E92CD00AD84BB /* SRWebSocket.m in Sources */,
 				13E21230171E942700AD84BB /* KSMessenger.m in Sources */,
+				13B961601726C29E00766021 /* SocketRoundaboutTests_singleConnection.m in Sources */,
+				13B961641726C45200766021 /* RoundaboutController.m in Sources */,
+				13B961681726C5DA00766021 /* WebSocketConnectionOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +534,7 @@
 				13E21216171E92AD00AD84BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		13E21217171E92AD00AD84BB /* Build configuration list for PBXNativeTarget "SocketRoundaboutTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +543,7 @@
 				13E21219171E92AD00AD84BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
