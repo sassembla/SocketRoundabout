@@ -80,26 +80,26 @@
 
 
 
-
-
-
-
-
-- (void) close {
+- (void) closeConnection:(NSString * )connectionId {
+    [messenger call:KS_WEBSOCKETCONNECTIONOPERATION withExec:KS_WEBSOCKETCONNECTIONOPERATION_CLOSE,
+     [messenger tag:@"operationId" val:connectionId],
+     nil];
     
-    
+    [m_connections removeObjectForKey:connectionId];
+}
+
+- (void) closeAllConnections {
     //close all WebSocket Connections
-    for (NSString * operationId in m_connections) {
-        [messenger call:KS_WEBSOCKETCONNECTIONOPERATION withExec:KS_WEBSOCKETCONNECTIONOPERATION_CLOSE,
-         [messenger tag:@"operationId" val:operationId],
-         nil];
+    NSArray * connectionsKeys = [[NSArray alloc]initWithArray:[m_connections allKeys]];
+    for (NSString * connectionId in connectionsKeys) {
+        [self closeConnection:connectionId];
     }
-    
-    [m_connections removeAllObjects];
+}
+
+- (void) exit {
+    [self closeAllConnections];
     
     [messenger closeConnection];
 }
-
-
 
 @end

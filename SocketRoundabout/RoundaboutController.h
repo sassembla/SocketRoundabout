@@ -28,5 +28,8 @@ typedef enum{
 
 - (id) initWithMaster:(NSString * )masterNameAndId;
 - (NSArray * ) connections;
-- (void) close;
+- (void) closeConnection:(NSString * )connectionId;
+- (void) closeAllConnections;
+- (void) exit;
+
 @end
