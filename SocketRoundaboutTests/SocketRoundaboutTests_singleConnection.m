@@ -205,7 +205,10 @@
  Clientとして特定の振る舞いを行う
  */
 - (void) testInputClientId {
-    
+    STFail(@"not yet implemented");
+    /*
+     与えられたパスからtailする、っていうのと、Roundaboutのデザインに関連性がないから、Roundaboutって名前やめた方がいいな。
+     */
 }
 
 
