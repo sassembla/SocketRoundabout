@@ -7,12 +7,16 @@
 //
 
 #import "RoundaboutController.h"
+#import "KSMessenger.h"
 
 #import "WebSocketConnectionOperation.h"
 #import "DistNotificationOperation.h"
 
 
-@implementation RoundaboutController
+@implementation RoundaboutController {
+    KSMessenger * messenger;
+    int m_messageCount;
+}
 
 - (id) initWithMaster:(NSString * )masterNameAndId {
     if (self = [super init]) {
@@ -79,6 +83,7 @@
         case KS_WEBSOCKETCONNECTIONOPERATION_RECEIVED:{
             NSAssert(dict[@"message"], @"message required");
             NSLog(@"ws message %@", dict[@"message"]);
+            m_messageCount++;
             break;
         }
             
@@ -101,9 +106,10 @@
         case KS_DISTRIBUTEDNOTIFICATIONOPERATION_RECEIVED:{
             NSAssert(dict[@"message"], @"message required");
             NSLog(@"notif message %@", dict[@"message"]);
+            m_messageCount++;
             break;
         }
-            
+        
         default:
             break;
     }
@@ -154,6 +160,9 @@
     return [m_connections dictionaryWithValuesForKeys:keys];
 }
 
+- (int) roundaboutMessageCount {
+    return m_messageCount;
+}
 
 - (void) closeConnection:(NSString * )connectionId {
     int connectionType = [m_connections[connectionId][@"connectionType"] intValue];

@@ -19,6 +19,31 @@
 #define TEST_CONNECTIONIDENTITY_2   (@"roundaboutTest2")
 
 #define TEST_TIMELIMIT  (1)
+
+@interface TestDistNotificationSender : NSObject @end
+
+@implementation TestDistNotificationSender {
+    NSString * m_notificationId;
+}
+
+- (id) initWithNotificationId:(NSString * )notificationId {
+    if (self = [super init]) {
+        m_notificationId = [[NSString alloc]initWithString:notificationId];
+    }
+    return self;
+}
+
+- (void) sendNotification:(NSString * )message {
+    NSDictionary * dict = @{@"message":message};
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:m_notificationId
+                                                                   object:nil
+                                                                 userInfo:dict
+                                                       deliverImmediately:YES];
+    [[NSNotificationCenter defaultCenter]postNotificationName:m_notificationId object:nil userInfo:dict];
+}
+@end
+
+
 @interface SocketRoundaboutTests_DistNotification : SenTestCase {
     KSMessenger * messenger;
     RoundaboutController * roundaboutCont;
@@ -26,6 +51,7 @@
 }
 
 @end
+
 
 
 @implementation SocketRoundaboutTests_DistNotification
@@ -209,5 +235,39 @@
     STAssertTrue([[roundaboutCont connections] count] == 1, @"not match, %d", [[roundaboutCont connections] count]);
 }
 
+/**
+ 入力を行い、receiveを得る
+ */
+- (void) testGetReceived {
+    
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
+     nil];
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 1) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    //sender
+    TestDistNotificationSender * sender = [[TestDistNotificationSender alloc]initWithNotificationId:TEST_NOTIFICATION_IDENTITY];
+    
+    [sender sendNotification:@"testMessage"];
+    
+    STAssertTrue([roundaboutCont roundaboutMessageCount] == 1, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
+    
+}
+
+
 
 @end
+
+
+

@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "KSMessenger.h"
 
 #define KS_ROUNDABOUTCONT   (@"KS_ROUNDABOUTCONT")
 
@@ -26,7 +25,6 @@ typedef enum {
 } KS_ROUNDABOUTCONT_EXEC;
 
 @interface RoundaboutController : NSObject {
-    KSMessenger * messenger;
     NSMutableDictionary * m_connections;
 }
 
@@ -35,6 +33,7 @@ typedef enum {
 
 - (void) createWebSocketConnection:(NSString * )connectionTarget withConnectionId:(NSString * )connectionId;
 
+- (int) roundaboutMessageCount;
 
 - (void) closeConnection:(NSString * )connectionId;
 - (void) closeAllConnections;
