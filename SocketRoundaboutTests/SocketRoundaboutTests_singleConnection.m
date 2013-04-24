@@ -64,11 +64,12 @@
 }
 
 
-
+// WebSocket周り
 - (void) testConnect {
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      nil];
     
     
@@ -84,6 +85,11 @@
     
     //接続できているconnectionが一つある
     STAssertTrue([[roundaboutCont connections] count] == 1, @"not match, %d", [[roundaboutCont connections] count]);
+    
+    NSArray * key = [[[roundaboutCont connections] allKeys] objectAtIndex:0];
+    
+    NSNumber * type = [roundaboutCont connections][key][@"type"];
+    STAssertTrue([type intValue] == KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET, @"not match, %@", type);
 }
 
 /**
@@ -93,6 +99,7 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],     
      nil];
     
     
@@ -119,6 +126,7 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],     
      nil];
     
     
@@ -145,11 +153,13 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],     
      nil];
     
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],     
      nil];
     
     int i = 0;
@@ -173,11 +183,13 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      nil];
     
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      nil];
     
     int i = 0;

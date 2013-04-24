@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13935D3B1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */; };
+		13935D3C1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */; };
 		13B961601726C29E00766021 /* SocketRoundaboutTests_singleConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B9615F1726C29E00766021 /* SocketRoundaboutTests_singleConnection.m */; };
 		13B961631726C45200766021 /* RoundaboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B961621726C45200766021 /* RoundaboutController.m */; };
 		13B961641726C45200766021 /* RoundaboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B961621726C45200766021 /* RoundaboutController.m */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		13935D391727ECFC00E10D59 /* DistNotificationOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistNotificationOperation.h; sourceTree = "<group>"; };
+		13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistNotificationOperation.m; sourceTree = "<group>"; };
 		13B9615F1726C29E00766021 /* SocketRoundaboutTests_singleConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutTests_singleConnection.m; sourceTree = "<group>"; };
 		13B961611726C45200766021 /* RoundaboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundaboutController.h; sourceTree = "<group>"; };
 		13B961621726C45200766021 /* RoundaboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundaboutController.m; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 				13B961621726C45200766021 /* RoundaboutController.m */,
 				13B961651726C5DA00766021 /* WebSocketConnectionOperation.h */,
 				13B961661726C5DA00766021 /* WebSocketConnectionOperation.m */,
+				13935D391727ECFC00E10D59 /* DistNotificationOperation.h */,
+				13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */,
 			);
 			path = SocketRoundabout;
 			sourceTree = "<group>";
@@ -337,6 +343,7 @@
 				13E2122F171E942700AD84BB /* KSMessenger.m in Sources */,
 				13B961631726C45200766021 /* RoundaboutController.m in Sources */,
 				13B961671726C5DA00766021 /* WebSocketConnectionOperation.m in Sources */,
+				13935D3B1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +360,7 @@
 				13B961601726C29E00766021 /* SocketRoundaboutTests_singleConnection.m in Sources */,
 				13B961641726C45200766021 /* RoundaboutController.m in Sources */,
 				13B961681726C5DA00766021 /* WebSocketConnectionOperation.m in Sources */,
+				13935D3C1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

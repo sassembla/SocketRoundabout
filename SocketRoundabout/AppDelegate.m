@@ -20,14 +20,19 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 //    [self ignite];
+    
+//    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(rec:) name:@"TEST2013/04/24 16:20:51" object:nil];
 }
-
+- (void) rec:(NSNotification * )notif {
+    NSLog(@"notif %@", notif);
+}
 - (void) ignite {
     /*
      2つ通信を発生させる。
      ひとつはローカルの127.0.0.1:8823
      もう一つはリモートのlambdaboutへ。
      アドレスの指定はinfo.plistでいいか。
+     
      
      今は直書き。
      

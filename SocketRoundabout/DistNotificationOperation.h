@@ -1,0 +1,27 @@
+//
+//  DistNotificationOperation.h
+//  SocketRoundabout
+//
+//  Created by sassembla on 2013/04/24.
+//  Copyright (c) 2013年 KISSAKI Inc,. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "KSMessenger.h"
+
+#define KS_DISTRIBUTEDNOTIFICATIONOPERATION (@"KS_DISTRIBUTEDNOTIFICATIONOPERATION")
+
+typedef enum TYPE_KS_DISTRIBUTEDNOTIFICATIONOPERATION {
+    KS_DISTRIBUTEDNOTIFICATIONOPERATION_OPEN,
+    KS_DISTRIBUTEDNOTIFICATIONOPERATION_ESTABLISHED,
+    KS_DISTRIBUTEDNOTIFICATIONOPERATION_RECEIVED,
+    KS_DISTRIBUTEDNOTIFICATIONOPERATION_CLOSE
+} TYPE_KS_DISTRIBUTEDNOTIFICATIONOPERATION;
+
+@interface DistNotificationOperation : NSObject
+
+- (id) initDistNotificationOperationWithMaster:(NSString * )masterNameAndMID
+                              withReceiverName:(NSString * )receiverName
+                              withConnectionId:(NSString * )connectionId;
+
+@end
