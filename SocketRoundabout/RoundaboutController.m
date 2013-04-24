@@ -142,7 +142,7 @@
     
     
     //start connecting
-    [messenger call:KS_WEBSOCKETCONNECTIONOPERATION withExec:KS_WEBSOCKETCONNECTIONOPERATION_OPEN,
+    [messenger call:KS_DISTRIBUTEDNOTIFICATIONOPERATION withExec:KS_DISTRIBUTEDNOTIFICATIONOPERATION_OPEN,
      [messenger tag:@"operationId" val:connectionId],
      nil];
 }
@@ -167,7 +167,9 @@
         }
         
         case KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION:{
-            NSAssert(false, @"まだ閉じてない");
+            [messenger call:KS_DISTRIBUTEDNOTIFICATIONOPERATION withExec:KS_DISTRIBUTEDNOTIFICATIONOPERATION_CLOSE,
+             [messenger tag:@"operationId" val:connectionId],
+             nil];
             break;
         }
             

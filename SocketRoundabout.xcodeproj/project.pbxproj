@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		13935D3B1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */; };
 		13935D3C1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */; };
-		13B961601726C29E00766021 /* SocketRoundaboutTests_singleConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B9615F1726C29E00766021 /* SocketRoundaboutTests_singleConnection.m */; };
+		13935D3F17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */; };
+		13B961601726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B9615F1726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m */; };
 		13B961631726C45200766021 /* RoundaboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B961621726C45200766021 /* RoundaboutController.m */; };
 		13B961641726C45200766021 /* RoundaboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B961621726C45200766021 /* RoundaboutController.m */; };
 		13B961671726C5DA00766021 /* WebSocketConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B961661726C5DA00766021 /* WebSocketConnectionOperation.m */; };
@@ -51,7 +52,8 @@
 /* Begin PBXFileReference section */
 		13935D391727ECFC00E10D59 /* DistNotificationOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistNotificationOperation.h; sourceTree = "<group>"; };
 		13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistNotificationOperation.m; sourceTree = "<group>"; };
-		13B9615F1726C29E00766021 /* SocketRoundaboutTests_singleConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutTests_singleConnection.m; sourceTree = "<group>"; };
+		13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutTests_DistNotification.m; sourceTree = "<group>"; };
+		13B9615F1726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutTests_WebSocketConnection.m; sourceTree = "<group>"; };
 		13B961611726C45200766021 /* RoundaboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundaboutController.h; sourceTree = "<group>"; };
 		13B961621726C45200766021 /* RoundaboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundaboutController.m; sourceTree = "<group>"; };
 		13B961651726C5DA00766021 /* WebSocketConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebSocketConnectionOperation.h; path = Operation/WebSocketConnectionOperation.h; sourceTree = "<group>"; };
@@ -189,7 +191,8 @@
 			children = (
 				13E21210171E92AD00AD84BB /* SocketRoundaboutTests.m */,
 				13E2120A171E92AD00AD84BB /* Supporting Files */,
-				13B9615F1726C29E00766021 /* SocketRoundaboutTests_singleConnection.m */,
+				13B9615F1726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m */,
+				13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */,
 			);
 			path = SocketRoundaboutTests;
 			sourceTree = "<group>";
@@ -357,10 +360,11 @@
 				13E21229171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */,
 				13E2122B171E92CD00AD84BB /* SRWebSocket.m in Sources */,
 				13E21230171E942700AD84BB /* KSMessenger.m in Sources */,
-				13B961601726C29E00766021 /* SocketRoundaboutTests_singleConnection.m in Sources */,
+				13B961601726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m in Sources */,
 				13B961641726C45200766021 /* RoundaboutController.m in Sources */,
 				13B961681726C5DA00766021 /* WebSocketConnectionOperation.m in Sources */,
 				13935D3C1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */,
+				13935D3F17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
