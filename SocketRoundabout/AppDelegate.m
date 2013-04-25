@@ -18,7 +18,16 @@
     WebSocketController * wsCont;
 }
 
+void uncaughtExceptionHandler(NSException *exception) {
+    NSLog(@"CRASH: %@", exception);
+    NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
+}
+
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
+
 //    [self ignite];
     
 //    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(rec:) name:@"TEST2013/04/24 16:20:51" object:nil];
