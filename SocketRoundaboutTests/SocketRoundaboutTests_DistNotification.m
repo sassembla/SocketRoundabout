@@ -22,24 +22,16 @@
 
 @interface TestDistNotificationSender : NSObject @end
 
-@implementation TestDistNotificationSender {
-    NSString * m_notificationId;
-}
+@implementation TestDistNotificationSender
 
-- (id) initWithNotificationId:(NSString * )notificationId {
-    if (self = [super init]) {
-        m_notificationId = [[NSString alloc]initWithString:notificationId];
-    }
-    return self;
-}
 
-- (void) sendNotification:(NSString * )message {
+- (void) sendNotification:(NSString * )identity withMessage:(NSString * )message {
     NSDictionary * dict = @{@"message":message};
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:m_notificationId
+    
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:identity
                                                                    object:nil
                                                                  userInfo:dict
                                                        deliverImmediately:YES];
-    [[NSNotificationCenter defaultCenter]postNotificationName:m_notificationId object:nil userInfo:dict];
 }
 @end
 
@@ -257,10 +249,10 @@
     }
     
     //sender
-    TestDistNotificationSender * sender = [[TestDistNotificationSender alloc]initWithNotificationId:TEST_NOTIFICATION_IDENTITY];
+    TestDistNotificationSender * sender = [[TestDistNotificationSender alloc]init];
     
-    [sender sendNotification:@"testMessage"];
-    
+    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage"];
+
     STAssertTrue([roundaboutCont roundaboutMessageCount] == 1, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
     
 }

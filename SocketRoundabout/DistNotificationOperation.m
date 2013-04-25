@@ -43,7 +43,9 @@
     switch ([messenger execFrom:[messenger myParentName] viaNotification:notif]) {
             
         case KS_DISTRIBUTEDNOTIFICATIONOPERATION_OPEN:{
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifReceiver:) name:m_receiverName object:nil];
+
+            [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(notifReceiver:) name:m_receiverName object:nil];
+            
             [messenger callParent:KS_DISTRIBUTEDNOTIFICATIONOPERATION_ESTABLISHED,
              [messenger tag:@"operationId" val:m_operationId],
              nil];

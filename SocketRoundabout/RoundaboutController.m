@@ -137,6 +137,7 @@
 }
 
 - (void) createNotificationReceiver:(NSString * )receiverName withConnectionId:(NSString * )connectionId {
+
     DistNotificationOperation * distNotifOpe = [[DistNotificationOperation alloc] initDistNotificationOperationWithMaster:[messenger myNameAndMID] withReceiverName:receiverName withConnectionId:connectionId];
     
     NSDictionary * connectionDict = @{@"connector": distNotifOpe,
