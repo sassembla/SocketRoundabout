@@ -20,19 +20,27 @@
 
 #define TEST_TIMELIMIT  (1)
 
+#define NNOTIF  (@"./nnotif")//pwd = project-folder path.
+
+
 @interface TestDistNotificationSender : NSObject @end
 
-@implementation TestDistNotificationSender
-
-
-- (void) sendNotification:(NSString * )identity withMessage:(NSString * )message {
-    NSDictionary * dict = @{@"message":message};
-    
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:identity
-                                                                   object:nil
-                                                                 userInfo:dict
-                                                       deliverImmediately:YES];
+@implementation TestDistNotificationSender {
+    NSFileHandle * readingFileHandle;
 }
+
+
+- (void) sendNotification:(NSString * )identity withMessage:(NSString * )message withKey:(NSString * )key {
+    
+    NSArray * clArray = @[@"-t", identity, @"-k", key, @"-i", message];
+    
+    NSTask * task1 = [[NSTask alloc] init];
+    [task1 setLaunchPath:NNOTIF];
+    [task1 setArguments:clArray];
+    [task1 launch];
+    [task1 waitUntilExit];
+}
+
 @end
 
 
@@ -251,10 +259,40 @@
     //sender
     TestDistNotificationSender * sender = [[TestDistNotificationSender alloc]init];
     
-    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage"];
+    //送付
+    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage" withKey:@"message"];
 
+    //一件取得できる
     STAssertTrue([roundaboutCont roundaboutMessageCount] == 1, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
+}
+
+- (void) testGetReceived_Twice {
     
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
+     nil];
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 1) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    //sender
+    TestDistNotificationSender * sender = [[TestDistNotificationSender alloc]init];
+    
+    //送付
+    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage" withKey:@"message"];
+    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage2" withKey:@"message"];
+    
+    //一件取得できる
+    STAssertTrue([roundaboutCont roundaboutMessageCount] == 2, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
 }
 
 

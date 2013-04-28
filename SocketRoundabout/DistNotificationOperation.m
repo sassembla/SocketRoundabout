@@ -39,7 +39,6 @@
     }
     
     
-    //ここでは、コントロール系の受け取りを行う
     switch ([messenger execFrom:[messenger myParentName] viaNotification:notif]) {
             
         case KS_DISTRIBUTEDNOTIFICATIONOPERATION_OPEN:{
