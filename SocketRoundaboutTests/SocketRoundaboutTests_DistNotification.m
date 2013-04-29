@@ -24,11 +24,7 @@
 
 
 @interface TestDistNotificationSender : NSObject @end
-
-@implementation TestDistNotificationSender {
-    NSFileHandle * readingFileHandle;
-}
-
+@implementation TestDistNotificationSender
 
 - (void) sendNotification:(NSString * )identity withMessage:(NSString * )message withKey:(NSString * )key {
     
@@ -291,7 +287,7 @@
     [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage" withKey:@"message"];
     [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage2" withKey:@"message"];
     
-    //一件取得できる
+    //2件取得できる
     STAssertTrue([roundaboutCont roundaboutMessageCount] == 2, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
 }
 

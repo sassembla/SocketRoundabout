@@ -56,6 +56,12 @@
             break;
         }
             
+        case KS_WEBSOCKETCONNECTIONOPERATION_INPUT:{
+            NSAssert(dict[@"message"], @"message required");
+            [m_socket send:dict[@"message"]];
+            break;
+        }
+            
         case KS_WEBSOCKETCONNECTIONOPERATION_CLOSE:{
             [m_socket close];
             m_socket.delegate = nil;

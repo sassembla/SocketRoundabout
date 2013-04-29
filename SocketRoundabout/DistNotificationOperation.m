@@ -51,12 +51,19 @@
             break;
         }
             
+        case KS_DISTRIBUTEDNOTIFICATIONOPERATION_INPUT:{
+            NSAssert(dict[@"message"], @"message required");
+            NSAssert(false, @"DistributedNotification-operation does not support emit message.");
+            break;
+        }
+            
         case KS_DISTRIBUTEDNOTIFICATIONOPERATION_CLOSE:{
             [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
             break;
         }
             
         default:
+            
             break;
     }
 }

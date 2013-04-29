@@ -12,9 +12,10 @@
 #import "WebSocketConnectionOperation.h"
 #import "DistNotificationOperation.h"
 
-
+#define ROUNDABOUT_DEBUG   (true)
 @implementation RoundaboutController {
     KSMessenger * messenger;
+    NSMutableDictionary * m_transitDebugDataDict;
     int m_messageCount;
 }
 
@@ -24,6 +25,7 @@
         [messenger connectParent:masterNameAndId];
         
         m_connections = [[NSMutableDictionary alloc]init];
+        if (ROUNDABOUT_DEBUG) m_transitDebugDataDict = [[NSMutableDictionary alloc]init];
     }
     return self;
 }
@@ -81,9 +83,15 @@
         }
             
         case KS_WEBSOCKETCONNECTIONOPERATION_RECEIVED:{
+            NSAssert(dict[@"operationId"], @"operationId required");
             NSAssert(dict[@"message"], @"message required");
-            NSLog(@"ws message %@", dict[@"message"]);
+            
+            NSString * connectionId = dict[@"operationId"];
+            NSString * message = dict[@"message"];
+            
             m_messageCount++;
+            
+            [self roundabout:connectionId message:message];
             break;
         }
             
@@ -104,9 +112,15 @@
         }
             
         case KS_DISTRIBUTEDNOTIFICATIONOPERATION_RECEIVED:{
+            NSAssert(dict[@"operationId"], @"operationId required");
             NSAssert(dict[@"message"], @"message required");
-            NSLog(@"notif message %@", dict[@"message"]);
+            
+            NSString * connectionId = dict[@"operationId"];
+            NSString * message = dict[@"message"];
+            
             m_messageCount++;
+            
+            [self roundabout:connectionId message:message];
             break;
         }
         
@@ -118,12 +132,18 @@
 }
 
 
+
 - (void) createWebSocketConnection:(NSString * )connectionTarget withConnectionId:(NSString * )connectionId {
     WebSocketConnectionOperation * ope = [[WebSocketConnectionOperation alloc]initWebSocketConnectionOperationWithMaster:[messenger myNameAndMID] withConnectionTarget:connectionTarget withConnectionIdentity:connectionId];
     
+    NSMutableArray * outArray = [[NSMutableArray alloc]init];
+    NSMutableArray * inArray = [[NSMutableArray alloc]init];
+    
     NSDictionary * connectionDict = @{@"connector": ope,
                                       @"connectionTarget": connectionTarget,
-                                      @"connectionType": [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]};
+                                      @"connectionType": [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET],
+                                      @"connectionOutputs":outArray,
+                                      @"connectionInputs":inArray};
 
     
     //set to connections
@@ -140,9 +160,14 @@
 
     DistNotificationOperation * distNotifOpe = [[DistNotificationOperation alloc] initDistNotificationOperationWithMaster:[messenger myNameAndMID] withReceiverName:receiverName withConnectionId:connectionId];
     
+    NSMutableArray * outArray = [[NSMutableArray alloc]init];
+    NSMutableArray * inArray = [[NSMutableArray alloc]init];
+    
     NSDictionary * connectionDict = @{@"connector": distNotifOpe,
                                       @"connectionTarget": receiverName,
-                                      @"connectionType": [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]};
+                                      @"connectionType": [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION],
+                                      @"connectionOutputs":outArray,
+                                      @"connectionInputs":inArray};
     
     //set to connections
     [m_connections setValue:connectionDict forKey:connectionId];
@@ -160,6 +185,133 @@
     NSArray * keys = [m_connections allKeys];
     return [m_connections dictionaryWithValuesForKeys:keys];
 }
+
+
+- (void) outFrom:(NSString * )outputConnectionId into:(NSString * )inputConnectionId {
+    NSAssert1(m_connections[outputConnectionId], @"no output connection with given id, %@", outputConnectionId);
+    NSAssert1(m_connections[inputConnectionId], @"no input connection with given id, %@", inputConnectionId);
+    
+    NSMutableArray * outputs = m_connections[outputConnectionId][@"connectionOutputs"];
+    NSMutableArray * inputs = m_connections[inputConnectionId][@"connectionInputs"];
+    
+    if ([outputs containsObject:inputConnectionId]) {
+        
+    } else {
+        [outputs addObject:inputConnectionId];
+    }
+    
+    
+    if ([inputs containsObject:outputConnectionId]) {
+        
+    } else {
+        [inputs addObject:outputConnectionId];
+    }
+    
+    
+}
+
+- (NSArray * ) outputsOf:(NSString * )connectionId {
+    NSAssert1(m_connections[connectionId], @"no connection with given id, %@", connectionId);
+    return m_connections[connectionId][@"connectionOutputs"];
+}
+
+- (NSArray * ) inputsOf:(NSString * )connectionId {
+    NSAssert1(m_connections[connectionId], @"no connection with given id, %@", connectionId);
+    return m_connections[connectionId][@"connectionInputs"];
+}
+
+
+- (void) roundabout:(NSString * )connectionId message:(NSString * )message {
+    if (ROUNDABOUT_DEBUG) {
+        int outputCount = 0;
+       
+        if (m_transitDebugDataDict[connectionId]) {
+            outputCount = [m_transitDebugDataDict[connectionId][@"outputCount"] intValue];
+        } else {
+            NSMutableDictionary * dict = [[NSMutableDictionary alloc]init];
+            [dict setValue:@0 forKey:@"outputCount"];
+            [m_transitDebugDataDict setValue:dict forKey:connectionId];
+        }
+        
+        //roundabout message from output to input
+        //sender
+        for (NSString * targetConnectionId in m_connections[connectionId][@"connectionOutputs"]) {
+            
+            int inputCount = 0;
+            if (ROUNDABOUT_DEBUG) {
+                if (m_transitDebugDataDict[targetConnectionId]) {
+                    inputCount = [m_transitDebugDataDict[targetConnectionId][@"inputCount"] intValue];
+                } else {
+                    NSMutableDictionary * dict = [[NSMutableDictionary alloc]init];
+                    [dict setValue:@0 forKey:@"inputCount"];
+                    [m_transitDebugDataDict setValue:dict forKey:targetConnectionId];
+                }
+            }
+            
+            
+            //receiver
+            NSArray * connectionInputsArray = m_connections[targetConnectionId][@"connectionInputs"];
+            if ([connectionInputsArray containsObject:connectionId]) {
+                outputCount = outputCount+1;
+                inputCount = inputCount+1;
+                
+                [self input:targetConnectionId message:message];
+            }
+            
+            if (ROUNDABOUT_DEBUG) {
+                NSMutableDictionary * currentReceiverDict = m_transitDebugDataDict[targetConnectionId];
+                [currentReceiverDict setValue:[NSNumber numberWithInt:inputCount] forKey:@"inputCount"];
+            }
+        }
+        
+        if (ROUNDABOUT_DEBUG) {
+            NSMutableDictionary * currentSenderDict = m_transitDebugDataDict[connectionId];
+            [currentSenderDict setValue:[NSNumber numberWithInt:outputCount] forKey:@"outputCount"];
+        }
+    }
+}
+
+
+- (void) input:(NSString * )connectionId message:(NSString * )message {
+    NSAssert1(m_connections[connectionId], @"input: connectionId is not valid, %@", connectionId);
+    NSString * connectionType;
+    int connectionSendExec = 0;
+    
+    switch ([m_connections[connectionId][@"connectionType"] intValue]) {
+        case KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET:{
+            connectionType = KS_WEBSOCKETCONNECTIONOPERATION;
+            connectionSendExec = KS_WEBSOCKETCONNECTIONOPERATION_INPUT;
+            break;
+        }
+            
+        case KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION:{
+            connectionType = KS_DISTRIBUTEDNOTIFICATIONOPERATION;
+            connectionSendExec = KS_DISTRIBUTEDNOTIFICATIONOPERATION_INPUT;
+            break;
+        }
+        
+        default:
+            break;
+    }
+    
+    //send
+    [messenger call:connectionType withExec:connectionSendExec,
+     [messenger tag:@"operationId" val:connectionId],
+     [messenger tag:@"message" val:message],
+     nil];
+    
+}
+
+
+
+- (int) transitOutputCount:(NSString * )connectionId {
+    return [m_transitDebugDataDict[connectionId][@"outputCount"] intValue];
+}
+
+- (int) transitInputCount:(NSString * )connectionid {
+    return [m_transitDebugDataDict[connectionid][@"inputCount"] intValue];
+}
+
 
 - (int) roundaboutMessageCount {
     return m_messageCount;
@@ -203,6 +355,17 @@
     [self closeAllConnections];
     
     [messenger closeConnection];
+}
+
+
+
+
+
+/**
+ DEBUG method. only for testing.
+ */
+- (void) directInput:(NSString * )connectionId message:(NSString * )message {
+    [self input:connectionId message:message];
 }
 
 @end

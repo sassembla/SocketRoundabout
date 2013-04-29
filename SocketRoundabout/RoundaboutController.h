@@ -31,12 +31,27 @@ typedef enum {
 - (id) initWithMaster:(NSString * )masterNameAndId;
 - (NSDictionary * ) connections;
 
+- (void) outFrom:(NSString * )outputConnectionId into:(NSString * )inputConnectionId;
+
+- (NSArray * ) outputsOf:(NSString * )connectionId;
+
+- (NSArray * ) inputsOf:(NSString * )connectionId;
+
 - (void) createWebSocketConnection:(NSString * )connectionTarget withConnectionId:(NSString * )connectionId;
 
+- (void) roundabout:(NSString * )connectionId message:(NSString * )message;
+
+- (int) transitOutputCount:(NSString * )connectionId;
+- (int) transitInputCount:(NSString * )connectionid;
 - (int) roundaboutMessageCount;
 
 - (void) closeConnection:(NSString * )connectionId;
 - (void) closeAllConnections;
 - (void) exit;
+
+
+
+//debug
+- (void) directInput:(NSString * )connectionId message:(NSString * )message;
 
 @end
