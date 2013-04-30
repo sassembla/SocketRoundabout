@@ -25,8 +25,6 @@
 		13E21206171E92AD00AD84BB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E211E6171E92AD00AD84BB /* Cocoa.framework */; };
 		13E2120E171E92AD00AD84BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 13E2120C171E92AD00AD84BB /* InfoPlist.strings */; };
 		13E21211171E92AD00AD84BB /* SocketRoundaboutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E21210171E92AD00AD84BB /* SocketRoundaboutTests.m */; };
-		13E2121C171E92C700AD84BB /* WebSocketController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E2121A171E92C700AD84BB /* WebSocketController.m */; };
-		13E2121D171E92C700AD84BB /* WebSocketController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E2121A171E92C700AD84BB /* WebSocketController.m */; };
 		13E21226171E92CD00AD84BB /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 13E2121F171E92CD00AD84BB /* base64.c */; };
 		13E21227171E92CD00AD84BB /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 13E2121F171E92CD00AD84BB /* base64.c */; };
 		13E21228171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E21222171E92CD00AD84BB /* NSData+SRB64Additions.m */; };
@@ -76,8 +74,6 @@
 		13E2120B171E92AD00AD84BB /* SocketRoundaboutTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SocketRoundaboutTests-Info.plist"; sourceTree = "<group>"; };
 		13E2120D171E92AD00AD84BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		13E21210171E92AD00AD84BB /* SocketRoundaboutTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutTests.m; sourceTree = "<group>"; };
-		13E2121A171E92C700AD84BB /* WebSocketController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketController.m; sourceTree = "<group>"; };
-		13E2121B171E92C700AD84BB /* WebSocketController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketController.h; sourceTree = "<group>"; };
 		13E2121F171E92CD00AD84BB /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
 		13E21220171E92CD00AD84BB /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
 		13E21221171E92CD00AD84BB /* NSData+SRB64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SRB64Additions.h"; sourceTree = "<group>"; };
@@ -158,8 +154,6 @@
 		13E211EC171E92AD00AD84BB /* SocketRoundabout */ = {
 			isa = PBXGroup;
 			children = (
-				13E2121B171E92C700AD84BB /* WebSocketController.h */,
-				13E2121A171E92C700AD84BB /* WebSocketController.m */,
 				13E211F8171E92AD00AD84BB /* AppDelegate.h */,
 				13E211F9171E92AD00AD84BB /* AppDelegate.m */,
 				13E211FB171E92AD00AD84BB /* MainMenu.xib */,
@@ -339,7 +333,6 @@
 			files = (
 				13E211F3171E92AD00AD84BB /* main.m in Sources */,
 				13E211FA171E92AD00AD84BB /* AppDelegate.m in Sources */,
-				13E2121C171E92C700AD84BB /* WebSocketController.m in Sources */,
 				13E21226171E92CD00AD84BB /* base64.c in Sources */,
 				13E21228171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */,
 				13E2122A171E92CD00AD84BB /* SRWebSocket.m in Sources */,
@@ -355,7 +348,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13E21211171E92AD00AD84BB /* SocketRoundaboutTests.m in Sources */,
-				13E2121D171E92C700AD84BB /* WebSocketController.m in Sources */,
 				13E21227171E92CD00AD84BB /* base64.c in Sources */,
 				13E21229171E92CD00AD84BB /* NSData+SRB64Additions.m in Sources */,
 				13E2122B171E92CD00AD84BB /* SRWebSocket.m in Sources */,
