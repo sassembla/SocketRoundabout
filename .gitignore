@@ -12,3 +12,7 @@ SocketRoundabout.xcodeproj/xcuserdata/sassembla.xcuserdatad/xcschemes/SocketRoun
 SocketRoundabout.xcodeproj/xcuserdata/sassembla.xcuserdatad/xcschemes/xcschememanagement.plist
 
 .DS_Store
+
+nnotif.log
+
+nnotifd.log

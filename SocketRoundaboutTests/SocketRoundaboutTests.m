@@ -21,10 +21,11 @@
 #define TEST_CONNECTIONIDENTITY_2   (@"roundaboutTest2")
 
 #define TEST_TIMELIMIT  (3)
+#define TEST_TIMELIMIT_LONG (5)
 #define TEST_REFLECTIVE_MESSAGE (@"ss@broadcastMessage:{\"message\":\"MESSAGE_2013/04/29 17:34:39\"}")
 
 #define NNOTIF  (@"./nnotif")//pwd = project-folder path.
-#define NNOTIFD (@"./nnotifd")
+#define NNOTIFD (@"/Users/sassembla/Library/Developer/Xcode/DerivedData/nnotifd-ahjyuqfrcnbezcaagbkmwszlhqlj/Build/Products/Debug/nnotifd.app/Contents/MacOS/nnotifd")
 
 #define TEST_NNOTIFD_ID (@"NNOTIFD_2013/05/02 19:00:10")
 #define TEST_NNOTIFD_ID_MANUAL  (@"NNOTIFD_IDENTITY")
@@ -34,8 +35,8 @@
 #define TEST_NNOTIF_LOG (@"./nnotif.log")
 
 
-#define GLOBAL_NNOTIF   (@"/Users/sassembla/Desktop/nnotifd/nnotif")
-
+#define GLOBAL_NNOTIF   (@"/Users/sassembla/Desktop/nnotifd/tool/nnotif")
+#define GLOBAL_GRADLE_NNOTIF_SHELL  (@"/Users/sassembla/Desktop/nnotifd/tool/gradleNotif.sh")
 
 #define TEST_DISTNOTIF_MESSAGE  (@"TEST_DISTNOTIF_MESSAGE_2013/04/29_17:57:57")
 
@@ -326,9 +327,17 @@
     
     [nnotifSender sendNotification:TEST_NNOTIFD_ID withMessage:exec withKey:@"NN_DEFAULT_ROUTE"];
 
-    //単純に待つ
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+    i = 0;
+    while ([rCont transitInputCount:TEST_CONNECTIONIDENTITY_2] == 0) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
     
+    //6??
     STAssertTrue([rCont transitInputCount:TEST_CONNECTIONIDENTITY_2] == 1, @"not match, %d", [rCont transitInputCount:TEST_CONNECTIONIDENTITY_2]);
     
     
@@ -411,7 +420,7 @@
 
 
 /**
- 途中で、manualで条件適合するnnotifdを起動する。
+ 事前にnnotifdを特定条件で立ち上げておくと動作する。
  */
 - (void) testReceiveGradleNotifThenOutputToWebSocket_MANUALLY {
     //1
@@ -442,10 +451,8 @@
     [rCont outFrom:TEST_CONNECTIONIDENTITY_1 into:TEST_CONNECTIONIDENTITY_2];
     
     
-    
-    //ここで、nnotifdを人力で起動させないと駄目だ -i = TEST_NNOTIFD_ID_MANUAL
-    
-    
+    //ここまでで、nnotifdを人力で起動させないと駄目だ -i = NNOTIFD_IDENTITY(TEST_NNOTIFD_ID_MANUAL)
+    //プロセスチェックとかすれば、まあ、、
     
     //nnotifでnnotifdにビルド信号を送り込む
     TestDistNotificationSender2 * nnotifSender = [[TestDistNotificationSender2 alloc]init];
@@ -462,25 +469,96 @@
 
     //単純に待つ
     i = 0;
-    while ([rCont transitInputCount:TEST_CONNECTIONIDENTITY_2] == 0) {
+    while (i < TEST_TIMELIMIT_LONG) {
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
         i++;
-        NSLog(@"waiting..%d", i);//だいたい6秒くらいかかってるのみると、これほんとにtailしてるのか？っていう疑問が、、tailじゃないっぽいな、、待つからか。
-//        if (TEST_TIMELIMIT < i) {
-//            STFail(@"too long wait");
-//            break;
-//        }
+        NSLog(@"waiting..%d", i);
+        if (TEST_TIMELIMIT_LONG + TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
     }
     
 
     STAssertTrue(0 < [rCont transitInputCount:TEST_CONNECTIONIDENTITY_2], @"not match, %d", [rCont transitInputCount:TEST_CONNECTIONIDENTITY_2]);
-    
-    //nnotifdをkillする
-    NSArray * execArray2 = @[@"nn@", @"-kill"];
-    NSString * exec2 = [execArray2 componentsJoinedByString:@" "];
-    
-    [nnotifSender sendNotification:TEST_NNOTIFD_ID_MANUAL withMessage:exec2 withKey:@"NN_DEFAULT_ROUTE"];
 }
+
+/**
+ 手動面倒くさいので、shに纏めてみる版
+ →そもテストのプロセスからnnotifdを起動しているのが駄目らしい。sudoならいいのか？とも思うが、めんどいのでパス。
+ */
+//- (void) testReceiveGradleNotifThenOutputToWebSocket_shelled {
+//    //1
+//    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+//     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER],
+//     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+//     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
+//     nil];
+//    
+//    //2
+//    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+//     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
+//     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
+//     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+//     nil];
+//    
+//    int i = 0;
+//    while ([m_connectionIdArray count] < 2) {
+//        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+//        i++;
+//        if (TEST_TIMELIMIT < i) {
+//            STFail(@"too long wait");
+//            break;
+//        }
+//    }
+//    
+//    //connect
+//    [rCont outFrom:TEST_CONNECTIONIDENTITY_1 into:TEST_CONNECTIONIDENTITY_2];
+//    
+//    
+//    
+//    //接続送信
+//    //nnotifdを起動
+//    TestRunNNOTIFD * nnotifdRunner = [[TestRunNNOTIFD alloc]init];
+//    [nnotifdRunner launchNnotifd:TEST_NNOTIFD_ID_MANUAL];
+//
+//    
+//    
+//    //nnotifでnnotifdにビルド信号を送り込む
+//    TestDistNotificationSender2 * nnotifSender = [[TestDistNotificationSender2 alloc]init];
+//    
+//    //stdinを、SocketRoundaboutのNotifに向ける
+//    NSArray * execsArray = @[@"/bin/sh", GLOBAL_GRADLE_NNOTIF_SHELL];//実行主の問題で、これでも不可能。
+//    
+//    //notifでexecuteを送り込む
+//    NSArray * execArray = @[@"nn@", @"-e",[self jonizedString:execsArray]];
+//    NSString * exec = [execArray componentsJoinedByString:@" "];
+//    
+//    
+//    [nnotifSender sendNotification:TEST_NNOTIFD_ID_MANUAL withMessage:exec withKey:@"NN_DEFAULT_ROUTE"];
+//    
+//    //単純に待つ
+//    i = 0;
+//    while ([rCont transitInputCount:TEST_CONNECTIONIDENTITY_2] == 0) {
+//        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+//        i++;
+//        NSLog(@"waiting..%d", i);
+//        if (TEST_TIMELIMIT < i) {
+//            STFail(@"too long wait");
+//            break;
+//        }
+//    }
+//    
+//    
+//    STAssertTrue(0 < [rCont transitInputCount:TEST_CONNECTIONIDENTITY_2], @"not match, %d", [rCont transitInputCount:TEST_CONNECTIONIDENTITY_2]);
+//    
+//    //nnotifdをkillする
+//    NSArray * execArray2 = @[@"nn@", @"-kill"];
+//    NSString * exec2 = [execArray2 componentsJoinedByString:@" "];
+//    
+//    [nnotifSender sendNotification:TEST_NNOTIFD_ID_MANUAL withMessage:exec2 withKey:@"NN_DEFAULT_ROUTE"];
+//}
+
 
 
 @end
