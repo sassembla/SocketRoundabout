@@ -77,6 +77,28 @@
             break;
         }
             
+        case KS_ROUNDABOUTCONT_SETCONNECT:{
+            NSAssert(dict[@"from"], @"from required");
+            NSAssert(dict[@"to"], @"to required");
+            
+            [self outFrom:dict[@"from"] into:dict[@"to"]];
+            
+            [messenger callParent:KS_ROUNDABOUTCONT_SETCONNECT_OVER, nil];
+            break;
+        }
+            
+        case KS_ROUNDABOUTCONT_SETTRANSFER:{
+            NSAssert(dict[@"from"], @"from required");
+            NSAssert(dict[@"to"], @"to required");
+            NSAssert(dict[@"prefix"], @"prefix required");
+            NSAssert(dict[@"postfix"], @"postfix required");
+            
+            [self setTransferFrom:dict[@"from"] to:dict[@"to"] prefix:dict[@"prefix"] postfix:dict[@"postfix"]];
+            
+            [messenger callParent:KS_ROUNDABOUTCONT_SETTRANSFER_OVER, nil];
+            break;
+        }
+            
         default:
             break;
     }
@@ -90,6 +112,7 @@
             [messenger callParent:KS_ROUNDABOUTCONT_CONNECT_ESTABLISHED,
              [messenger tag:@"connectionId" val:dict[@"operationId"]],
              nil];
+            
             break;
         }
             
@@ -103,6 +126,7 @@
             m_messageCount++;
             
             [self roundabout:connectionId message:message];
+            
             break;
         }
             
