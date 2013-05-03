@@ -20,7 +20,7 @@
 
 #define TEST_TIMELIMIT  (1)
 
-#define NNOTIF  (@"./nnotif")//pwd = project-folder path.
+#define NNOTIF  (@"./tool/nnotif")//pwd = project-folder path.
 
 
 @interface TestDistNotificationSender : NSObject @end
