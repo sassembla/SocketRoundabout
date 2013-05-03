@@ -68,15 +68,18 @@
     }
 }
 
+- (void) received:(id)message {
+    [messenger callParent:KS_DISTRIBUTEDNOTIFICATIONOPERATION_RECEIVED,
+     [messenger tag:@"operationId" val:m_operationId],
+     [messenger tag:@"message" val:message],
+     nil];
+}
+
 - (void) notifReceiver:(NSNotification * )notif {
     NSDictionary * userInfo = [notif userInfo];
     
     NSAssert(userInfo[@"message"], @"message required");
-    
-    [messenger callParent:KS_DISTRIBUTEDNOTIFICATIONOPERATION_RECEIVED,
-     [messenger tag:@"operationId" val:m_operationId],
-     [messenger tag:@"message" val:userInfo[@"message"]],
-     nil];
+    [self received:userInfo[@"message"]];
 }
 
 @end

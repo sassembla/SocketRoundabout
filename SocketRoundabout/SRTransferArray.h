@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SRTransfer.h"
 
-@interface SRTransferArray : NSMutableArray
+@interface SRTransferArray : NSObject
 - (NSString * )throughs:(NSString * )input;
+- (void) addTransfer:(SRTransfer * )trans;
+- (NSArray * ) transfers;
+
 @end

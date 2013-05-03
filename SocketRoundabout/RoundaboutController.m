@@ -15,6 +15,12 @@
 #import "SRTransfer.h"
 #import "SRTransferArray.h"
 
+#define DEFINE_CONNECTOR    (@"connector")
+#define DEFINE_TARGET       (@"connectionTarget")
+#define DEFINE_TYPE         (@"connectionType")
+#define DEFINE_OUTPUTS      (@"connectionOutputs")
+#define DEFINE_INPUTS       (@"connectionInputs")
+
 #define ROUNDABOUT_DEBUG   (true)
 @implementation RoundaboutController {
     KSMessenger * messenger;
@@ -144,11 +150,12 @@
     NSMutableArray * outArray = [[NSMutableArray alloc]init];
     NSMutableArray * inArray = [[NSMutableArray alloc]init];
     
-    NSDictionary * connectionDict = @{@"connector": ope,
-                                      @"connectionTarget": connectionTarget,
-                                      @"connectionType": [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET],
-                                      @"connectionOutputs":outArray,
-                                      @"connectionInputs":inArray};
+    NSDictionary * connectionDict = @{
+                                      DEFINE_CONNECTOR: ope,
+                                      DEFINE_TARGET: connectionTarget,
+                                      DEFINE_TYPE: [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET],
+                                      DEFINE_OUTPUTS:outArray,
+                                      DEFINE_INPUTS:inArray};
 
     
     //set to connections
@@ -168,11 +175,11 @@
     NSMutableArray * outArray = [[NSMutableArray alloc]init];
     NSMutableArray * inArray = [[NSMutableArray alloc]init];
     
-    NSDictionary * connectionDict = @{@"connector": distNotifOpe,
-                                      @"connectionTarget": receiverName,
-                                      @"connectionType": [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION],
-                                      @"connectionOutputs":outArray,
-                                      @"connectionInputs":inArray};
+    NSDictionary * connectionDict = @{DEFINE_CONNECTOR: distNotifOpe,
+                                      DEFINE_TARGET: receiverName,
+                                      DEFINE_TYPE: [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION],
+                                      DEFINE_OUTPUTS:outArray,
+                                      DEFINE_INPUTS:inArray};
     
     //set to connections
     [m_connections setValue:connectionDict forKey:connectionId];
@@ -196,8 +203,8 @@
     NSAssert1(m_connections[outputConnectionId], @"no output connection with given id, %@", outputConnectionId);
     NSAssert1(m_connections[inputConnectionId], @"no input connection with given id, %@", inputConnectionId);
     
-    NSMutableArray * outputs = m_connections[outputConnectionId][@"connectionOutputs"];
-    NSMutableArray * inputs = m_connections[inputConnectionId][@"connectionInputs"];
+    NSMutableArray * outputs = m_connections[outputConnectionId][DEFINE_OUTPUTS];
+    NSMutableArray * inputs = m_connections[inputConnectionId][DEFINE_INPUTS];
     
     if ([outputs containsObject:inputConnectionId]) {
         
@@ -226,11 +233,9 @@
  特定の接続に対して、存在すればtransferを設定する。
  */
 - (void) setTransferFrom:(NSString * )from to:(NSString * )to prefix:(NSString * )prefix postfix:(NSString * )postfix {
-    NSMutableArray * outputs = m_connections[from][@"connectionOutputs"];
-    NSMutableArray * inputs = m_connections[to][@"connectionInputs"];
-    
-    NSAssert([outputs containsObject:from], @"no output exist:%@", from);
-    NSAssert([inputs containsObject:to], @"no input exist:%@", to);
+
+    NSAssert(m_connections[from][DEFINE_OUTPUTS], @"no output exist:%@", from);
+    NSAssert(m_connections[to][DEFINE_INPUTS], @"no input exist:%@", to);
 
     NSString * fromto = [self transferIdentityByFrom:from to:to];
     
@@ -243,31 +248,41 @@
     }
     
     //追加
-    [m_transferDict[fromto] addObject:trans];
+    [m_transferDict[fromto] addTransfer:trans];
 }
+
 
 /**
  transferArrayを返す
  */
-- (NSArray * )transferFrom:(NSString * )output to:(NSString * )input {
-    return [NSArray arrayWithArray:m_transferDict[[self transferIdentityByFrom:output to:input]]];
+- (NSArray * )transfersBetweenOutput:(NSString * )output toInput:(NSString * )input {
+    SRTransferArray * array = m_transferDict[[self transferIdentityByFrom:output to:input]];
+    return [NSArray arrayWithArray:[array transfers]];
 }
 
+
+/**
+ outputsを返す
+ */
 - (NSArray * ) outputsOf:(NSString * )connectionId {
     NSAssert1(m_connections[connectionId], @"no connection with given id, %@", connectionId);
-    return m_connections[connectionId][@"connectionOutputs"];
+    return m_connections[connectionId][DEFINE_OUTPUTS];
 }
 
+/**
+ inputsを返す
+ */
 - (NSArray * ) inputsOf:(NSString * )connectionId {
     NSAssert1(m_connections[connectionId], @"no connection with given id, %@", connectionId);
-    return m_connections[connectionId][@"connectionInputs"];
+    return m_connections[connectionId][DEFINE_INPUTS];
 }
 
 
 - (void) roundabout:(NSString * )connectionId message:(NSString * )message {
+
+    int outputCount = 0;
+   
     if (ROUNDABOUT_DEBUG) {
-        int outputCount = 0;
-       
         if (m_transitDebugDataDict[connectionId]) {
             outputCount = [m_transitDebugDataDict[connectionId][@"outputCount"] intValue];
         } else {
@@ -275,48 +290,48 @@
             [dict setValue:@0 forKey:@"outputCount"];
             [m_transitDebugDataDict setValue:dict forKey:connectionId];
         }
+    }
+    
+    //roundabout message from output to input
+    //sender
+    for (NSString * targetConnectionId in m_connections[connectionId][DEFINE_OUTPUTS]) {
         
-        //roundabout message from output to input
-        //sender
-        for (NSString * targetConnectionId in m_connections[connectionId][@"connectionOutputs"]) {
+        int inputCount = 0;
+        if (ROUNDABOUT_DEBUG) {
+            if (m_transitDebugDataDict[targetConnectionId]) {
+                inputCount = [m_transitDebugDataDict[targetConnectionId][@"inputCount"] intValue];
+            } else {
+                NSMutableDictionary * dict = [[NSMutableDictionary alloc]init];
+                [dict setValue:@0 forKey:@"inputCount"];
+                [m_transitDebugDataDict setValue:dict forKey:targetConnectionId];
+            }
+        }
+        
+        
+        //receiver
+        NSArray * connectionInputsArray = m_connections[targetConnectionId][DEFINE_INPUTS];
+        if ([connectionInputsArray containsObject:connectionId]) {
+            outputCount = outputCount+1;
+            inputCount = inputCount+1;
             
-            int inputCount = 0;
-            if (ROUNDABOUT_DEBUG) {
-                if (m_transitDebugDataDict[targetConnectionId]) {
-                    inputCount = [m_transitDebugDataDict[targetConnectionId][@"inputCount"] intValue];
-                } else {
-                    NSMutableDictionary * dict = [[NSMutableDictionary alloc]init];
-                    [dict setValue:@0 forKey:@"inputCount"];
-                    [m_transitDebugDataDict setValue:dict forKey:targetConnectionId];
-                }
+            //transfer
+            SRTransferArray * transfers = m_transferDict[[self transfersBetweenOutput:connectionId toInput:targetConnectionId]];
+            if (0 < [[transfers transfers]count]) {
+                message = [transfers throughs:message];
             }
             
-            
-            //receiver
-            NSArray * connectionInputsArray = m_connections[targetConnectionId][@"connectionInputs"];
-            if ([connectionInputsArray containsObject:connectionId]) {
-                outputCount = outputCount+1;
-                inputCount = inputCount+1;
-                
-                //transfer
-                if (0 < [m_transferDict[[self transferFrom:connectionId to:targetConnectionId]] count]) {
-                    SRTransferArray * transfers = m_transferDict[[self transferFrom:connectionId to:targetConnectionId]];
-                    message = [transfers throughs:message];
-                }
-                
-                [self input:targetConnectionId message:message];
-            }
-            
-            if (ROUNDABOUT_DEBUG) {
-                NSMutableDictionary * currentReceiverDict = m_transitDebugDataDict[targetConnectionId];
-                [currentReceiverDict setValue:[NSNumber numberWithInt:inputCount] forKey:@"inputCount"];
-            }
+            [self input:targetConnectionId message:message];
         }
         
         if (ROUNDABOUT_DEBUG) {
-            NSMutableDictionary * currentSenderDict = m_transitDebugDataDict[connectionId];
-            [currentSenderDict setValue:[NSNumber numberWithInt:outputCount] forKey:@"outputCount"];
+            NSMutableDictionary * currentReceiverDict = m_transitDebugDataDict[targetConnectionId];
+            [currentReceiverDict setValue:[NSNumber numberWithInt:inputCount] forKey:@"inputCount"];
         }
+    }
+    
+    if (ROUNDABOUT_DEBUG) {
+        NSMutableDictionary * currentSenderDict = m_transitDebugDataDict[connectionId];
+        [currentSenderDict setValue:[NSNumber numberWithInt:outputCount] forKey:@"outputCount"];
     }
 }
 
@@ -411,9 +426,39 @@
 
 /**
  DEBUG method. only for testing.
+ 
+ 受け側について、直接入力を行い、インプットされた事にする。
+ メッセージカウンタが上がる部分より先。
  */
-- (void) directInput:(NSString * )connectionId message:(NSString * )message {
+- (void) dummyInput:(NSString * )connectionId message:(NSString * )message {
     [self input:connectionId message:message];
 }
+
+/**
+ アウトプットへの入力を、ダミーとして発生させる。
+ アウトプット側がなんらかの入力を受け取ったかのような動作になる。
+ 各接続パターンで異なる。
+ */
+- (void) dummyOutput:(NSString * )connectionId message:(NSString * )message {
+    NSAssert(0 < [m_connections[connectionId][DEFINE_OUTPUTS] count], @"no outputs exist");
+    
+    //受け口であるoutputに対して、connectionsから検索して、おのおのの受信メソッド部分に割り込む
+    switch ([m_connections[connectionId][DEFINE_TYPE] intValue]) {
+        case KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET:{
+            WebSocketConnectionOperation * op = m_connections[connectionId][DEFINE_CONNECTOR];
+            [op received:message];
+            break;
+        }
+        case KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION:{
+            DistNotificationOperation * op = m_connections[connectionId][DEFINE_CONNECTOR];
+            [op received:message];
+            break;
+        }
+        default:
+            break;
+    }
+    
+}
+
 
 @end

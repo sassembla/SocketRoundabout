@@ -73,7 +73,12 @@
     }
 }
 
-
+- (void) received:(id)message {
+    [messenger callParent:KS_WEBSOCKETCONNECTIONOPERATION_RECEIVED,
+     [messenger tag:@"operationId" val:m_operationId],
+     [messenger tag:@"message" val:message],
+     nil];
+}
 
 
 - (void)webSocketDidOpen:(SRWebSocket * )webSocket {
@@ -87,10 +92,7 @@
 }
 
 - (void)webSocket:(SRWebSocket * )webSocket didReceiveMessage:(id)message {
-    [messenger callParent:KS_WEBSOCKETCONNECTIONOPERATION_RECEIVED,
-     [messenger tag:@"operationId" val:m_operationId],
-     [messenger tag:@"message" val:message],
-     nil];
+    [self received:message];
 }
 
 - (void)webSocket:(SRWebSocket * )webSocket didCloseWithCode:(NSInteger)code reason:(NSString * )reason wasClean:(BOOL)wasClean {

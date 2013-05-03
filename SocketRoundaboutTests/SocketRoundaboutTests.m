@@ -191,7 +191,7 @@
      */
     
     //debug用の直接送信
-    [rCont directInput:TEST_CONNECTIONIDENTITY_1 message:TEST_REFLECTIVE_MESSAGE];
+    [rCont dummyInput:TEST_CONNECTIONIDENTITY_1 message:TEST_REFLECTIVE_MESSAGE];
     
     while ([rCont transitOutputCount:TEST_CONNECTIONIDENTITY_1] == 0) {
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
@@ -340,7 +340,7 @@
         }
     }
     
-    //6?? 57??
+    //6?? 57?? テスト全体を中断し、最初から実行した際に発生している気がする。
     STAssertTrue([rCont transitInputCount:TEST_CONNECTIONIDENTITY_2] == 1, @"not match, %d", [rCont transitInputCount:TEST_CONNECTIONIDENTITY_2]);
     
     

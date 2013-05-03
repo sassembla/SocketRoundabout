@@ -24,5 +24,5 @@ typedef enum TYPE_KS_DISTRIBUTEDNOTIFICATIONOPERATION {
 - (id) initDistNotificationOperationWithMaster:(NSString * )masterNameAndMID
                               withReceiverName:(NSString * )receiverName
                               withConnectionId:(NSString * )connectionId;
-
+- (void) received:(id)message;
 @end

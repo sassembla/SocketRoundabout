@@ -24,4 +24,5 @@ typedef enum{
 @interface WebSocketConnectionOperation : NSObject <SRWebSocketDelegate>
 
 - (id) initWebSocketConnectionOperationWithMaster:(NSString * )masterNameAndId withConnectionTarget:(NSString * )targetAddr withConnectionIdentity:(NSString * )connectionIdentity;
+- (void) received:(id)message;
 @end
