@@ -37,6 +37,11 @@ typedef enum {
 
 - (NSArray * ) inputsOf:(NSString * )connectionId;
 
+
+- (void) setTransferFrom:(NSString * )from to:(NSString * )to prefix:(NSString * )prefix postfix:(NSString * )postfix;
+- (NSArray * )transferFrom:(NSString * )output to:(NSString * )input;
+
+
 - (void) createWebSocketConnection:(NSString * )connectionTarget withConnectionId:(NSString * )connectionId;
 
 - (void) roundabout:(NSString * )connectionId message:(NSString * )message;

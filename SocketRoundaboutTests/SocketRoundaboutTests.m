@@ -82,6 +82,8 @@
 @implementation SocketRoundaboutTests
 
 - (void) setUp {
+    [super setUp];
+    
     messenger = [[KSMessenger alloc] initWithBodyID:self withSelector:@selector(receiver:) withName:TEST_MASTER];
     rCont = [[RoundaboutController alloc]initWithMaster:[messenger myNameAndMID]];
     m_connectionIdArray = [[NSMutableArray alloc]init];
@@ -92,6 +94,8 @@
     [rCont closeAllConnections];
     [rCont exit];
     [m_connectionIdArray removeAllObjects];
+
+    [super tearDown];
 }
 
 

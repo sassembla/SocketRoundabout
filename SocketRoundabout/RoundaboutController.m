@@ -12,11 +12,15 @@
 #import "WebSocketConnectionOperation.h"
 #import "DistNotificationOperation.h"
 
+#import "SRTransfer.h"
+#import "SRTransferArray.h"
+
 #define ROUNDABOUT_DEBUG   (true)
 @implementation RoundaboutController {
     KSMessenger * messenger;
     NSMutableDictionary * m_transitDebugDataDict;
     int m_messageCount;
+    NSMutableDictionary * m_transferDict;
 }
 
 - (id) initWithMaster:(NSString * )masterNameAndId {
@@ -25,6 +29,7 @@
         [messenger connectParent:masterNameAndId];
         
         m_connections = [[NSMutableDictionary alloc]init];
+        m_transferDict = [[NSMutableDictionary alloc]init];
         if (ROUNDABOUT_DEBUG) m_transitDebugDataDict = [[NSMutableDictionary alloc]init];
     }
     return self;
@@ -206,8 +211,46 @@
     } else {
         [inputs addObject:outputConnectionId];
     }
+}
+
+
+/**
+ from:to 形式のtransferのidentity生成ルール
+ */
+- (NSString * ) transferIdentityByFrom:(NSString * )from to:(NSString * )to {
+    return [NSString stringWithFormat:@"%@:%@",from,to];
+}
+
+
+/**
+ 特定の接続に対して、存在すればtransferを設定する。
+ */
+- (void) setTransferFrom:(NSString * )from to:(NSString * )to prefix:(NSString * )prefix postfix:(NSString * )postfix {
+    NSMutableArray * outputs = m_connections[from][@"connectionOutputs"];
+    NSMutableArray * inputs = m_connections[to][@"connectionInputs"];
     
+    NSAssert([outputs containsObject:from], @"no output exist:%@", from);
+    NSAssert([inputs containsObject:to], @"no input exist:%@", to);
+
+    NSString * fromto = [self transferIdentityByFrom:from to:to];
     
+    SRTransfer * trans = [[SRTransfer alloc]initWithPrefix:prefix postfix:postfix];
+    
+    if (m_transferDict[fromto]) {}
+    else {
+        SRTransferArray * array = [[SRTransferArray alloc]init];
+        [m_transferDict setValue:array forKey:fromto];
+    }
+    
+    //追加
+    [m_transferDict[fromto] addObject:trans];
+}
+
+/**
+ transferArrayを返す
+ */
+- (NSArray * )transferFrom:(NSString * )output to:(NSString * )input {
+    return [NSArray arrayWithArray:m_transferDict[[self transferIdentityByFrom:output to:input]]];
 }
 
 - (NSArray * ) outputsOf:(NSString * )connectionId {
@@ -254,6 +297,12 @@
             if ([connectionInputsArray containsObject:connectionId]) {
                 outputCount = outputCount+1;
                 inputCount = inputCount+1;
+                
+                //transfer
+                if (0 < [m_transferDict[[self transferFrom:connectionId to:targetConnectionId]] count]) {
+                    SRTransferArray * transfers = m_transferDict[[self transferFrom:connectionId to:targetConnectionId]];
+                    message = [transfers throughs:message];
+                }
                 
                 [self input:targetConnectionId message:message];
             }
@@ -338,7 +387,6 @@
         default:
             break;
     }
-    
     
     [m_connections removeObjectForKey:connectionId];
 }
