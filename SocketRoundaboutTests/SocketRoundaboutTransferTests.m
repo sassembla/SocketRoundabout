@@ -1,5 +1,5 @@
 //
-//  SocketRoundaboutFilterTests.h
+//  SocketRoundaboutTransferTests.h
 //  SocketRoundabout
 //
 //  Created by sassembla on 2013/05/03.
@@ -33,7 +33,7 @@
 
 #define TEST_TIMELIMIT  (3)
 
-@interface SocketRoundaboutFilterTests : SenTestCase {
+@interface SocketRoundaboutTransferTests : SenTestCase {
     KSMessenger * messenger;
     RoundaboutController * rCont;
     NSMutableArray * m_connectionIdArray;
@@ -41,7 +41,7 @@
 
 @end
 
-@implementation SocketRoundaboutFilterTests
+@implementation SocketRoundaboutTransferTests
 
 - (void) setUp {
     [super setUp];

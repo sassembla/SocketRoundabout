@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		138F6B291733902C00D6061B /* SocketRoundaboutFilterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 138F6B281733902C00D6061B /* SocketRoundaboutFilterTests.m */; };
+		138F6B291733902C00D6061B /* SocketRoundaboutTransferTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 138F6B281733902C00D6061B /* SocketRoundaboutTransferTests.m */; };
 		138F6B301733ACCC00D6061B /* SRTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 138F6B2F1733ACCC00D6061B /* SRTransfer.m */; };
 		138F6B311733ACCC00D6061B /* SRTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 138F6B2F1733ACCC00D6061B /* SRTransfer.m */; };
 		138F6B341733B01300D6061B /* SRTransferArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 138F6B331733B01300D6061B /* SRTransferArray.m */; };
@@ -56,7 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		138F6B281733902C00D6061B /* SocketRoundaboutFilterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutFilterTests.m; sourceTree = "<group>"; };
+		138F6B281733902C00D6061B /* SocketRoundaboutTransferTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutTransferTests.m; sourceTree = "<group>"; };
 		138F6B2E1733ACCC00D6061B /* SRTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRTransfer.h; sourceTree = "<group>"; };
 		138F6B2F1733ACCC00D6061B /* SRTransfer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRTransfer.m; sourceTree = "<group>"; };
 		138F6B321733B01300D6061B /* SRTransferArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRTransferArray.h; sourceTree = "<group>"; };
@@ -209,7 +209,7 @@
 				13E2120A171E92AD00AD84BB /* Supporting Files */,
 				13B9615F1726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m */,
 				13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */,
-				138F6B281733902C00D6061B /* SocketRoundaboutFilterTests.m */,
+				138F6B281733902C00D6061B /* SocketRoundaboutTransferTests.m */,
 				13B405EA1733D3C600058D81 /* SocketRoundaboutSetingTests.m */,
 			);
 			path = SocketRoundaboutTests;
@@ -384,7 +384,7 @@
 				13B961681726C5DA00766021 /* WebSocketConnectionOperation.m in Sources */,
 				13935D3C1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */,
 				13935D3F17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m in Sources */,
-				138F6B291733902C00D6061B /* SocketRoundaboutFilterTests.m in Sources */,
+				138F6B291733902C00D6061B /* SocketRoundaboutTransferTests.m in Sources */,
 				138F6B311733ACCC00D6061B /* SRTransfer.m in Sources */,
 				138F6B351733B01300D6061B /* SRTransferArray.m in Sources */,
 				13B405EB1733D3C600058D81 /* SocketRoundaboutSetingTests.m in Sources */,
