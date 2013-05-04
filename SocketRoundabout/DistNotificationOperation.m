@@ -59,6 +59,7 @@
             
         case KS_DISTRIBUTEDNOTIFICATIONOPERATION_CLOSE:{
             [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+            [messenger closeConnection];
             break;
         }
             

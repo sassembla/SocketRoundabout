@@ -65,6 +65,7 @@
         case KS_WEBSOCKETCONNECTIONOPERATION_CLOSE:{
             [m_socket close];
             m_socket.delegate = nil;
+            [messenger closeConnection];
             break;
         }
             

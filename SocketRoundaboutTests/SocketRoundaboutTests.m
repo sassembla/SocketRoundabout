@@ -269,7 +269,7 @@
 /**
  nnotifd用Unitl NS系の文字列をesacpeしたJSONArrayに変える。
  */
-- (NSString * ) jonizedString:(NSArray * )jsonSourceArray {
+- (NSString * ) jsonizedString:(NSArray * )jsonSourceArray {
     
     //add before-" and after-"
     NSMutableArray * addHeadAndTailQuote = [[NSMutableArray alloc]init];
@@ -324,7 +324,7 @@
     NSArray * execsArray = @[@"/bin/pwd", @"|", NNOTIF, @"-t", TEST_NOTIFICATIONSERVER];
     
     //notifでexecuteを送り込む
-    NSArray * execArray = @[@"nn@", @"-e",[self jonizedString:execsArray]];
+    NSArray * execArray = @[@"nn@", @"-e",[self jsonizedString:execsArray]];
     NSString * exec = [execArray componentsJoinedByString:@" "];
 
     
@@ -395,7 +395,7 @@
 //    NSArray * execsArray = @[@"/usr/local/bin/gradle", @"-b", @"/Users/sassembla/Desktop/HelloWorld/build.gradle", @"build", @"-i", @"|", GLOBAL_NNOTIF, @"-t", TEST_NOTIFICATIONSERVER];
 //    
 //    //notifでexecuteを送り込む
-//    NSArray * execArray = @[@"nn@", @"-e",[self jonizedString:execsArray]];
+//    NSArray * execArray = @[@"nn@", @"-e",[self jsonizedString:execsArray]];
 //    NSString * exec = [execArray componentsJoinedByString:@" "];
 //    
 //    
@@ -464,7 +464,7 @@
     NSArray * execsArray = @[@"/usr/local/bin/gradle", @"-b", @"/Users/sassembla/Desktop/HelloWorld/build.gradle", @"build", @"-i", @"|", GLOBAL_NNOTIF, @"-t", TEST_NOTIFICATIONSERVER];
 
     //notifでexecuteを送り込む
-    NSArray * execArray = @[@"nn@", @"-e",[self jonizedString:execsArray]];
+    NSArray * execArray = @[@"nn@", @"-e",[self jsonizedString:execsArray]];
     NSString * exec = [execArray componentsJoinedByString:@" "];
 
 
@@ -534,7 +534,7 @@
 //    NSArray * execsArray = @[@"/bin/sh", GLOBAL_GRADLE_NNOTIF_SHELL];//実行主の問題で、これでも不可能。
 //    
 //    //notifでexecuteを送り込む
-//    NSArray * execArray = @[@"nn@", @"-e",[self jonizedString:execsArray]];
+//    NSArray * execArray = @[@"nn@", @"-e",[self jsonizedString:execsArray]];
 //    NSString * exec = [execArray componentsJoinedByString:@" "];
 //    
 //    

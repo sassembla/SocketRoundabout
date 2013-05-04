@@ -339,7 +339,7 @@
             inputCount = inputCount+1;
             
             //transfer
-            SRTransferArray * transfers = m_transferDict[[self transfersBetweenOutput:connectionId toInput:targetConnectionId]];
+            SRTransferArray * transfers = m_transferDict[[self transferIdentityByFrom:connectionId to:targetConnectionId]];
             if (0 < [[transfers transfers]count]) {
                 message = [transfers throughs:message];
             }
@@ -431,7 +431,7 @@
 }
 
 - (void) closeAllConnections {
-    //close all WebSocket Connections
+    //close all connections
     NSArray * connectionsKeys = [[NSArray alloc]initWithArray:[m_connections allKeys]];
     for (NSString * connectionId in connectionsKeys) {
         [self closeConnection:connectionId];
