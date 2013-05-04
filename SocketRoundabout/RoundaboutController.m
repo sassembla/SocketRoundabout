@@ -345,12 +345,13 @@
             }
             
             [self input:targetConnectionId message:message];
+            if (ROUNDABOUT_DEBUG) {
+                NSMutableDictionary * currentReceiverDict = m_transitDebugDataDict[targetConnectionId];
+                [currentReceiverDict setValue:[NSNumber numberWithInt:inputCount] forKey:@"inputCount"];
+            }
         }
         
-        if (ROUNDABOUT_DEBUG) {
-            NSMutableDictionary * currentReceiverDict = m_transitDebugDataDict[targetConnectionId];
-            [currentReceiverDict setValue:[NSNumber numberWithInt:inputCount] forKey:@"inputCount"];
-        }
+        
     }
     
     if (ROUNDABOUT_DEBUG) {

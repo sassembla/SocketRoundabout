@@ -201,7 +201,7 @@
     //通信が構築されてる筈なので、nnotifでの入力を行う
     //stdinを、SocketRoundaboutのNotifに向ける
     //nnotif -> nnotifd -> SocketRoundabout:DistNotif -> SocketRoundabout:ws -> STとか
-    NSArray * execsArray = @[@"/usr/local/bin/gradle", @"-b", @"/Users/sassembla/Desktop/HelloWorld/build.gradle", @"build", @"-i", @"|", GLOBAL_NNOTIF, @"-t", TEST_SR_DISTNOTIF, @"-o", TEST_NNOTIFD_OUTPUT];
+    NSArray * execsArray = @[@"/usr/local/bin/gradle", @"-b", @"/Users/sassembla/Desktop/HelloWorld/build.gradle", @"build", @"-i", @"|", GLOBAL_NNOTIF, @"-t", TEST_SR_DISTNOTIF, @"-o", TEST_NNOTIFD_OUTPUT, @"--ignorebl"];
     
     //notifでexecuteを送り込む
     NSArray * execArray = @[@"nn@", @"-e",[self jsonizedString:execsArray]];

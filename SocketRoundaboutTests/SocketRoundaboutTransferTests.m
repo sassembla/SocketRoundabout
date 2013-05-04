@@ -81,7 +81,6 @@
     STAssertTrue([[trans through:TEST_MESSAGE] isEqualToString:expected], @"not match, %@", [trans through:TEST_MESSAGE]);
 }
 
-
 /**
  transferArrayについての、連続変換値チェック
  単体

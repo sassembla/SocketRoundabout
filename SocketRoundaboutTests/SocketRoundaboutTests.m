@@ -11,6 +11,7 @@
 
 #import "RoundaboutController.h"
 
+#define VERSION (@"0.5.0")
 
 #define TEST_MASTER (@"TEST_MASTER_2013/04/28_22:26:38")
 
@@ -321,7 +322,7 @@
     //nnotifでnnotifdにビルド信号を送り込む
     TestDistNotificationSender2 * nnotifSender = [[TestDistNotificationSender2 alloc]init];
 
-    NSArray * execsArray = @[@"/bin/pwd", @"|", NNOTIF, @"-t", TEST_NOTIFICATIONSERVER];
+    NSArray * execsArray = @[@"/bin/pwd", @"|", NNOTIF, @"-t", TEST_NOTIFICATIONSERVER, @"-v", @"-o", TEST_NNOTIF_LOG, @"--ignorebl"];
     
     //notifでexecuteを送り込む
     NSArray * execArray = @[@"nn@", @"-e",[self jsonizedString:execsArray]];
@@ -461,7 +462,7 @@
     TestDistNotificationSender2 * nnotifSender = [[TestDistNotificationSender2 alloc]init];
     
     //stdinを、SocketRoundaboutのNotifに向ける
-    NSArray * execsArray = @[@"/usr/local/bin/gradle", @"-b", @"/Users/sassembla/Desktop/HelloWorld/build.gradle", @"build", @"-i", @"|", GLOBAL_NNOTIF, @"-t", TEST_NOTIFICATIONSERVER];
+    NSArray * execsArray = @[@"/usr/local/bin/gradle", @"-b", @"/Users/sassembla/Desktop/HelloWorld/build.gradle", @"build", @"-i", @"|", GLOBAL_NNOTIF, @"-t", TEST_NOTIFICATIONSERVER, @"--ignorebl"];
 
     //notifでexecuteを送り込む
     NSArray * execArray = @[@"nn@", @"-e",[self jsonizedString:execsArray]];
