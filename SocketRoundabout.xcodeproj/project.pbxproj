@@ -15,6 +15,7 @@
 		13935D3B1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */; };
 		13935D3C1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */; };
 		13935D3F17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */; };
+		13A0FDED1737BD1800CCAE71 /* compass.icns in Resources */ = {isa = PBXBuildFile; fileRef = 13A0FDEC1737BD1800CCAE71 /* compass.icns */; };
 		13B405EB1733D3C600058D81 /* SocketRoundaboutSetingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405EA1733D3C600058D81 /* SocketRoundaboutSetingTests.m */; };
 		13B405EE1733EB2800058D81 /* SocketRoundabout.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405ED1733EB2800058D81 /* SocketRoundabout.m */; };
 		13B405EF1733EB2800058D81 /* SocketRoundabout.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405ED1733EB2800058D81 /* SocketRoundabout.m */; };
@@ -64,6 +65,7 @@
 		13935D391727ECFC00E10D59 /* DistNotificationOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistNotificationOperation.h; sourceTree = "<group>"; };
 		13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistNotificationOperation.m; sourceTree = "<group>"; };
 		13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SocketRoundaboutTests_DistNotification.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		13A0FDEC1737BD1800CCAE71 /* compass.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = compass.icns; sourceTree = "<group>"; };
 		13B405EA1733D3C600058D81 /* SocketRoundaboutSetingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutSetingTests.m; sourceTree = "<group>"; };
 		13B405EC1733EB2800058D81 /* SocketRoundabout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketRoundabout.h; sourceTree = "<group>"; };
 		13B405ED1733EB2800058D81 /* SocketRoundabout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundabout.m; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 		13E211DA171E92AD00AD84BB = {
 			isa = PBXGroup;
 			children = (
+				13A0FDEC1737BD1800CCAE71 /* compass.icns */,
 				13E2122C171E942700AD84BB /* KSMessenger */,
 				13E2121E171E92CD00AD84BB /* SocketRocket */,
 				13E211EC171E92AD00AD84BB /* SocketRoundabout */,
@@ -321,6 +324,7 @@
 				13E211F1171E92AD00AD84BB /* InfoPlist.strings in Resources */,
 				13E211F7171E92AD00AD84BB /* Credits.rtf in Resources */,
 				13E211FD171E92AD00AD84BB /* MainMenu.xib in Resources */,
+				13A0FDED1737BD1800CCAE71 /* compass.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

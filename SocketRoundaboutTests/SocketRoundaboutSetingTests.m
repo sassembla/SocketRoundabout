@@ -144,16 +144,8 @@
     NSDictionary * dict = @{KEY_SETTING:TEST_NOTEXIST_SETTINGFILE,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    @try {
-        [delegate loadSetting];
-        STFail(@"no error,,");
-    }
-    @catch (NSException *exception) {
-        NSLog(@"exception %@", exception);
-    }
-    @finally {
-        
-    }    
+    [delegate loadSetting];
+    
     //突破できればOK
 }
 

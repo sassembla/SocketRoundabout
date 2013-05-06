@@ -62,8 +62,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void) loadSetting {
     NSFileHandle * handle = [NSFileHandle fileHandleForReadingAtPath:m_settingSource];
-    [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_ERROR, nil];
-    NSAssert1(handle, @"cannot load file:%@", m_settingSource);
+    
+    if (handle) {} else {
+        if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_ERROR, nil];
+        [self log:[NSString stringWithFormat:@"%@%@",@"cannot load file:%@", m_settingSource]];        
+    }
     
     NSData * data = [handle readDataToEndOfFile];
     NSString * string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -86,7 +89,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         //linesに対して、上から順に動作を行う
         [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_START, nil];
     } else {
-        [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED, nil];
+        if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED, nil];
     }
 }
 
@@ -126,7 +129,7 @@ void uncaughtExceptionHandler(NSException *exception) {
                 m_lock++;
                 
                 if (m_lock == [m_lines count]) {
-                    [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED, nil];
+                    if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED, nil];
                     return;//終了
                 }
                 
