@@ -44,10 +44,10 @@ typedef enum {
     SOCKETROUNDABOUT_MASTER_LOADSETTING_ERROR
 } SOCKETROUNDABOUT_MASTER_EXECS;
 
-
+//<NSDraggingSource, NSDraggingDestination, NSPasteboardItemDataProvider>
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSWindow * window;
 
 
 - (id) initAppDelegateWithParam:(NSDictionary * )argsDict;

@@ -21,7 +21,7 @@
     int m_loaded;
 }
 
-void uncaughtExceptionHandler(NSException *exception) {
+void uncaughtExceptionHandler(NSException * exception) {
     NSLog(@"CRASH: %@", exception);
     NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
 }
@@ -48,16 +48,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     return self;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void)applicationDidFinishLaunching:(NSNotification * )aNotification {
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
-    /*
-     GUIがホシイけど、今すぐには必要ないし、使い続ける展望はまだ無いので、文字列入力がある前提、でいいか。
-     だとすると、アプリじゃない方が都合がいい、、
-     ので、initializerを用意しちゃって、そこから各設定を読もう。
-     */
-    
     [self loadSetting];
+    
+    //ファイルを放り込む必要がでてきた。
 }
 
 - (void) loadSetting {

@@ -1293,7 +1293,7 @@
 				<int key="NSWindowStyleMask">271</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{0, 0}, {330, 0}}</string>
-				<int key="NSWTFlags">-196606976</int>
+				<int key="NSWTFlags">1950876672</int>
 				<string key="NSWindowTitle">SocketRoundabout</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
@@ -1304,7 +1304,6 @@
 					<string key="NSFrameSize">{330, 0}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1366, 746}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
