@@ -60,7 +60,8 @@ int NSApplicationMain(int argc, const char *argv[]) {
         
         NSApplication * application = [NSApplication sharedApplication];
         [application setDelegate:delegate];
-        
+
+        [NSBundle loadNibNamed:@"MainMenu" owner:NSApp];
         [NSApp run];
 
         return 0;
