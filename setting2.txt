@@ -1,0 +1,10 @@
+//1 WebSocketのOperationをセットする
+id:roundaboutTest2 type:0 destination:ws://127.0.0.1:8823
+id:roundaboutTest3 type:1 destination:testNotif2
+
+//接続待ち
+//connent
+connect:roundaboutTest3 to:roundaboutTest2
+
+//transfer
+trans:roundaboutTest3 to:roundaboutTest2 prefix:TEST_PREFIX2 postfix:TEST_POSTFIX2
