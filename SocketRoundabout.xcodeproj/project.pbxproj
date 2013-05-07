@@ -16,6 +16,9 @@
 		13935D3C1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */; };
 		13935D3F17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */; };
 		13A0FDED1737BD1800CCAE71 /* compass.icns in Resources */ = {isa = PBXBuildFile; fileRef = 13A0FDEC1737BD1800CCAE71 /* compass.icns */; };
+		13A0FDF11737E24F00CCAE71 /* DandDWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */; };
+		13A0FDF21737E24F00CCAE71 /* DandDWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */; };
+		13A0FDF51738956E00CCAE71 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A0FDF41738956E00CCAE71 /* MainWindow.m */; };
 		13B405EB1733D3C600058D81 /* SocketRoundaboutSetingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405EA1733D3C600058D81 /* SocketRoundaboutSetingTests.m */; };
 		13B405EE1733EB2800058D81 /* SocketRoundabout.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405ED1733EB2800058D81 /* SocketRoundabout.m */; };
 		13B405EF1733EB2800058D81 /* SocketRoundabout.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405ED1733EB2800058D81 /* SocketRoundabout.m */; };
@@ -66,6 +69,11 @@
 		13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistNotificationOperation.m; sourceTree = "<group>"; };
 		13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SocketRoundaboutTests_DistNotification.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		13A0FDEC1737BD1800CCAE71 /* compass.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = compass.icns; sourceTree = "<group>"; };
+		13A0FDEE1737E24F00CCAE71 /* DandDWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DandDWindowController.h; sourceTree = "<group>"; };
+		13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DandDWindowController.m; sourceTree = "<group>"; };
+		13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DandDWindowController.xib; sourceTree = "<group>"; };
+		13A0FDF31738956D00CCAE71 /* MainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
+		13A0FDF41738956E00CCAE71 /* MainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindow.m; sourceTree = "<group>"; };
 		13B405EA1733D3C600058D81 /* SocketRoundaboutSetingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutSetingTests.m; sourceTree = "<group>"; };
 		13B405EC1733EB2800058D81 /* SocketRoundabout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketRoundabout.h; sourceTree = "<group>"; };
 		13B405ED1733EB2800058D81 /* SocketRoundabout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundabout.m; sourceTree = "<group>"; };
@@ -176,6 +184,9 @@
 				13E211F8171E92AD00AD84BB /* AppDelegate.h */,
 				13E211F9171E92AD00AD84BB /* AppDelegate.m */,
 				13E211FB171E92AD00AD84BB /* MainMenu.xib */,
+				13A0FDEE1737E24F00CCAE71 /* DandDWindowController.h */,
+				13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */,
+				13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */,
 				13E211ED171E92AD00AD84BB /* Supporting Files */,
 				13B961611726C45200766021 /* RoundaboutController.h */,
 				13B961621726C45200766021 /* RoundaboutController.m */,
@@ -187,6 +198,8 @@
 				138F6B2F1733ACCC00D6061B /* SRTransfer.m */,
 				138F6B321733B01300D6061B /* SRTransferArray.h */,
 				138F6B331733B01300D6061B /* SRTransferArray.m */,
+				13A0FDF31738956D00CCAE71 /* MainWindow.h */,
+				13A0FDF41738956E00CCAE71 /* MainWindow.m */,
 			);
 			path = SocketRoundabout;
 			sourceTree = "<group>";
@@ -325,6 +338,7 @@
 				13E211F7171E92AD00AD84BB /* Credits.rtf in Resources */,
 				13E211FD171E92AD00AD84BB /* MainMenu.xib in Resources */,
 				13A0FDED1737BD1800CCAE71 /* compass.icns in Resources */,
+				13A0FDF21737E24F00CCAE71 /* DandDWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +385,8 @@
 				138F6B301733ACCC00D6061B /* SRTransfer.m in Sources */,
 				138F6B341733B01300D6061B /* SRTransferArray.m in Sources */,
 				13B405EE1733EB2800058D81 /* SocketRoundabout.m in Sources */,
+				13A0FDF11737E24F00CCAE71 /* DandDWindowController.m in Sources */,
+				13A0FDF51738956E00CCAE71 /* MainWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

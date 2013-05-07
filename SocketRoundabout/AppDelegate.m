@@ -10,6 +10,8 @@
 #import "KSMessenger.h"
 #import "RoundaboutController.h"
 
+#import "MainWindow.h"
+
 @implementation AppDelegate {
     KSMessenger * messenger;
     
@@ -48,20 +50,21 @@ void uncaughtExceptionHandler(NSException * exception) {
     return self;
 }
 
+/**
+ load implemented-settings when launch
+ */
 - (void)applicationDidFinishLaunching:(NSNotification * )aNotification {
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     
-    [self loadSetting];
-    
-    //ファイルを放り込む必要がでてきた。
+    [self loadSetting:m_settingSource];
 }
 
-- (void) loadSetting {
-    NSFileHandle * handle = [NSFileHandle fileHandleForReadingAtPath:m_settingSource];
+- (void) loadSetting:(NSString * )source {
+    NSFileHandle * handle = [NSFileHandle fileHandleForReadingAtPath:source];
     
     if (handle) {} else {
         if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_ERROR, nil];
-        [self log:[NSString stringWithFormat:@"%@%@",@"cannot load file:%@", m_settingSource]];        
+        [self log:[NSString stringWithFormat:@"%@%@",@"cannot load file:%@", source]];        
     }
     
     NSData * data = [handle readDataToEndOfFile];
@@ -69,7 +72,7 @@ void uncaughtExceptionHandler(NSException * exception) {
     
     NSMutableArray * array = [[NSMutableArray alloc]initWithArray:[string componentsSeparatedByString:@"\n"]];
     
-    //remove empty and comment
+    //remove emptyLine and comment
     m_lines = [[NSMutableArray alloc]init];
     for (NSString * line in array) {
         if ([line hasPrefix:CODE_COMMENT]) {
@@ -159,6 +162,17 @@ void uncaughtExceptionHandler(NSException * exception) {
         }
         case KS_ROUNDABOUTCONT_SETTRANSFER_OVER:{
             m_loaded++;
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
+    switch ([messenger execFrom:SOCKETROUNDABOUT_MAINWINDOW viaNotification:notif]) {
+        case SOCKETROUNDABOUT_MAINWINDOW_INPUT_URI:{
+            NSAssert(dict[@"uri"], @"uri required");
+            
             break;
         }
             

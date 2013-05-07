@@ -51,7 +51,7 @@ typedef enum {
 
 
 - (id) initAppDelegateWithParam:(NSDictionary * )argsDict;
-- (void) loadSetting;
+- (void) loadSetting:(NSString * )source;
 - (void) exit;
 
 @end

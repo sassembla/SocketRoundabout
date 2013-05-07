@@ -8,6 +8,7 @@
 
 #import "SocketRoundabout.h"
 #import "AppDelegate.h"
+#import "DandDWindowController.h"
 
 #define KEY_PERFIX  (@"-")
 
@@ -60,8 +61,14 @@ int NSApplicationMain(int argc, const char *argv[]) {
         
         NSApplication * application = [NSApplication sharedApplication];
         [application setDelegate:delegate];
-
-        [NSBundle loadNibNamed:@"MainMenu" owner:NSApp];
+        
+        
+        [NSBundle loadNibNamed:@"DandDWindowController" owner:NSApp];
+        
+        NSWindow * w = [NSApp mainWindow];
+        DandDWindowController * dCont = [[DandDWindowController alloc]initWithWindow:w];
+        [w setDelegate:dCont];
+        
         [NSApp run];
 
         return 0;
