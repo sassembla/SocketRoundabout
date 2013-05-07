@@ -48,7 +48,9 @@
 @interface SocketRoundaboutSetingTests : SenTestCase {
     KSMessenger * messenger;
     AppDelegate * delegate;
+    
     NSMutableArray * m_proceedLogArray;
+    NSMutableArray * m_noLoadLogArray;
     NSMutableArray * m_errorLogArray;
 }
 
@@ -57,14 +59,19 @@
 @implementation SocketRoundaboutSetingTests
 - (void) setUp {
     messenger = [[KSMessenger alloc]initWithBodyID:self withSelector:@selector(receiver:) withName:TEST_MASTER];
+    
     m_proceedLogArray = [[NSMutableArray alloc]init];
+    m_noLoadLogArray = [[NSMutableArray alloc]init];
     m_errorLogArray = [[NSMutableArray alloc]init];
 }
 
 - (void) tearDown {
-    [m_errorLogArray removeAllObjects];
     [m_proceedLogArray removeAllObjects];
+    [m_noLoadLogArray removeAllObjects];
+    [m_errorLogArray removeAllObjects];
+    
     [delegate exit];
+    
     [messenger closeConnection];
 }
 
@@ -72,8 +79,14 @@
     NSDictionary * dict = [messenger tagValueDictionaryFromNotification:notif];
     switch ([messenger execFrom:SOCKETROUNDABOUT_MASTER viaNotification:notif]) {
             
+        case SOCKETROUNDABOUT_MASTER_NO_LOADSETTING:{
+            NSLog(@"hereComes");
+            [m_noLoadLogArray addObject:dict];
+            break;
+        }
         case SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED:{
-            [m_proceedLogArray addObject:dict];
+            NSAssert(dict[@"loadedPath"], @"loadedPath required");
+            [m_proceedLogArray addObject:dict[@"loadedPath"]];
             break;
         }
         case SOCKETROUNDABOUT_MASTER_LOADSETTING_ERROR:{
@@ -94,7 +107,8 @@
     NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting:nil];
+    NSString * settingSource = [delegate defaultSettingSource];
+    [delegate loadSetting:settingSource];
     
     //各行の内容を順にセットアップして、完了したら通知
     
@@ -120,12 +134,13 @@
     NSDictionary * dict = @{KEY_SETTING:TEST_EMPTY_SETTINGFILE,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting:nil];
+    NSString * settingSource = [delegate defaultSettingSource];
+    [delegate loadSetting:settingSource];
     
     //各行の内容を順にセットアップして、完了したら通知
     
     int i = 0;
-    while ([m_proceedLogArray count] < currentSettingSize) {
+    while ([m_noLoadLogArray count] < currentSettingSize) {
         [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
         i++;
         if (TEST_MASTER_TIMELIMIT < i) {
@@ -144,28 +159,78 @@
     NSDictionary * dict = @{KEY_SETTING:TEST_NOTEXIST_SETTINGFILE,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting:nil];
+    NSString * settingSource = [delegate defaultSettingSource];
+    NSLog(@"settingSource %@", settingSource);
+    [delegate loadSetting:settingSource];
     
     //突破できればOK
-}
+    
+    int i = 0;
+//    while ([m_proceedLogArray count] < currentSettingSize) {
+//        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+//        i++;
+//        if (TEST_MASTER_TIMELIMIT < i) {
+//            STFail(@"too late");
+//            break;
+//        }
+//    }
 
+}
 
 /**
  特に-sキー指定が無ければ、手元のファイルをロードする。
  この場合、DEFAULT_SETTINGS指定のものと同様の結果になる。
  */
 - (void) testAutoLoadSetting {
+    int currentSettingSize = 1;
     NSDictionary * dict = @{KEY_MASTER:TEST_MASTER,
                             PRIVATEKEY_BASEPATH:TEST_BASE_SETTINGFILE};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting:nil];
+    NSString * settingSource = [delegate defaultSettingSource];
+    [delegate loadSetting:settingSource];
     
     //各行の内容を順にセットアップして、完了したら通知
+    
+    int i = 0;
+    while ([m_noLoadLogArray count] < currentSettingSize) {
+        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_MASTER_TIMELIMIT < i) {
+            STFail(@"too late");
+            break;
+        }
+    }
+
+}
+
+
+/**
+ 複数のファイルを同時に読みこむ
+ */
+- (void) testLoadStringSetting {
+    NSDictionary * dict = @{KEY_MASTER:TEST_MASTER,
+                            PRIVATEKEY_BASEPATH:TEST_BASE_SETTINGFILE};
+    delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
+    NSString * setting = @"";
+    [delegate loadSetting:setting];
+    
+    //各行の内容を順にセットアップして、完了したら通知
+    int i = 0;
+//    while ([m_proceedLogArray count] < currentSettingSize) {
+//        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+//        i++;
+//        if (TEST_MASTER_TIMELIMIT < i) {
+//            STFail(@"too late");
+//            break;
+//        }
+//    }
 }
 
 
 
-//設定を行った後の挙動
+//////////////設定を行った後の挙動
+
+
 
 /**
  設定後の挙動
@@ -176,7 +241,8 @@
     NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting:nil];
+    NSString * setting = [delegate defaultSettingSource];
+    [delegate loadSetting:setting];
     
     //各行の内容を順にセットアップして、完了したら通知
     

@@ -38,6 +38,7 @@
 
 typedef enum {
     SOCKETROUNDABOUT_MASTER_LOADSETTING_START = 0,
+    SOCKETROUNDABOUT_MASTER_NO_LOADSETTING,
     SOCKETROUNDABOUT_MASTER_LOADSETTING_LOAD,
     SOCKETROUNDABOUT_MASTER_LOADSETTING_LOADING,
     SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED,
@@ -51,6 +52,7 @@ typedef enum {
 
 
 - (id) initAppDelegateWithParam:(NSDictionary * )argsDict;
+- (NSString * ) defaultSettingSource;
 - (void) loadSetting:(NSString * )source;
 - (void) exit;
 

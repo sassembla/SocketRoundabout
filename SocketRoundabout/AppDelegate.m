@@ -59,11 +59,12 @@ void uncaughtExceptionHandler(NSException * exception) {
     [self loadSetting:m_settingSource];
 }
 
+- (NSString * ) defaultSettingSource {
+    return m_settingSource;
+}
+
 - (void) loadSetting:(NSString * )source {
-    if (source) {}
-    else {
-        source = m_settingSource;
-    }
+    NSAssert(source, @"source is nil.");
     
     NSFileHandle * handle = [NSFileHandle fileHandleForReadingAtPath:source];
     
@@ -93,7 +94,7 @@ void uncaughtExceptionHandler(NSException * exception) {
         //linesに対して、上から順に動作を行う
         [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_START, nil];
     } else {
-        if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED, nil];
+        if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_NO_LOADSETTING, nil];
     }
 }
 
@@ -133,7 +134,13 @@ void uncaughtExceptionHandler(NSException * exception) {
                 m_lock++;
                 
                 if (m_lock == [m_lines count]) {
-                    if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED, nil];
+                    //現在読み込んでいるファイルのlast lineに入った
+                    if ([messenger hasParent]) {
+                        NSString * loadedPath = m_settingSource;
+                        [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED,
+                         [messenger tag:@"loadedPath" val:loadedPath],
+                         nil];
+                    }
                     return;//終了
                 }
                 
