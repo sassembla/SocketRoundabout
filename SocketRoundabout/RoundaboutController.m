@@ -83,7 +83,11 @@
             
             [self outFrom:dict[@"from"] into:dict[@"to"]];
             
-            [messenger callParent:KS_ROUNDABOUTCONT_SETCONNECT_OVER, nil];
+            [messenger callParent:KS_ROUNDABOUTCONT_SETCONNECT_OVER,
+             [messenger tag:@"from" val:dict[@"from"]],
+             [messenger tag:@"to" val:dict[@"to"]],
+             nil];
+            
             break;
         }
             
@@ -95,7 +99,13 @@
             
             [self setTransferFrom:dict[@"from"] to:dict[@"to"] prefix:dict[@"prefix"] postfix:dict[@"postfix"]];
             
-            [messenger callParent:KS_ROUNDABOUTCONT_SETTRANSFER_OVER, nil];
+            [messenger callParent:KS_ROUNDABOUTCONT_SETTRANSFER_OVER,
+             [messenger tag:@"from" val:dict[@"from"]],
+             [messenger tag:@"to" val:dict[@"to"]],
+             [messenger tag:@"prefix" val:dict[@"prefix"]],
+             [messenger tag:@"postfix" val:dict[@"postfix"]],
+             nil];
+            
             break;
         }
             

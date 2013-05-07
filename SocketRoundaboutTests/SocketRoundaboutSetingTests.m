@@ -94,7 +94,7 @@
     NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting];
+    [delegate loadSetting:nil];
     
     //各行の内容を順にセットアップして、完了したら通知
     
@@ -120,7 +120,7 @@
     NSDictionary * dict = @{KEY_SETTING:TEST_EMPTY_SETTINGFILE,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting];
+    [delegate loadSetting:nil];
     
     //各行の内容を順にセットアップして、完了したら通知
     
@@ -144,7 +144,7 @@
     NSDictionary * dict = @{KEY_SETTING:TEST_NOTEXIST_SETTINGFILE,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting];
+    [delegate loadSetting:nil];
     
     //突破できればOK
 }
@@ -158,7 +158,7 @@
     NSDictionary * dict = @{KEY_MASTER:TEST_MASTER,
                             PRIVATEKEY_BASEPATH:TEST_BASE_SETTINGFILE};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting];
+    [delegate loadSetting:nil];
     
     //各行の内容を順にセットアップして、完了したら通知
 }
@@ -176,7 +176,7 @@
     NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    [delegate loadSetting];
+    [delegate loadSetting:nil];
     
     //各行の内容を順にセットアップして、完了したら通知
     

@@ -60,6 +60,11 @@ void uncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void) loadSetting:(NSString * )source {
+    if (source) {}
+    else {
+        source = m_settingSource;
+    }
+    
     NSFileHandle * handle = [NSFileHandle fileHandleForReadingAtPath:source];
     
     if (handle) {} else {
@@ -153,14 +158,24 @@ void uncaughtExceptionHandler(NSException * exception) {
     
     switch ([messenger execFrom:KS_ROUNDABOUTCONT viaNotification:notif]) {
         case KS_ROUNDABOUTCONT_CONNECT_ESTABLISHED:{
+            NSAssert(dict[@"connectionId"], @"connectionId required");
+            
             m_loaded++;
             break;
         }
         case KS_ROUNDABOUTCONT_SETCONNECT_OVER:{
+            NSAssert(dict[@"from"], @"from required");
+            NSAssert(dict[@"to"], @"to required");
+            
             m_loaded++;
             break;
         }
         case KS_ROUNDABOUTCONT_SETTRANSFER_OVER:{
+            NSAssert(dict[@"from"], @"from required");
+            NSAssert(dict[@"to"], @"to required");
+            NSAssert(dict[@"prefix"], @"prefix required");
+            NSAssert(dict[@"postfix"], @"postfix required");
+            
             m_loaded++;
             break;
         }
