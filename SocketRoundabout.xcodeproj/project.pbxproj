@@ -19,7 +19,7 @@
 		13A0FDF11737E24F00CCAE71 /* DandDWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */; };
 		13A0FDF21737E24F00CCAE71 /* DandDWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */; };
 		13A0FDF51738956E00CCAE71 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A0FDF41738956E00CCAE71 /* MainWindow.m */; };
-		13B405EB1733D3C600058D81 /* SocketRoundaboutSetingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405EA1733D3C600058D81 /* SocketRoundaboutSetingTests.m */; };
+		13B405EB1733D3C600058D81 /* SocketRoundaboutSettingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405EA1733D3C600058D81 /* SocketRoundaboutSettingTests.m */; };
 		13B405EE1733EB2800058D81 /* SocketRoundabout.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405ED1733EB2800058D81 /* SocketRoundabout.m */; };
 		13B405EF1733EB2800058D81 /* SocketRoundabout.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B405ED1733EB2800058D81 /* SocketRoundabout.m */; };
 		13B961601726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B9615F1726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m */; };
@@ -74,7 +74,7 @@
 		13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DandDWindowController.xib; sourceTree = "<group>"; };
 		13A0FDF31738956D00CCAE71 /* MainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
 		13A0FDF41738956E00CCAE71 /* MainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindow.m; sourceTree = "<group>"; };
-		13B405EA1733D3C600058D81 /* SocketRoundaboutSetingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutSetingTests.m; sourceTree = "<group>"; };
+		13B405EA1733D3C600058D81 /* SocketRoundaboutSettingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundaboutSettingTests.m; sourceTree = "<group>"; };
 		13B405EC1733EB2800058D81 /* SocketRoundabout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketRoundabout.h; sourceTree = "<group>"; };
 		13B405ED1733EB2800058D81 /* SocketRoundabout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketRoundabout.m; sourceTree = "<group>"; };
 		13B9615F1726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SocketRoundaboutTests_WebSocketConnection.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -226,7 +226,7 @@
 				13B9615F1726C29E00766021 /* SocketRoundaboutTests_WebSocketConnection.m */,
 				13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */,
 				138F6B281733902C00D6061B /* SocketRoundaboutTransferTests.m */,
-				13B405EA1733D3C600058D81 /* SocketRoundaboutSetingTests.m */,
+				13B405EA1733D3C600058D81 /* SocketRoundaboutSettingTests.m */,
 			);
 			path = SocketRoundaboutTests;
 			sourceTree = "<group>";
@@ -407,7 +407,7 @@
 				138F6B291733902C00D6061B /* SocketRoundaboutTransferTests.m in Sources */,
 				138F6B311733ACCC00D6061B /* SRTransfer.m in Sources */,
 				138F6B351733B01300D6061B /* SRTransferArray.m in Sources */,
-				13B405EB1733D3C600058D81 /* SocketRoundaboutSetingTests.m in Sources */,
+				13B405EB1733D3C600058D81 /* SocketRoundaboutSettingTests.m in Sources */,
 				13B405EF1733EB2800058D81 /* SocketRoundabout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
