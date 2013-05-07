@@ -13,7 +13,6 @@
 
 #define TEST_MASTER (@"TEST_MASTER_2013/05/03 21:23:10")
 #define TEST_SETTINGFILE    (@"./setting.txt")
-#define TEST_SETTINGFILE_2  (@"./setting2.txt")
 #define TEST_EMPTY_SETTINGFILE    (@"./empty.txt")
 #define TEST_NOTEXIST_SETTINGFILE    (@"./notexist.txt")
 
@@ -80,7 +79,7 @@
     NSDictionary * dict = [messenger tagValueDictionaryFromNotification:notif];
     switch ([messenger execFrom:SOCKETROUNDABOUT_MASTER viaNotification:notif]) {
             
-        case SOCKETROUNDABOUT_MASTER_EMPTY_LOADSETTING:{
+        case SOCKETROUNDABOUT_MASTER_NO_LOADSETTING:{
             NSLog(@"hereComes");
             [m_noLoadLogArray addObject:dict];
             break;
@@ -164,12 +163,23 @@
     NSLog(@"settingSource %@", settingSource);
     [delegate loadSetting:settingSource];
     
-    //突破できればOK、ログが出るだけ。
+    //突破できればOK
+    
+    int i = 0;
+//    while ([m_proceedLogArray count] < currentSettingSize) {
+//        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+//        i++;
+//        if (TEST_MASTER_TIMELIMIT < i) {
+//            STFail(@"too late");
+//            break;
+//        }
+//    }
+
 }
 
 /**
  特に-sキー指定が無ければ、手元のファイルをロードする。
- DEFAULT_SETTINGS指定のものと同様の結果になる。
+ この場合、DEFAULT_SETTINGS指定のものと同様の結果になる。
  */
 - (void) testAutoLoadSetting {
     int currentSettingSize = 1;
@@ -195,40 +205,25 @@
 
 
 /**
- ファイルを後から読む
+ 複数のファイルを同時に読みこむ
  */
 - (void) testLoadStringSetting {
-    int currentSettingSize = 1;
     NSDictionary * dict = @{KEY_MASTER:TEST_MASTER,
-                            KEY_SETTING:TEST_SETTINGFILE};
+                            PRIVATEKEY_BASEPATH:TEST_BASE_SETTINGFILE};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    NSString * setting = [delegate defaultSettingSource];
+    NSString * setting = @"";
     [delegate loadSetting:setting];
     
+    //各行の内容を順にセットアップして、完了したら通知
     int i = 0;
-    while ([m_proceedLogArray count] < currentSettingSize) {
-        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-        i++;
-        if (TEST_MASTER_TIMELIMIT < i) {
-            STFail(@"too late");
-            break;
-        }
-    }
-    
-    //次のファイルを読み込む
-    currentSettingSize = 2;
-    [delegate loadSetting:TEST_SETTINGFILE_2];
-    
-    i = 0;
-    while ([m_proceedLogArray count] < currentSettingSize) {
-        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-        i++;
-        if (TEST_MASTER_TIMELIMIT < i) {
-            STFail(@"too late");
-            break;
-        }
-    }
-    
+//    while ([m_proceedLogArray count] < currentSettingSize) {
+//        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+//        i++;
+//        if (TEST_MASTER_TIMELIMIT < i) {
+//            STFail(@"too late");
+//            break;
+//        }
+//    }
 }
 
 

@@ -12,16 +12,15 @@
 
 #import "MainWindow.h"
 
-/**
- このクラスはセッティングを読み込むための共通インターフェースでありさえすればよくて、
- セッティングの途中経過について興味を持つ必要がない。個数についても関心が無い。
- */
 @implementation AppDelegate {
     KSMessenger * messenger;
     
     RoundaboutController * rCont;
     
     NSString * m_settingSource;
+    int m_lock;
+    NSMutableArray * m_lines;
+    int m_loaded;
 }
 
 void uncaughtExceptionHandler(NSException * exception) {
@@ -45,7 +44,6 @@ void uncaughtExceptionHandler(NSException * exception) {
             m_settingSource = [[NSString alloc]initWithFormat:@"%@/%@",argsDict[PRIVATEKEY_BASEPATH], DEFAULT_SETTINGS];
         }
         
-        //系すべての纏めポイント
         rCont = [[RoundaboutController alloc]initWithMaster:[messenger myNameAndMID]];
     }
     
@@ -81,7 +79,7 @@ void uncaughtExceptionHandler(NSException * exception) {
     NSMutableArray * array = [[NSMutableArray alloc]initWithArray:[string componentsSeparatedByString:@"\n"]];
     
     //remove emptyLine and comment
-    NSMutableArray * lines = [[NSMutableArray alloc]init];
+    m_lines = [[NSMutableArray alloc]init];
     for (NSString * line in array) {
         if ([line hasPrefix:CODE_COMMENT]) {
             continue;
@@ -89,36 +87,94 @@ void uncaughtExceptionHandler(NSException * exception) {
             continue;
         }
         
-        [lines addObject:line];
+        [m_lines addObject:line];
     }
     
-    if (0 < [lines count]) {
+    if (0 < [m_lines count]) {
         //linesに対して、上から順に動作を行う
-        [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_LOAD,
-         [messenger tag:@"lines" val:lines],
-         nil];
+        [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_START, nil];
     } else {
-        if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_EMPTY_LOADSETTING, nil];
+        if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_NO_LOADSETTING, nil];
     }
 }
 
 - (void) receiver:(NSNotification * )notif {
     NSDictionary * dict = [messenger tagValueDictionaryFromNotification:notif];
     
-    
+    switch ([messenger execFrom:[messenger myName] viaNotification:notif]) {
+        case SOCKETROUNDABOUT_MASTER_LOADSETTING_START:{
+            //ロードの開始、カウントの行を読み、実行する
+
+            //初期化(ロードのための初期化なので、あとからでも出来る)
+            m_lock = 0;
+            m_loaded = 0;
+            
+            //LOAD
+            [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_LOAD,
+             [messenger tag:@"lineNo" val:[NSNumber numberWithInt:m_lock]],
+             [messenger withDelay:0.0001],
+             nil];
+            
+            [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_LOADING, nil];
+            break;
+        }
+            
+        case SOCKETROUNDABOUT_MASTER_LOADSETTING_LOAD:{
+            NSAssert(dict[@"lineNo"], @"lineNo required");
+            [self log:[NSString stringWithFormat:@"%@%d", @"load start:line", [dict[@"lineNo"] intValue]]];
+
+            int lineNo = [dict[@"lineNo"] intValue];
+            [self load:m_lines[lineNo]];
+            break;
+        }
+        
+        case SOCKETROUNDABOUT_MASTER_LOADSETTING_LOADING:{
+            if (m_lock < m_loaded) {//完了通知が来たら抜けて次
+                
+                m_lock++;
+                
+                if (m_lock == [m_lines count]) {
+                    //現在読み込んでいるファイルのlast lineに入った
+                    if ([messenger hasParent]) {
+                        NSString * loadedPath = m_settingSource;
+                        [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED,
+                         [messenger tag:@"loadedPath" val:loadedPath],
+                         nil];
+                    }
+                    return;//終了
+                }
+                
+                [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_LOAD,
+                 [messenger tag:@"lineNo" val:[NSNumber numberWithInt:m_lock]],
+                 nil];
+            }
+            
+            [self log:[NSString stringWithFormat:@"loading line:%d %@", m_lock, m_lines[m_lock]]];
+            
+            [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_LOADING,
+             [messenger withDelay:DEFINE_LOADING_INTERVAL],
+             nil];
+            
+            break;
+        }
+        
+            
+        default:
+            break;
+    }
     
     switch ([messenger execFrom:KS_ROUNDABOUTCONT viaNotification:notif]) {
         case KS_ROUNDABOUTCONT_CONNECT_ESTABLISHED:{
             NSAssert(dict[@"connectionId"], @"connectionId required");
             
-//            m_loaded++;
+            m_loaded++;
             break;
         }
         case KS_ROUNDABOUTCONT_SETCONNECT_OVER:{
             NSAssert(dict[@"from"], @"from required");
             NSAssert(dict[@"to"], @"to required");
             
-//            m_loaded++;
+            m_loaded++;
             break;
         }
         case KS_ROUNDABOUTCONT_SETTRANSFER_OVER:{
@@ -127,7 +183,7 @@ void uncaughtExceptionHandler(NSException * exception) {
             NSAssert(dict[@"prefix"], @"prefix required");
             NSAssert(dict[@"postfix"], @"postfix required");
             
-//            m_loaded++;
+            m_loaded++;
             break;
         }
             
@@ -207,7 +263,6 @@ void uncaughtExceptionHandler(NSException * exception) {
 /**
  共通ログ出力
  */
-#define SOCKETROUNDABOUT_SETTINGLOADER  (@"SOCKETROUNDABOUT_SETTINGLOADER")
 - (void) log:(NSString * )log {
     NSLog(@"SocketRoudabout %@", log);
 }
