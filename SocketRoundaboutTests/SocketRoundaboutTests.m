@@ -16,7 +16,9 @@
 #define TEST_MASTER (@"TEST_MASTER_2013/04/28_22:26:38")
 
 #define TEST_WEBSOCKETSERVER   (@"ws://127.0.0.1:8823")
+
 #define TEST_NOTIFICATIONSERVER  (@"notif://2013/04/29_17:52:05")
+#define TEST_NOTIFICATIONSERVER_2   (@"notif://2013/05/08_18:22:35")
 
 #define TEST_CONNECTIONIDENTITY_1 (@"roundaboutTest1")
 #define TEST_CONNECTIONIDENTITY_2   (@"roundaboutTest2")
@@ -192,7 +194,7 @@
      */
     
     //debug用の直接送信
-    [rCont dummyInput:TEST_CONNECTIONIDENTITY_1 message:TEST_REFLECTIVE_MESSAGE];
+    [rCont dummyOutput:TEST_CONNECTIONIDENTITY_1 message:TEST_REFLECTIVE_MESSAGE];
     
     while ([rCont transitOutputCount:TEST_CONNECTIONIDENTITY_1] == 0) {
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
@@ -560,6 +562,50 @@
 //    
 //    [nnotifSender sendNotification:TEST_NNOTIFD_ID_MANUAL withMessage:exec2 withKey:@"NN_DEFAULT_ROUTE"];
 //}
+
+
+/**
+ DistNotifを出力する
+ 偽のIn、テスト対象としてのOutを設定して、送信直前のラインに割り込んで、送信を試す。
+ */
+- (void) testemitNotif {
+    //偽In
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
+     nil];
+    
+    //out側
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_2],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
+     nil];
+    
+    
+    //これらを接続
+    int i = 0;
+    while ([m_connectionIdArray count] < 1) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    //connect
+    [rCont outFrom:TEST_CONNECTIONIDENTITY_1 into:TEST_CONNECTIONIDENTITY_2];
+    
+    //接続後、接続の始点へとデータを投入
+    [rCont dummyInput:TEST_CONNECTIONIDENTITY_1 message:TEST_DISTNOTIF_MESSAGE];
+    
+
+    //接続先であるTEST_CONNECTIONIDENTITY_2の送信カウンタは上がっている筈
+    STAssertTrue([rCont transitInputCount:TEST_CONNECTIONIDENTITY_2] == 1, @"not match, %d", [rCont transitInputCount:TEST_CONNECTIONIDENTITY_2]);    
+}
+
 
 
 

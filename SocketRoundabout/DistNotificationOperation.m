@@ -13,6 +13,9 @@
     KSMessenger * messenger;
     NSString * m_operationId;
     NSString * m_receiverName;
+    
+
+    int m_messageCount;
 }
 
 - (id) initDistNotificationOperationWithMaster:(NSString * )masterNameAndMID
@@ -24,6 +27,8 @@
         
         m_operationId = [[NSString alloc]initWithString:connectionId];
         m_receiverName = [[NSString alloc]initWithString:receiverName];
+
+        m_messageCount = 0;
     }
     return self;
 }
@@ -53,7 +58,13 @@
             
         case KS_DISTRIBUTEDNOTIFICATIONOPERATION_INPUT:{
             NSAssert(dict[@"message"], @"message required");
-            NSAssert(false, @"DistributedNotification-operation does not support emit message.");
+
+            //idをつけて送付する。自分が出したものは受信してもなにもしない。
+            m_messageCount++;
+
+            //メッセージを、keyとvalueに分解する
+            NSDictionary * messageDict = @{@"message":dict[@"message" ], KEY_DIST_COUNT:[NSNumber numberWithInt:m_messageCount]};
+            [[NSDistributedNotificationCenter defaultCenter] postNotificationName:m_receiverName object:nil userInfo:messageDict deliverImmediately:YES];
             break;
         }
             
@@ -78,8 +89,17 @@
 
 - (void) notifReceiver:(NSNotification * )notif {
     NSDictionary * userInfo = [notif userInfo];
-    
     NSAssert(userInfo[@"message"], @"message required");
+    
+    
+    if (userInfo[KEY_DIST_COUNT]) {
+        //ポイントが存在し、現在の自分のカウントと同等だったら無視
+        int receivedCount = [userInfo[KEY_DIST_COUNT] intValue];
+        if (receivedCount == m_messageCount) {
+            return;
+        }
+    }
+    
     [self received:userInfo[@"message"]];
 }
 

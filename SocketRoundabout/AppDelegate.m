@@ -17,7 +17,7 @@
     
     RoundaboutController * rCont;
     
-    NSString * m_settingSource;
+    NSString * m_defaultSettingSource;
     int m_lock;
     NSMutableArray * m_lines;
     int m_loaded;
@@ -36,12 +36,12 @@ void uncaughtExceptionHandler(NSException * exception) {
         if (argsDict[KEY_MASTER]) [messenger connectParent:argsDict[KEY_MASTER]];
         
         if (argsDict[KEY_SETTING]) {
-            m_settingSource = [[NSString alloc]initWithString:argsDict[KEY_SETTING]];
+            m_defaultSettingSource = [[NSString alloc]initWithString:argsDict[KEY_SETTING]];
         } else {
             NSAssert(argsDict[PRIVATEKEY_BASEPATH], @"basePath get error");
             
             //現在のディレクトリはどこか、起動引数からわかるはず
-            m_settingSource = [[NSString alloc]initWithFormat:@"%@/%@",argsDict[PRIVATEKEY_BASEPATH], DEFAULT_SETTINGS];
+            m_defaultSettingSource = [[NSString alloc]initWithFormat:@"%@/%@",argsDict[PRIVATEKEY_BASEPATH], DEFAULT_SETTINGS];
         }
         
         rCont = [[RoundaboutController alloc]initWithMaster:[messenger myNameAndMID]];
@@ -55,17 +55,20 @@ void uncaughtExceptionHandler(NSException * exception) {
  */
 - (void)applicationDidFinishLaunching:(NSNotification * )aNotification {
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-    
-    [self loadSetting:m_settingSource];
+    [self loadSetting:m_defaultSettingSource];
 }
 
 - (NSString * ) defaultSettingSource {
-    return m_settingSource;
+    return m_defaultSettingSource;
 }
 
+/**
+ ファイルパスから設定を読み出す。
+ 特になんのガードも無いため、一つのファイルだけにするのが好ましい。
+ */
 - (void) loadSetting:(NSString * )source {
     NSAssert(source, @"source is nil.");
-    
+        
     NSFileHandle * handle = [NSFileHandle fileHandleForReadingAtPath:source];
     
     if (handle) {} else {
@@ -92,7 +95,20 @@ void uncaughtExceptionHandler(NSException * exception) {
     
     if (0 < [m_lines count]) {
         //linesに対して、上から順に動作を行う
-        [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_START, nil];
+        //ロードの開始、カウントの行を読み、実行する
+        
+        //初期化(ロードのための初期化なので、あとからでも出来る)
+        m_lock = 0;
+        m_loaded = 0;
+        
+        //別スレッドでロード
+        [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_LOAD,
+         [messenger tag:@"lineNo" val:[NSNumber numberWithInt:m_lock]],
+         [messenger withDelay:DEFINE_LOADING_INTERVAL],
+         nil];
+        
+        [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_LOADING, nil];
+        
     } else {
         if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_NO_LOADSETTING, nil];
     }
@@ -101,23 +117,12 @@ void uncaughtExceptionHandler(NSException * exception) {
 - (void) receiver:(NSNotification * )notif {
     NSDictionary * dict = [messenger tagValueDictionaryFromNotification:notif];
     
+    //自分自身
+    /*
+     マルチロードみたいなものを実現したい場合、ここを調整する必要があるが、
+     そもそんな必要が無いので、シングルファイルのみが読める形になっている。
+     */
     switch ([messenger execFrom:[messenger myName] viaNotification:notif]) {
-        case SOCKETROUNDABOUT_MASTER_LOADSETTING_START:{
-            //ロードの開始、カウントの行を読み、実行する
-
-            //初期化(ロードのための初期化なので、あとからでも出来る)
-            m_lock = 0;
-            m_loaded = 0;
-            
-            //LOAD
-            [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_LOAD,
-             [messenger tag:@"lineNo" val:[NSNumber numberWithInt:m_lock]],
-             [messenger withDelay:0.0001],
-             nil];
-            
-            [messenger callMyself:SOCKETROUNDABOUT_MASTER_LOADSETTING_LOADING, nil];
-            break;
-        }
             
         case SOCKETROUNDABOUT_MASTER_LOADSETTING_LOAD:{
             NSAssert(dict[@"lineNo"], @"lineNo required");
@@ -136,11 +141,16 @@ void uncaughtExceptionHandler(NSException * exception) {
                 if (m_lock == [m_lines count]) {
                     //現在読み込んでいるファイルのlast lineに入った
                     if ([messenger hasParent]) {
-                        NSString * loadedPath = m_settingSource;
+                        NSString * loadedPath = m_defaultSettingSource;
                         [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED,
                          [messenger tag:@"loadedPath" val:loadedPath],
                          nil];
                     }
+
+                    if ([[[messenger childrenDict] allValues] containsObject:SOCKETROUNDABOUT_MAINWINDOW]) {
+                        [messenger call:SOCKETROUNDABOUT_MAINWINDOW withExec:SOCKETROUNDABOUT_MASTER_LOADSETTING_OVERED, nil];
+                    }
+                    [m_lines removeAllObjects];
                     return;//終了
                 }
                 
@@ -194,6 +204,7 @@ void uncaughtExceptionHandler(NSException * exception) {
     switch ([messenger execFrom:SOCKETROUNDABOUT_MAINWINDOW viaNotification:notif]) {
         case SOCKETROUNDABOUT_MAINWINDOW_INPUT_URI:{
             NSAssert(dict[@"uri"], @"uri required");
+            [self loadSetting:dict[@"uri"]];
             
             break;
         }

@@ -463,10 +463,10 @@
  DEBUG method. only for testing.
  
  受け側について、直接入力を行い、インプットされた事にする。
- メッセージカウンタが上がる部分より先。
+ 接続のテストに用いる。
  */
 - (void) dummyInput:(NSString * )connectionId message:(NSString * )message {
-    [self input:connectionId message:message];
+    [self roundabout:connectionId message:message];
 }
 
 /**
