@@ -14,13 +14,15 @@
     NSString * m_operationId;
     NSString * m_receiverName;
     
-
+    NSString * m_outputKey;
+    
     int m_messageCount;
 }
 
 - (id) initDistNotificationOperationWithMaster:(NSString * )masterNameAndMID
                               withReceiverName:(NSString * )receiverName
-                              withConnectionId:(NSString * )connectionId {
+                              withConnectionId:(NSString * )connectionId
+                                    withOption:(NSDictionary * )opt {
     if (self = [super init]) {
         messenger = [[KSMessenger alloc]initWithBodyID:self withSelector:@selector(receiver:) withName:KS_DISTRIBUTEDNOTIFICATIONOPERATION];
         [messenger connectParent:masterNameAndMID];
@@ -29,6 +31,12 @@
         m_receiverName = [[NSString alloc]initWithString:receiverName];
 
         m_messageCount = 0;
+        
+        
+        if (opt[@"outputKey"]) {
+            m_outputKey = [[NSString alloc]initWithString:opt[@"outputKey"]];
+        } else m_outputKey = DEFAULT_OUTPUT_KEY;
+        
     }
     return self;
 }
@@ -63,7 +71,7 @@
             m_messageCount++;
 
             //メッセージを、keyとvalueに分解する
-            NSDictionary * messageDict = @{@"message":dict[@"message" ], KEY_DIST_COUNT:[NSNumber numberWithInt:m_messageCount]};
+            NSDictionary * messageDict = @{m_outputKey:dict[@"message"], KEY_DIST_COUNT:[NSNumber numberWithInt:m_messageCount], @"other":@"thing"};
             [[NSDistributedNotificationCenter defaultCenter] postNotificationName:m_receiverName object:nil userInfo:messageDict deliverImmediately:YES];
             break;
         }
@@ -80,6 +88,10 @@
     }
 }
 
+/**
+ roundaboutControllerに、受信したメッセージを送付
+ 内部機構なので、keyは統一のものを使用する。
+ */
 - (void) received:(id)message {
     [messenger callParent:KS_DISTRIBUTEDNOTIFICATIONOPERATION_RECEIVED,
      [messenger tag:@"operationId" val:m_operationId],
@@ -87,20 +99,25 @@
      nil];
 }
 
+/**
+ NSDistributedNotificationの受け取り
+ 
+ 外部からのメッセージ、自分自身からのメッセージを受け取る可能性がある。
+ */
 - (void) notifReceiver:(NSNotification * )notif {
     NSDictionary * userInfo = [notif userInfo];
-    NSAssert(userInfo[@"message"], @"message required");
-    
-    
     if (userInfo[KEY_DIST_COUNT]) {
-        //ポイントが存在し、現在の自分のカウントと同等だったら無視
+        //カウントが存在し、現在の自分のカウントと同等だったら無視
         int receivedCount = [userInfo[KEY_DIST_COUNT] intValue];
         if (receivedCount == m_messageCount) {
             return;
         }
     }
     
-    [self received:userInfo[@"message"]];
+    //受信はmessageのみをキーとして扱う
+    if (userInfo[@"message"]) {
+        [self received:userInfo[@"message"]];
+    }    
 }
 
 @end

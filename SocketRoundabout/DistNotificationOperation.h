@@ -12,6 +12,10 @@
 #define KS_DISTRIBUTEDNOTIFICATIONOPERATION (@"KS_DISTRIBUTEDNOTIFICATIONOPERATION")
 
 #define KEY_DIST_COUNT  (@"messageCount")
+
+#define DEFAULT_OUTPUT_KEY  (@"message")
+
+
 typedef enum TYPE_KS_DISTRIBUTEDNOTIFICATIONOPERATION {
     KS_DISTRIBUTEDNOTIFICATIONOPERATION_OPEN,
     KS_DISTRIBUTEDNOTIFICATIONOPERATION_ESTABLISHED,
@@ -24,6 +28,7 @@ typedef enum TYPE_KS_DISTRIBUTEDNOTIFICATIONOPERATION {
 
 - (id) initDistNotificationOperationWithMaster:(NSString * )masterNameAndMID
                               withReceiverName:(NSString * )receiverName
-                              withConnectionId:(NSString * )connectionId;
+                              withConnectionId:(NSString * )connectionId
+                                    withOption:(NSDictionary * )opt;
 - (void) received:(id)message;
 @end

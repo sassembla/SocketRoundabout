@@ -20,6 +20,9 @@
 
 #define TEST_TIMELIMIT  (1)
 
+#define TEST_KEY    (@"TEST_KEY_2013/05/08 21:13:50")
+
+
 #define NNOTIF  (@"./tool/nnotif")//pwd = project-folder path.
 
 
@@ -289,6 +292,40 @@
     
     //2件取得できる
     STAssertTrue([roundaboutCont roundaboutMessageCount] == 2, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
+}
+
+
+
+/**
+ 出力時のキーを調整する
+ */
+- (void) testOptionKey_OutputKey {
+    
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
+     [messenger tag:@"connectionOption" val:@{@"outputKey":TEST_KEY}],//出力時のuserinfo内のキーをTEST_KEYの値のものに変化させる。
+     nil];
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 1) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    //sender
+    TestDistNotificationSender * sender = [[TestDistNotificationSender alloc]init];
+    
+    //送付
+    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage" withKey:@"message"];
+    
+    //1件取得できる
+    STAssertTrue([roundaboutCont roundaboutMessageCount] == 1, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
 }
 
 

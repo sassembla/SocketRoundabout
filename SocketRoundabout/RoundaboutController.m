@@ -20,6 +20,7 @@
 #define DEFINE_TYPE         (@"connectionType")
 #define DEFINE_OUTPUTS      (@"connectionOutputs")
 #define DEFINE_INPUTS       (@"connectionInputs")
+#define DEFINE_OPTIONS      (@"connectionOption")
 
 #define ROUNDABOUT_DEBUG   (true)
 @implementation RoundaboutController {
@@ -55,6 +56,14 @@
             NSString * connectionId = dict[@"connectionId"];
             NSNumber * connectionType = dict[@"connectionType"];
             
+            //optionとして渡す値
+            NSDictionary * connectionOpt;
+            if (dict[@"connectionOption"]) {
+                connectionOpt = dict[@"connectionOption"];
+            } else {
+                connectionOpt = @{};
+            }
+            
             if (m_connections[connectionId]) {
                 [messenger callParent:KS_ROUNDABOUTCONT_CONNECT_ALREADYEXIST, nil];
             } else {
@@ -65,7 +74,7 @@
                     }
                         
                     case KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION:{
-                        [self createNotificationReceiver:connectionTarget withConnectionId:connectionId];
+                        [self createNotificationReceiver:connectionTarget withConnectionId:connectionId withOption:connectionOpt];
                         break;
                     }
                         
@@ -189,7 +198,8 @@
                                       DEFINE_TARGET: connectionTarget,
                                       DEFINE_TYPE: [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET],
                                       DEFINE_OUTPUTS:outArray,
-                                      DEFINE_INPUTS:inArray};
+                                      DEFINE_INPUTS:inArray,
+                                      DEFINE_OPTIONS:@"no option yet"};
 
     
     //set to connections
@@ -202,9 +212,9 @@
      nil];
 }
 
-- (void) createNotificationReceiver:(NSString * )receiverName withConnectionId:(NSString * )connectionId {
+- (void) createNotificationReceiver:(NSString * )receiverName withConnectionId:(NSString * )connectionId withOption:(NSDictionary * )opt {
 
-    DistNotificationOperation * distNotifOpe = [[DistNotificationOperation alloc] initDistNotificationOperationWithMaster:[messenger myNameAndMID] withReceiverName:receiverName withConnectionId:connectionId];
+    DistNotificationOperation * distNotifOpe = [[DistNotificationOperation alloc] initDistNotificationOperationWithMaster:[messenger myNameAndMID] withReceiverName:receiverName withConnectionId:connectionId withOption:opt];
     
     NSMutableArray * outArray = [[NSMutableArray alloc]init];
     NSMutableArray * inArray = [[NSMutableArray alloc]init];
@@ -213,7 +223,8 @@
                                       DEFINE_TARGET: receiverName,
                                       DEFINE_TYPE: [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION],
                                       DEFINE_OUTPUTS:outArray,
-                                      DEFINE_INPUTS:inArray};
+                                      DEFINE_INPUTS:inArray,
+                                      DEFINE_OPTIONS:opt};
     
     //set to connections
     [m_connections setValue:connectionDict forKey:connectionId];
