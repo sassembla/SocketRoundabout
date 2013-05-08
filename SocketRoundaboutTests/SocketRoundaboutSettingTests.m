@@ -15,6 +15,8 @@
 #define TEST_SETTINGFILE    (@"./setting.txt")
 #define TEST_EMPTY_SETTINGFILE    (@"./empty.txt")
 #define TEST_NOTEXIST_SETTINGFILE    (@"./notexist.txt")
+#define TEST_SETTINGFILE_WITH_OPTION    (@"./settingWithOpt.txt")
+#define TEST_SETTINGFILE_WITH_OPTION_MULTI  (@"./settingWithOpt_multi.txt")//未使用、まだ複数のオプションには対応していない。
 
 #define TEST_BASE_SETTINGFILE   (@".")
 
@@ -290,5 +292,31 @@
     return [[NSString alloc] initWithFormat:@"%@[%@]", @"nn:", concatted];
 }
 
+/**
+ オプションパラメータがあった場合
+ */
+- (void) testSettingWithOption {
+    int currentSettingSize = 1;
+    
+    NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE_WITH_OPTION,
+                            KEY_MASTER:TEST_MASTER};
+    delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
+    NSString * settingSource = [delegate defaultSettingSource];
+    [delegate loadSetting:settingSource];
+    
+    //各行の内容を順にセットアップして、完了したら通知
+    
+    int i = 0;
+    while ([m_proceedLogArray count] < currentSettingSize) {
+        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_MASTER_TIMELIMIT < i) {
+            STFail(@"too late");
+            break;
+        }
+    }
+    
+    //突破できればOK    
+}
 
 @end

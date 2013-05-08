@@ -73,7 +73,8 @@ void uncaughtExceptionHandler(NSException * exception) {
     
     if (handle) {} else {
         if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_ERROR, nil];
-        [self log:[NSString stringWithFormat:@"%@%@",@"cannot load file:%@", source]];        
+        [self log:[NSString stringWithFormat:@"%@%@",@"cannot load file:%@", source]];
+        return;
     }
     
     NSData * data = [handle readDataToEndOfFile];
@@ -81,16 +82,14 @@ void uncaughtExceptionHandler(NSException * exception) {
     
     NSMutableArray * array = [[NSMutableArray alloc]initWithArray:[string componentsSeparatedByString:@"\n"]];
     
-    //remove emptyLine and comment
+    //remove emptyLine and comment, not expect codehead line.
     m_lines = [[NSMutableArray alloc]init];
+    
+    NSArray * execList = @[CODEHEAD_ID, CODEHEAD_CONNECT, CODEHEAD_TRANS, MARK_NO_CODEHEAD];
     for (NSString * line in array) {
-        if ([line hasPrefix:CODE_COMMENT]) {
-            continue;
-        } else if ([line isEqualToString:CODE_EMPTY]) {
-            continue;
+        for (NSString * expect in execList) {
+            if ([line hasPrefix:expect]) [m_lines addObject:line];
         }
-        
-        [m_lines addObject:line];
     }
     
     if (0 < [m_lines count]) {
@@ -129,7 +128,8 @@ void uncaughtExceptionHandler(NSException * exception) {
             [self log:[NSString stringWithFormat:@"%@%d", @"load start:line", [dict[@"lineNo"] intValue]]];
 
             int lineNo = [dict[@"lineNo"] intValue];
-            [self load:m_lines[lineNo]];
+            NSString * line = [[NSString alloc]initWithString:m_lines[lineNo]];
+            [self load:line];
             break;
         }
         
@@ -234,11 +234,33 @@ void uncaughtExceptionHandler(NSException * exception) {
         NSString * connectionType = [execsArray[1] componentsSeparatedByString:CODE_TYPE][1];
         NSString * connectionTargetAddr = [execsArray[2] componentsSeparatedByString:CODE_DESTINATION][1];
         
-        [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-         [messenger tag:@"connectionTargetAddr" val:connectionTargetAddr],
-         [messenger tag:@"connectionId" val:connectionId],
-         [messenger tag:@"connectionType" val:connectionType],
-         nil];
+        //optionが存在する場合がある。
+        if (3 < [execsArray count]) {
+            //要素が存在するので、分解する。
+            NSArray * headAndKeyAndValues = [execsArray[3] componentsSeparatedByString:CODE_OPTION];
+            NSArray * keyAndValues = [headAndKeyAndValues[1] componentsSeparatedByString:CODE_COMMA];
+
+            NSMutableDictionary * optionDict = [[NSMutableDictionary alloc]init];
+            
+            for (NSString * keyAndValue in keyAndValues) {
+                NSArray * keyAndValueArray = [keyAndValue componentsSeparatedByString:CODE_COLON];
+                [optionDict setValue:keyAndValueArray[1] forKey:keyAndValueArray[0]];
+            }
+            
+            [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+             [messenger tag:@"connectionTargetAddr" val:connectionTargetAddr],
+             [messenger tag:@"connectionId" val:connectionId],
+             [messenger tag:@"connectionType" val:connectionType],
+             [messenger tag:@"connectionOption" val:optionDict],
+             nil];
+            
+        } else {
+            [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+             [messenger tag:@"connectionTargetAddr" val:connectionTargetAddr],
+             [messenger tag:@"connectionId" val:connectionId],
+             [messenger tag:@"connectionType" val:connectionType],
+             nil];
+        }
         
     } else if ([execsArray[0] hasPrefix:CODEHEAD_CONNECT]) {
         NSAssert1([execsArray[1] hasPrefix:CODE_TO], @"%@ required", CODE_TO);

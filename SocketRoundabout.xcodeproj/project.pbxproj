@@ -32,7 +32,6 @@
 		13E211F3171E92AD00AD84BB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E211F2171E92AD00AD84BB /* main.m */; };
 		13E211F7171E92AD00AD84BB /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 13E211F5171E92AD00AD84BB /* Credits.rtf */; };
 		13E211FA171E92AD00AD84BB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13E211F9171E92AD00AD84BB /* AppDelegate.m */; };
-		13E211FD171E92AD00AD84BB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13E211FB171E92AD00AD84BB /* MainMenu.xib */; };
 		13E21205171E92AD00AD84BB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E21204171E92AD00AD84BB /* SenTestingKit.framework */; };
 		13E21206171E92AD00AD84BB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E211E6171E92AD00AD84BB /* Cocoa.framework */; };
 		13E2120E171E92AD00AD84BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 13E2120C171E92AD00AD84BB /* InfoPlist.strings */; };
@@ -94,7 +93,6 @@
 		13E211F6171E92AD00AD84BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		13E211F8171E92AD00AD84BB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		13E211F9171E92AD00AD84BB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		13E211FC171E92AD00AD84BB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		13E21203171E92AD00AD84BB /* SocketRoundaboutTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SocketRoundaboutTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		13E21204171E92AD00AD84BB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		13E2120B171E92AD00AD84BB /* SocketRoundaboutTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SocketRoundaboutTests-Info.plist"; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 			children = (
 				13E211F8171E92AD00AD84BB /* AppDelegate.h */,
 				13E211F9171E92AD00AD84BB /* AppDelegate.m */,
-				13E211FB171E92AD00AD84BB /* MainMenu.xib */,
 				13A0FDEE1737E24F00CCAE71 /* DandDWindowController.h */,
 				13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */,
 				13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */,
@@ -336,7 +333,6 @@
 			files = (
 				13E211F1171E92AD00AD84BB /* InfoPlist.strings in Resources */,
 				13E211F7171E92AD00AD84BB /* Credits.rtf in Resources */,
-				13E211FD171E92AD00AD84BB /* MainMenu.xib in Resources */,
 				13A0FDED1737BD1800CCAE71 /* compass.icns in Resources */,
 				13A0FDF21737E24F00CCAE71 /* DandDWindowController.xib in Resources */,
 			);
@@ -437,14 +433,6 @@
 				13E211F6171E92AD00AD84BB /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		13E211FB171E92AD00AD84BB /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13E211FC171E92AD00AD84BB /* en */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		13E2120C171E92AD00AD84BB /* InfoPlist.strings */ = {

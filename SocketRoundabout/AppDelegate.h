@@ -24,10 +24,13 @@
 
 
 #define CODE_DELIM          (@" ")
+#define CODE_COMMA          (@",")
+#define CODE_COLON          (@":")
 
 #define CODEHEAD_ID         (@"id:")
 #define CODE_TYPE           (@"type:")
 #define CODE_DESTINATION    (@"destination:")
+#define CODE_OPTION         (@"option:")
 
 #define CODEHEAD_CONNECT    (@"connect:")
 #define CODE_TO             (@"to:")
@@ -35,6 +38,8 @@
 #define CODEHEAD_TRANS      (@"trans:")
 #define CODE_PREFIX         (@"prefix:")
 #define CODE_POSTFIX        (@"postfix:")
+
+#define MARK_NO_CODEHEAD         (@"MARK_NO_CODEHEAD")
 
 typedef enum {
     SOCKETROUNDABOUT_MASTER_NO_LOADSETTING = 0,
