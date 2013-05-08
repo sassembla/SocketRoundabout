@@ -658,6 +658,11 @@
     [rCont outFrom:TEST_CONNECTIONIDENTITY_1 into:TEST_CONNECTIONIDENTITY_2];
     [rCont outFrom:TEST_CONNECTIONIDENTITY_3 into:TEST_CONNECTIONIDENTITY_4];
     
+    
+    //フィルタのセット
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:@"ss@filtering:{\"name\":\"scala\",\"source\":\"" postfix:@"\"}"];
+    
+    
     //ここまでで、nnotifdを人力で起動させないと駄目。 -i = NNOTIFD_IDENTITY(TEST_NNOTIFD_ID_MANUAL)
     //プロセスチェックとかすれば、まあ、、
     
@@ -673,7 +678,6 @@
     NSString * exec = [execArray componentsJoinedByString:@" "];
     
     [nnotifSender sendNotification:TEST_NOTIFICATIONSERVER_1 withMessage:exec withKey:@"message"];
-    
     
     
     //単純に待つ

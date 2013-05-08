@@ -30,6 +30,8 @@
 
 #define TEST_SR_DISTNOTIF   (@"testNotif")
 
+#define CURRENT_SR_CL   (@"./app/SocketRoundabout")
+
 @interface TestDistNotificationSender3 : NSObject @end
 @implementation TestDistNotificationSender3
 
@@ -203,29 +205,21 @@
 
 }
 
-
 /**
- 複数のファイルを同時に読みこむ
+ コマンドラインからの起動
  */
-- (void) testLoadStringSetting {
-    NSDictionary * dict = @{KEY_MASTER:TEST_MASTER,
-                            PRIVATEKEY_BASEPATH:TEST_BASE_SETTINGFILE};
-    delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
-    NSString * setting = @"";
-    [delegate loadSetting:setting];
+- (void) testLoadSettingAsCommandLine {
+    NSArray * clArray = @[@"-s", TEST_SETTINGFILE];
     
-    //各行の内容を順にセットアップして、完了したら通知
-    int i = 0;
-//    while ([m_proceedLogArray count] < currentSettingSize) {
-//        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-//        i++;
-//        if (TEST_MASTER_TIMELIMIT < i) {
-//            STFail(@"too late");
-//            break;
-//        }
-//    }
+    NSTask * task1 = [[NSTask alloc] init];
+    [task1 setLaunchPath:CURRENT_SR_CL];
+    [task1 setArguments:clArray];
+    [task1 launch];
+    
+    //セッティングを読み込んで起動しているはず。UIは無い。
+    
+    [task1 terminate];
 }
-
 
 
 //////////////設定を行った後の挙動
