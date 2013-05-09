@@ -229,7 +229,6 @@
     //set to connections
     [m_connections setValue:connectionDict forKey:connectionId];
     
-    
     //start connecting
     [messenger call:KS_DISTRIBUTEDNOTIFICATIONOPERATION withExec:KS_DISTRIBUTEDNOTIFICATIONOPERATION_OPEN,
      [messenger tag:@"operationId" val:connectionId],

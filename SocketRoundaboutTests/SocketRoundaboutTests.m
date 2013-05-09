@@ -315,7 +315,7 @@
     
     
     //transfer
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:@"ss@filtering:{\"name\":\"scala\",\"source\":\"" postfix:@"\"}"];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_1 prefix:@"ss@filtering:{\"name\":\"scala\",\"source\":\"" postfix:@"\"}"];
     
     
     //4を作成
