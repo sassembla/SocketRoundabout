@@ -22,7 +22,7 @@
 #define TEST_NOTIFICATIONSERVER_2   (@"notif://2013/05/08_18:22:35")
 #define TEST_NOTIFICATIONSERVER_3   (@"notif://2013/05/08_20:41:09")
 
-#define TEST_CONNECTIONIDENTITY_1 (@"roundaboutTest1")
+#define TEST_CONNECTIONIDENTITY_1   (@"roundaboutTest1")
 #define TEST_CONNECTIONIDENTITY_2   (@"roundaboutTest2")
 #define TEST_CONNECTIONIDENTITY_3   (@"roundaboutTest3")
 #define TEST_CONNECTIONIDENTITY_4   (@"roundaboutTest4")
@@ -272,9 +272,89 @@
     //Serverへとメッセージが届く(この部分はSRWebSocketが担保)
 }
 
+/**
+ 複数の入力ラインを持つ接続
+ */
+- (void) testConnectMulti {
+    //1 WebSocket
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
+    
+    //2 DistNotif
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_1],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
+     nil];
+    
+    //3 DistNotif
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_2],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_3],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
+     nil];
+    
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 3) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    
+    //接続
+    [rCont outFrom:TEST_CONNECTIONIDENTITY_1 into:TEST_CONNECTIONIDENTITY_2];
+    [rCont outFrom:TEST_CONNECTIONIDENTITY_3 into:TEST_CONNECTIONIDENTITY_1];
+    
+    
+    //transfer
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:@"ss@filtering:{\"name\":\"scala\",\"source\":\"" postfix:@"\"}"];
+    
+    
+    //4を作成
+    
+    //4 DistNotif
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_3],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_4],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
+     nil];
+    
+    
+    while ([m_connectionIdArray count] < 4) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    [rCont outFrom:TEST_CONNECTIONIDENTITY_4 into:TEST_CONNECTIONIDENTITY_1];
+
+    
+    /*この時点で、m_connectionsに、
+        TEST_CONNECTIONIDENTITY_1へのoutが、
+            TEST_CONNECTIONIDENTITY_4がひとつ、TEST_CONNECTIONIDENTITY_3がひとつの計2、
+     
+        TEST_CONNECTIONIDENTITY_1が受けるinが、
+            TEST_CONNECTIONIDENTITY_4とTEST_CONNECTIONIDENTITY_3の2つあるはず。
+    */
+    
+    STAssertTrue([[rCont outputsOf:TEST_CONNECTIONIDENTITY_4] count] == 1, @"not match, %d", [[rCont outputsOf:TEST_CONNECTIONIDENTITY_4] count]);
+    STAssertTrue([[rCont outputsOf:TEST_CONNECTIONIDENTITY_3] count] == 1, @"not match, %d", [[rCont outputsOf:TEST_CONNECTIONIDENTITY_3] count]);
+    STAssertTrue([[rCont inputsOf:TEST_CONNECTIONIDENTITY_1] count] == 2, @"not match, %d", [[rCont outputsOf:TEST_CONNECTIONIDENTITY_1] count]);
+}
 
 /**
- nnotifd用Unitl NS系の文字列をesacpeしたJSONArrayに変える。
+ nnotifd用Util NS系の文字列をesacpeしたJSONArrayに変える。
  */
 - (NSString * ) jsonizedString:(NSArray * )jsonSourceArray {
     
