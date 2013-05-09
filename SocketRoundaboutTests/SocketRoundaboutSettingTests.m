@@ -62,6 +62,7 @@
 
 @implementation SocketRoundaboutSetingTests
 - (void) setUp {
+    [super setUp];
     messenger = [[KSMessenger alloc]initWithBodyID:self withSelector:@selector(receiver:) withName:TEST_MASTER];
     
     m_proceedLogArray = [[NSMutableArray alloc]init];
@@ -70,13 +71,15 @@
 }
 
 - (void) tearDown {
+    
     [m_proceedLogArray removeAllObjects];
     [m_noLoadLogArray removeAllObjects];
     [m_errorLogArray removeAllObjects];
     
-    [delegate exit];
+    if (delegate) [delegate exit];
     
     [messenger closeConnection];
+    [super tearDown];
 }
 
 - (void) receiver:(NSNotification * )notif {

@@ -236,7 +236,6 @@
 }
 
 
-
 - (NSDictionary * ) connections {
     NSArray * keys = [m_connections allKeys];
     return [m_connections dictionaryWithValuesForKeys:keys];
@@ -456,6 +455,7 @@
     for (NSString * connectionId in connectionsKeys) {
         [self closeConnection:connectionId];
     }
+    NSAssert1([m_connections count]== 0, @"not yet 0 connection on exit, %@", m_connections);
 }
 
 - (void) exit {

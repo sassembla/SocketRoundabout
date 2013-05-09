@@ -56,7 +56,9 @@
 @implementation SocketRoundaboutTests_DistNotification
 
 - (void)setUp {
+    
     NSLog(@"setUp");
+    [super setUp];
     messenger = [[KSMessenger alloc]initWithBodyID:self withSelector:@selector(receiver:) withName:TEST_MASTER];
     roundaboutCont = [[RoundaboutController alloc]initWithMaster:[messenger myNameAndMID]];
     
@@ -69,6 +71,7 @@
     
     [m_connectionIdArray removeAllObjects];
     
+    [super tearDown];
     NSLog(@"tearDown");
 }
 

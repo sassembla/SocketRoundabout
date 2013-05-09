@@ -31,6 +31,7 @@
 @implementation SocketRoundaboutTests_WebSocketConnection
 
 - (void)setUp {
+    [super setUp];
     NSLog(@"setUp");
     messenger = [[KSMessenger alloc]initWithBodyID:self withSelector:@selector(receiver:) withName:TEST_MASTER];
     roundaboutCont = [[RoundaboutController alloc]initWithMaster:[messenger myNameAndMID]];
@@ -43,7 +44,7 @@
     [roundaboutCont exit];
     
     [m_connectionIdArray removeAllObjects];
-    
+    [super tearDown];
     NSLog(@"tearDown");    
 }
 
