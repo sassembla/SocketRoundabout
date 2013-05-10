@@ -117,6 +117,19 @@
             
             break;
         }
+        case KS_ROUNDABOUTCONT_EMITMESSAGE:{
+            NSAssert(dict[@"emitMessage"], @"emitMessage required");
+            NSAssert(dict[@"to"], @"to required");
+            
+            [self input:dict[@"to"] message:dict[@"emitMessage"]];
+            
+            [messenger callParent:KS_ROUNDABOUTCONT_EMITMESSAGE_OVER,
+             [messenger tag:@"emitMessage" val:dict[@"emitMessage"]],
+             [messenger tag:@"to" val:dict[@"to"]],
+             nil];
+
+            break;
+        }
             
         default:
             break;

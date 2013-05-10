@@ -41,7 +41,7 @@ void uncaughtExceptionHandler(NSException * exception) {
         if (argsDict[KEY_MASTER]) [messenger connectParent:argsDict[KEY_MASTER]];
         
         //ファイルから開く場合、
-        if (m_defaultSettingSource) {NSLog(@"already set %@", m_defaultSettingSource);} else {
+        if (m_defaultSettingSource) {NSLog(@"opening:%@", m_defaultSettingSource);} else {
             if (argsDict[KEY_SETTING]) {
                 m_defaultSettingSource = [[NSString alloc]initWithString:argsDict[KEY_SETTING]];
             } else {
@@ -62,7 +62,6 @@ void uncaughtExceptionHandler(NSException * exception) {
  load implemented-settings when launch
  */
 - (void)applicationDidFinishLaunching:(NSNotification * )aNotification {
-    NSLog(@"launch %@", aNotification);
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     [self loadSetting:m_defaultSettingSource];
 }
@@ -94,7 +93,7 @@ void uncaughtExceptionHandler(NSException * exception) {
     //remove emptyLine and comment, not expect codehead line.
     m_lines = [[NSMutableArray alloc]init];
     
-    NSArray * execList = @[CODEHEAD_ID, CODEHEAD_CONNECT, CODEHEAD_TRANS, MARK_NO_CODEHEAD];
+    NSArray * execList = @[CODEHEAD_ID, CODEHEAD_CONNECT, CODEHEAD_TRANS, CODEHEAD_EMIT, MARK_NO_CODEHEAD];
     for (NSString * line in array) {
         for (NSString * expect in execList) {
             if ([line hasPrefix:expect]) [m_lines addObject:line];
@@ -205,6 +204,13 @@ void uncaughtExceptionHandler(NSException * exception) {
             m_loaded++;
             break;
         }
+        case KS_ROUNDABOUTCONT_EMITMESSAGE_OVER:{
+            NSAssert(dict[@"emitMessage"], @"emitMessage required");
+            NSAssert(dict[@"to"], @"to required");
+            
+            m_loaded++;
+            break;
+        }
             
         default:
             break;
@@ -297,6 +303,16 @@ void uncaughtExceptionHandler(NSException * exception) {
          [messenger tag:@"to" val:to],
          [messenger tag:@"prefix" val:prefix],
          [messenger tag:@"postfix" val:postfix],
+         nil];
+    } else if ([execsArray[0] hasPrefix:CODEHEAD_EMIT]) {
+        NSAssert1([execsArray[1] hasPrefix:CODE_TO], @"%@ required", CODE_TO);
+        
+        NSString * emitMessage = [execsArray[0] componentsSeparatedByString:CODEHEAD_EMIT][1];
+        NSString * to = [execsArray[1] componentsSeparatedByString:CODE_TO][1];
+        
+        [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_EMITMESSAGE,
+         [messenger tag:@"emitMessage" val:emitMessage],
+         [messenger tag:@"to" val:to],
          nil];
     }
 

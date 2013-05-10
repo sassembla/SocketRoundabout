@@ -39,6 +39,8 @@
 #define CODE_PREFIX         (@"prefix:")
 #define CODE_POSTFIX        (@"postfix:")
 
+#define CODEHEAD_EMIT       (@"emit:")
+
 #define MARK_NO_CODEHEAD         (@"MARK_NO_CODEHEAD")
 
 typedef enum {
