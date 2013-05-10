@@ -28,6 +28,11 @@ void uncaughtExceptionHandler(NSException * exception) {
     NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
 }
 
+- (BOOL)application:(NSApplication * )theApplication openFile:(NSString * )filename {
+    [self log:[NSString stringWithFormat:@"openFile filename %@", filename]];
+    m_defaultSettingSource = [[NSString alloc]initWithString:filename];
+    return YES;
+}
 
 - (id) initAppDelegateWithParam:(NSDictionary * )argsDict {
     
@@ -35,13 +40,16 @@ void uncaughtExceptionHandler(NSException * exception) {
         messenger = [[KSMessenger alloc]initWithBodyID:self withSelector:@selector(receiver:) withName:SOCKETROUNDABOUT_MASTER];
         if (argsDict[KEY_MASTER]) [messenger connectParent:argsDict[KEY_MASTER]];
         
-        if (argsDict[KEY_SETTING]) {
-            m_defaultSettingSource = [[NSString alloc]initWithString:argsDict[KEY_SETTING]];
-        } else {
-            NSAssert(argsDict[PRIVATEKEY_BASEPATH], @"basePath get error");
-            
-            //現在のディレクトリはどこか、起動引数からわかるはず
-            m_defaultSettingSource = [[NSString alloc]initWithFormat:@"%@/%@",argsDict[PRIVATEKEY_BASEPATH], DEFAULT_SETTINGS];
+        //ファイルから開く場合、
+        if (m_defaultSettingSource) {NSLog(@"already set %@", m_defaultSettingSource);} else {
+            if (argsDict[KEY_SETTING]) {
+                m_defaultSettingSource = [[NSString alloc]initWithString:argsDict[KEY_SETTING]];
+            } else {
+                NSAssert(argsDict[PRIVATEKEY_BASEPATH], @"basePath get error");
+                
+                //現在のディレクトリはどこか、起動引数からわかるはず
+                m_defaultSettingSource = [[NSString alloc]initWithFormat:@"%@/%@",argsDict[PRIVATEKEY_BASEPATH], DEFAULT_SETTINGS];
+            }
         }
         
         rCont = [[RoundaboutController alloc]initWithMaster:[messenger myNameAndMID]];
@@ -54,6 +62,7 @@ void uncaughtExceptionHandler(NSException * exception) {
  load implemented-settings when launch
  */
 - (void)applicationDidFinishLaunching:(NSNotification * )aNotification {
+    NSLog(@"launch %@", aNotification);
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     [self loadSetting:m_defaultSettingSource];
 }
