@@ -71,7 +71,7 @@
             m_messageCount++;
 
             //メッセージを、keyとvalueに分解する
-            NSDictionary * messageDict = @{m_outputKey:dict[@"message"], KEY_DIST_COUNT:[NSNumber numberWithInt:m_messageCount], @"other":@"thing"};
+            NSDictionary * messageDict = @{m_outputKey:dict[@"message"], KEY_DIST_COUNT:[NSNumber numberWithInt:m_messageCount]};
             [[NSDistributedNotificationCenter defaultCenter] postNotificationName:m_receiverName object:nil userInfo:messageDict deliverImmediately:YES];
             break;
         }

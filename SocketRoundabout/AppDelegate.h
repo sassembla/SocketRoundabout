@@ -20,7 +20,7 @@
 #define CODE_COMMENT    (@"//")
 #define CODE_EMPTY      (@"")
 
-#define DEFINE_LOADING_INTERVAL (0.00001)
+#define DEFINE_LOADING_INTERVAL (0.01)
 
 
 #define CODE_DELIM          (@" ")
