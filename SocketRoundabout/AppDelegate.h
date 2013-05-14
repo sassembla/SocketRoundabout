@@ -7,6 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#define VERSION (0.8.0)
+
 
 #define SOCKETROUNDABOUT_MASTER (@"SOCKETROUNDABOUT_MASTER")
 
