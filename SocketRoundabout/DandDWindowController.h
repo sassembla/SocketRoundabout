@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface DandDWindowController : NSWindowController 
+@interface DandDWindowController : NSWindowController <NSWindowDelegate>
 
 
 @end
