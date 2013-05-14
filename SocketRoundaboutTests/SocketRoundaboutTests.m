@@ -11,8 +11,6 @@
 
 #import "RoundaboutController.h"
 
-#define VERSION (@"0.5.0")
-
 #define TEST_MASTER (@"TEST_MASTER_2013/04/28_22:26:38")
 
 #define TEST_WEBSOCKETSERVER   (@"ws://127.0.0.1:8823")

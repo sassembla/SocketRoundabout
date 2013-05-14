@@ -24,7 +24,7 @@
 
 #define TEST_MASTER_TIMELIMIT   (5)
 
-#define GLOBAL_NNOTIF   (@"/Users/sassembla/Desktop/nnotifd/tool/nnotif")
+#define GLOBAL_NNOTIF   (@"./tool/nnotif")
 #define TEST_NNOTIFD_ID_MANUAL  (@"NNOTIFD_IDENTITY")
 
 #define TEST_NNOTIF_LOG (@"./nnotif.log")
