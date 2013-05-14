@@ -93,7 +93,7 @@ void uncaughtExceptionHandler(NSException * exception) {
     //remove emptyLine and comment, not expect codehead line.
     m_lines = [[NSMutableArray alloc]init];
     
-    NSArray * execList = @[CODEHEAD_ID, CODEHEAD_CONNECT, CODEHEAD_TRANS, CODEHEAD_EMIT, MARK_NO_CODEHEAD];
+    NSArray * execList = @[CODEHEAD_ID, CODEHEAD_CONNECT, CODEHEAD_TRANS, CODEHEAD_EMIT, CODEHEAD_EMITFILE, MARK_NO_CODEHEAD];
     for (NSString * line in array) {
         for (NSString * expect in execList) {
             if ([line hasPrefix:expect]) [m_lines addObject:line];
@@ -314,6 +314,30 @@ void uncaughtExceptionHandler(NSException * exception) {
          [messenger tag:@"emitMessage" val:emitMessage],
          [messenger tag:@"to" val:to],
          nil];
+    } else if ([execsArray[0] hasPrefix:CODEHEAD_EMITFILE]) {
+        NSAssert1([execsArray[1] hasPrefix:CODE_TO], @"%@ required", CODE_TO);
+        
+        NSString * filePath = [execsArray[0] componentsSeparatedByString:CODEHEAD_EMITFILE][1];
+        
+        //open file
+        NSFileHandle * handle = [NSFileHandle fileHandleForReadingAtPath:filePath];
+        
+        if (handle) {} else {
+            NSAssert(false, @"the emitfile-target is not exist:%@", filePath);
+        }
+        
+        NSData * data = [handle readDataToEndOfFile];
+        
+        //load emitMessage from file.
+        NSString * emitMessage = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
+        NSString * to = [execsArray[1] componentsSeparatedByString:CODE_TO][1];
+        
+        [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_EMITMESSAGE,
+         [messenger tag:@"emitMessage" val:emitMessage],
+         [messenger tag:@"to" val:to],
+         nil];
+
     }
 
 }

@@ -18,6 +18,7 @@
 #define TEST_SETTINGFILE_WITH_OPTION    (@"./settingWithOpt.txt")
 #define TEST_SETTINGFILE_WITH_OPTION_MULTI  (@"./settingWithOpt_multi.txt")//未使用、まだ複数のオプションには対応していない。
 #define TEST_EMITING_SETTINGFILE    (@"./settingWithEmit.txt")
+#define TEST_EMITING_SETTINGFILE_FILE    (@"./settingWithEmitFile.txt")
 
 
 #define TEST_BASE_SETTINGFILE   (@".")
@@ -237,6 +238,31 @@
     
     //WebSocketへと通知がいっているはず
     NSLog(@"通知がきているかどうかWebSocketサーバ側で確認");
+}
+
+- (void) testEmitFile {
+    int currentSettingSize = 1;
+    NSDictionary * dict = @{KEY_MASTER:TEST_MASTER,
+                            KEY_SETTING:TEST_EMITING_SETTINGFILE_FILE};
+    delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
+    NSString * settingSource = [delegate defaultSettingSource];
+    
+    [delegate loadSetting:settingSource];
+    
+    //各行の内容を順にセットアップして、完了したら通知
+    
+    int i = 0;
+    while ([m_proceedLogArray count] < currentSettingSize) {
+        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_MASTER_TIMELIMIT < i) {
+            STFail(@"too late");
+            break;
+        }
+    }
+    
+    //WebSocketへと通知がいっているはず
+    NSLog(@"通知がきているかどうかWebSocketサーバ側で確認2");
 }
 
 

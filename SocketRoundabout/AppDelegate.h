@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#define VERSION (0.8.0)
+#define VERSION (0.8.1)
 
 
 #define SOCKETROUNDABOUT_MASTER (@"SOCKETROUNDABOUT_MASTER")
@@ -42,6 +42,8 @@
 #define CODE_POSTFIX        (@"postfix:")
 
 #define CODEHEAD_EMIT       (@"emit:")
+
+#define CODEHEAD_EMITFILE   (@"emitfile:")
 
 #define MARK_NO_CODEHEAD         (@"MARK_NO_CODEHEAD")
 

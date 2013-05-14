@@ -438,7 +438,7 @@
  DistNotifを出力する
  偽のIn、テスト対象としてのOutを設定して、送信直前のラインに割り込んで、送信を試す。
  */
-- (void) testemitNotif {
+- (void) testEmitNotif {
     //偽In
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER],
