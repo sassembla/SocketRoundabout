@@ -69,7 +69,7 @@
             } else {
                 switch ([connectionType intValue]) {
                     case KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET:{
-                        [self createWebSocketConnection:connectionTarget withConnectionId:connectionId];
+                        [self createWebSocketConnection:connectionTarget withConnectionId:connectionId withOption:connectionOpt];
                         break;
                     }
                         
@@ -200,8 +200,8 @@
 
 
 
-- (void) createWebSocketConnection:(NSString * )connectionTarget withConnectionId:(NSString * )connectionId {
-    WebSocketConnectionOperation * ope = [[WebSocketConnectionOperation alloc]initWebSocketConnectionOperationWithMaster:[messenger myNameAndMID] withConnectionTarget:connectionTarget withConnectionIdentity:connectionId];
+- (void) createWebSocketConnection:(NSString * )connectionTarget withConnectionId:(NSString * )connectionId withOption:(NSDictionary * )opt {
+    WebSocketConnectionOperation * ope = [[WebSocketConnectionOperation alloc]initWebSocketConnectionOperationWithMaster:[messenger myNameAndMID] withConnectionTarget:connectionTarget withConnectionIdentity:connectionId withOption:opt];
     
     NSMutableArray * outArray = [[NSMutableArray alloc]init];
     NSMutableArray * inArray = [[NSMutableArray alloc]init];
@@ -212,7 +212,7 @@
                                       DEFINE_TYPE: [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET],
                                       DEFINE_OUTPUTS:outArray,
                                       DEFINE_INPUTS:inArray,
-                                      DEFINE_OPTIONS:@"no option yet"};
+                                      DEFINE_OPTIONS:opt};
 
     
     //set to connections

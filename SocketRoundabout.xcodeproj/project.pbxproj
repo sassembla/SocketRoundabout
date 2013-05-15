@@ -15,6 +15,12 @@
 		13935D3B1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */; };
 		13935D3C1727ECFC00E10D59 /* DistNotificationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */; };
 		13935D3F17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */; };
+		13967ACD1743EB2D001F43BA /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 13967AC91743EB2D001F43BA /* GCDAsyncSocket.m */; };
+		13967ACE1743EB2D001F43BA /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 13967AC91743EB2D001F43BA /* GCDAsyncSocket.m */; };
+		13967ACF1743EB2D001F43BA /* MBWebSocketServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 13967ACB1743EB2D001F43BA /* MBWebSocketServer.m */; };
+		13967AD01743EB2D001F43BA /* MBWebSocketServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 13967ACB1743EB2D001F43BA /* MBWebSocketServer.m */; };
+		13967AD11743EB2D001F43BA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 13967ACC1743EB2D001F43BA /* README.md */; };
+		13967AD21743EB2D001F43BA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 13967ACC1743EB2D001F43BA /* README.md */; };
 		13A0FDED1737BD1800CCAE71 /* compass.icns in Resources */ = {isa = PBXBuildFile; fileRef = 13A0FDEC1737BD1800CCAE71 /* compass.icns */; };
 		13A0FDF11737E24F00CCAE71 /* DandDWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */; };
 		13A0FDF21737E24F00CCAE71 /* DandDWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */; };
@@ -67,6 +73,11 @@
 		13935D391727ECFC00E10D59 /* DistNotificationOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistNotificationOperation.h; sourceTree = "<group>"; };
 		13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistNotificationOperation.m; sourceTree = "<group>"; };
 		13935D3E17282D0900E10D59 /* SocketRoundaboutTests_DistNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SocketRoundaboutTests_DistNotification.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		13967AC81743EB2D001F43BA /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		13967AC91743EB2D001F43BA /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		13967ACA1743EB2D001F43BA /* MBWebSocketServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBWebSocketServer.h; sourceTree = "<group>"; };
+		13967ACB1743EB2D001F43BA /* MBWebSocketServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBWebSocketServer.m; sourceTree = "<group>"; };
+		13967ACC1743EB2D001F43BA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		13A0FDEC1737BD1800CCAE71 /* compass.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = compass.icns; sourceTree = "<group>"; };
 		13A0FDEE1737E24F00CCAE71 /* DandDWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DandDWindowController.h; sourceTree = "<group>"; };
 		13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DandDWindowController.m; sourceTree = "<group>"; };
@@ -133,9 +144,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13967AC71743EB2D001F43BA /* MBWebSocketServer */ = {
+			isa = PBXGroup;
+			children = (
+				13967AC81743EB2D001F43BA /* GCDAsyncSocket.h */,
+				13967AC91743EB2D001F43BA /* GCDAsyncSocket.m */,
+				13967ACA1743EB2D001F43BA /* MBWebSocketServer.h */,
+				13967ACB1743EB2D001F43BA /* MBWebSocketServer.m */,
+				13967ACC1743EB2D001F43BA /* README.md */,
+			);
+			path = MBWebSocketServer;
+			sourceTree = "<group>";
+		};
 		13E211DA171E92AD00AD84BB = {
 			isa = PBXGroup;
 			children = (
+				13967AC71743EB2D001F43BA /* MBWebSocketServer */,
 				13A0FDEC1737BD1800CCAE71 /* compass.icns */,
 				13E2122C171E942700AD84BB /* KSMessenger */,
 				13E2121E171E92CD00AD84BB /* SocketRocket */,
@@ -335,6 +359,7 @@
 				13E211F7171E92AD00AD84BB /* Credits.rtf in Resources */,
 				13A0FDED1737BD1800CCAE71 /* compass.icns in Resources */,
 				13A0FDF21737E24F00CCAE71 /* DandDWindowController.xib in Resources */,
+				13967AD11743EB2D001F43BA /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13E2120E171E92AD00AD84BB /* InfoPlist.strings in Resources */,
+				13967AD21743EB2D001F43BA /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +409,8 @@
 				13B405EE1733EB2800058D81 /* SocketRoundabout.m in Sources */,
 				13A0FDF11737E24F00CCAE71 /* DandDWindowController.m in Sources */,
 				13A0FDF51738956E00CCAE71 /* MainWindow.m in Sources */,
+				13967ACD1743EB2D001F43BA /* GCDAsyncSocket.m in Sources */,
+				13967ACF1743EB2D001F43BA /* MBWebSocketServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +433,8 @@
 				138F6B351733B01300D6061B /* SRTransferArray.m in Sources */,
 				13B405EB1733D3C600058D81 /* SocketRoundaboutSettingTests.m in Sources */,
 				13B405EF1733EB2800058D81 /* SocketRoundabout.m in Sources */,
+				13967ACE1743EB2D001F43BA /* GCDAsyncSocket.m in Sources */,
+				13967AD01743EB2D001F43BA /* MBWebSocketServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

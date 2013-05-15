@@ -7,12 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
+
+//client
 #import "SRWebSocket.h"
 
+//server
+#import "MBWebSocketServer.h"
 
 #define KS_WEBSOCKETCONNECTIONOPERATION (@"KS_WEBSOCKETCONNECTIONOPERATION")
 
-typedef enum{
+#define KEY_WEBSOCKET_TYPE  (@"websocketas")
+
+#define OPTION_TYPE_CLIENT  (@"client")
+#define OPTION_TYPE_SERVER  (@"server")
+
+
+typedef enum {
     KS_WEBSOCKETCONNECTIONOPERATION_OPEN = 0,
     KS_WEBSOCKETCONNECTIONOPERATION_ESTABLISHED,
     KS_WEBSOCKETCONNECTIONOPERATION_INPUT,
@@ -21,8 +31,13 @@ typedef enum{
 } TYPE_KS_WEBSOCKETCONNECTIONOPERATION;
 
 
-@interface WebSocketConnectionOperation : NSObject <SRWebSocketDelegate>
+typedef enum {
+    WEBSOCKET_TYPE_SERVER,
+    WEBSOCKET_TYPE_CLIENT,
+} WEBSOCKET_TYPE;
 
-- (id) initWebSocketConnectionOperationWithMaster:(NSString * )masterNameAndId withConnectionTarget:(NSString * )targetAddr withConnectionIdentity:(NSString * )connectionIdentity;
+@interface WebSocketConnectionOperation : NSObject <MBWebSocketServerDelegate, SRWebSocketDelegate>
+
+- (id) initWebSocketConnectionOperationWithMaster:(NSString * )masterNameAndId withConnectionTarget:(NSString * )targetAddr withConnectionIdentity:(NSString * )connectionIdentity withOption:(NSDictionary * )opt;
 - (void) received:(id)message;
 @end

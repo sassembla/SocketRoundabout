@@ -1,5 +1,5 @@
 //1 WebSocketのOperationをセットする
-id:roundaboutTest0 type:0 destination:ws://127.0.0.1:8823
+id:roundaboutTest0 type:0 destination:ws://127.0.0.1:8823 option:websocketas:client
 id:roundaboutTest1 type:1 destination:testNotif option:outputKey:TEST_OPTION
 
 //接続待ち

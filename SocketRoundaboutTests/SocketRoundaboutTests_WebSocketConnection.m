@@ -65,7 +65,7 @@
 }
 
 //////////////////////////////////////
-// WebSocket
+// WebSocket client
 //////////////////////////////////////
 
 - (void) testConnect {
@@ -73,6 +73,7 @@
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
     
@@ -102,7 +103,8 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],     
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
     
@@ -129,7 +131,8 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],     
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
     
@@ -156,13 +159,15 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],     
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],     
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
     int i = 0;
@@ -187,12 +192,14 @@
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
     int i = 0;
@@ -210,6 +217,20 @@
     STAssertTrue([[roundaboutCont connections] count] == 1, @"not match, %d", [[roundaboutCont connections] count]);
 }
 
+
+//////////////////////////////////////
+// WebSocket client
+//////////////////////////////////////
+/**
+ サーバとして立ち上げる。
+ クライアントすべてへとoutbound-out、
+ クライアントすべてからoutbound-in
+ 
+ 中身は一緒。立ち上げと寿命が異なるのみだね。
+ */
+- (void) testGenerateAsServer {
+    
+}
 
 
 @end
