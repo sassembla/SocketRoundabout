@@ -50,9 +50,10 @@
         switch (m_websocket_type) {
             case WEBSOCKET_TYPE_SERVER:{
                 NSInteger port = [targetAddr integerValue];
-                NSAssert1(0 < port, @"failed to initialize WebSocket-server, named:%@", connectionIdentity);
+                NSAssert2(0 < port, @"failed to initialize WebSocket-server, named:%@ port:%@", connectionIdentity, targetAddr);
+                
                 m_server = [[MBWebSocketServer alloc]initWithPort:port delegate:self];
-                NSAssert(m_server, @"failed to start servingm_server, named:%@", connectionIdentity);
+                NSAssert(m_server, @"failed to start serving, named:%@", connectionIdentity);
                 break;
             }
 

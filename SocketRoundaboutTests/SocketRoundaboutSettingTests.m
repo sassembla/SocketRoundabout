@@ -21,6 +21,7 @@
 #define TEST_SETTINGFILE_WITH_OPTION_MULTI  (@"./settingWithOpt_multi.txt")//未使用、まだ複数のオプションには対応していない。
 #define TEST_EMITING_SETTINGFILE    (@"./settingWithEmit.txt")
 #define TEST_EMITING_SETTINGFILE_FILE    (@"./settingWithEmitFile.txt")
+#define TEST_SETTINGFILE_WSSERVER_AND_CLIENT    (@"./settingWSServerAndClient.txt")
 
 
 #define TEST_BASE_SETTINGFILE   (@".")
@@ -387,4 +388,33 @@
     //突破できればOK    
 }
 
+/**
+ WebSocketServer
+ WebSocketClient
+ と繋いで、
+ */
+- (void) testSettingWSServerAndWSClient {
+    int currentSettingSize = 1;
+    
+    NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE_WSSERVER_AND_CLIENT,
+                            KEY_MASTER:TEST_MASTER};
+    delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
+    NSString * settingSource = [delegate defaultSettingSource];
+    [delegate loadSetting:settingSource];
+    
+    //各行の内容を順にセットアップして、完了したら通知
+    
+    int i = 0;
+    while ([m_proceedLogArray count] < currentSettingSize) {
+        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_MASTER_TIMELIMIT < i) {
+            STFail(@"too late");
+            break;
+        }
+    }
+    
+    //emitがあるので、一通の通知を受信するはず
+    NSLog(@"emitted");
+}
 @end
