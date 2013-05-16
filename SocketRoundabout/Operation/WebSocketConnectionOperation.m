@@ -101,6 +101,7 @@
                 }
                     
                 case KS_WEBSOCKETCONNECTIONOPERATION_CLOSE:{
+                    [m_server disconnect];
                     [messenger closeConnection];
                     break;
                 }

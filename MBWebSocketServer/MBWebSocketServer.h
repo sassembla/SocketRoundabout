@@ -21,6 +21,7 @@
 // You may like to, eg: provide implementations for NSDictionary, encoding into a
 // JSON string before calling [NSString webSocketFrameData].
 - (void)send:(id)object;
+- (void) disconnect;
 
 @property (nonatomic, readonly) NSUInteger port;
 @property (nonatomic, weak) id<MBWebSocketServerDelegate> delegate;

@@ -51,6 +51,11 @@ static unsigned long long ntohll(unsigned long long v) {
         [connection writeData:payload withTimeout:-1 tag:3];
 }
 
+- (void) disconnect {
+    [socket setDelegate:nil];
+    [socket disconnectAfterReadingAndWriting];
+}
+
 - (NSString *)handshakeResponseForData:(NSData *)data {
     NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSArray *strings = [string componentsSeparatedByString:@"\r\n"];
