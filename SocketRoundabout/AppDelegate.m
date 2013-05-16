@@ -133,7 +133,7 @@ void uncaughtExceptionHandler(NSException * exception) {
             
         case SOCKETROUNDABOUT_MASTER_LOADSETTING_LOAD:{
             NSAssert(dict[@"lineNo"], @"lineNo required");
-            [self log:[NSString stringWithFormat:@"%@%d", @"load start:line", [dict[@"lineNo"] intValue]]];
+            [self log:[NSString stringWithFormat:@"%@%d", @"load start:line ", [dict[@"lineNo"] intValue]]];
 
             int lineNo = [dict[@"lineNo"] intValue];
             NSString * line = [[NSString alloc]initWithString:m_lines[lineNo]];

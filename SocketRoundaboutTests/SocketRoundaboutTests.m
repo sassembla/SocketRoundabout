@@ -30,7 +30,7 @@
 #define TEST_REFLECTIVE_MESSAGE (@"ss@broadcastMessage:{\"message\":\"MESSAGE_2013/04/29 17:34:39\"}")
 
 #define NNOTIF  (@"./tool/nnotif")//pwd = project-folder path.
-#define NNOTIFD (@"/Users/sassembla/Library/Developer/Xcode/DerivedData/nnotifd-ahjyuqfrcnbezcaagbkmwszlhqlj/Build/Products/Debug/nnotifd.app/Contents/MacOS/nnotifd")
+#define NNOTIFD (@"./tool/nnotifd")
 
 #define TEST_NNOTIFD_ID (@"NNOTIFD_2013/05/02 19:00:10")
 #define TEST_NNOTIFD_ID_MANUAL  (@"NNOTIFD_IDENTITY")
@@ -40,7 +40,7 @@
 #define TEST_NNOTIF_LOG (@"./nnotif.log")
 
 
-#define GLOBAL_NNOTIF   (@"/Users/sassembla/Desktop/nnotifd/tool/nnotif")
+#define GLOBAL_NNOTIF   (@"/Users/mondogrosso/Desktop/nnotifd/tool/nnotif")
 
 #define TEST_DISTNOTIF_MESSAGE  (@"TEST_DISTNOTIF_MESSAGE_2013/04/29_17:57:57")
 

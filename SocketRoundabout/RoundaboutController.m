@@ -202,7 +202,7 @@
 
 - (void) createWebSocketConnection:(NSString * )connectionTarget withConnectionId:(NSString * )connectionId withOption:(NSDictionary * )opt {
     WebSocketConnectionOperation * ope = [[WebSocketConnectionOperation alloc]initWebSocketConnectionOperationWithMaster:[messenger myNameAndMID] withConnectionTarget:connectionTarget withConnectionIdentity:connectionId withOption:opt];
-    
+    NSLog(@"createWebSocket %@ %@", [messenger myName], [messenger myMID]);
     NSMutableArray * outArray = [[NSMutableArray alloc]init];
     NSMutableArray * inArray = [[NSMutableArray alloc]init];
     
@@ -258,6 +258,8 @@
 - (void) outFrom:(NSString * )outputConnectionId into:(NSString * )inputConnectionId {
     NSAssert1(m_connections[outputConnectionId], @"no output connection with given id, %@", outputConnectionId);
     NSAssert1(m_connections[inputConnectionId], @"no input connection with given id, %@", inputConnectionId);
+    
+    NSLog(@"outFrom %@ %@", [messenger myName], [messenger myMID]);
     
     NSMutableArray * outputs = m_connections[outputConnectionId][DEFINE_OUTPUTS];
     NSMutableArray * inputs = m_connections[inputConnectionId][DEFINE_INPUTS];
