@@ -52,6 +52,7 @@
                 NSInteger port = [targetAddr integerValue];
                 NSAssert1(0 < port, @"failed to initialize WebSocket-server, named:%@", connectionIdentity);
                 m_server = [[MBWebSocketServer alloc]initWithPort:port delegate:self];
+                NSAssert(m_server, @"failed to start servingm_server, named:%@", connectionIdentity);
                 break;
             }
 
@@ -100,7 +101,6 @@
                 }
                     
                 case KS_WEBSOCKETCONNECTIONOPERATION_CLOSE:{
-                    NSAssert(false, @"not yet implemented");
                     [messenger closeConnection];
                     break;
                 }

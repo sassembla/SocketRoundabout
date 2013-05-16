@@ -34,6 +34,8 @@ static unsigned long long ntohll(unsigned long long v) {
     if (error) {
         NSLog(@"MBWebSockerServer failed to initialize: %@", error);
         return nil;
+    } else {
+        NSLog(@"MBWebSockerServer noerror");
     }
 
     return self;

@@ -14,7 +14,11 @@
 #define TEST_MASTER (@"TEST_MASTER")
 
 
-#define TEST_WEBSOCKETSERVER   (@"ws://127.0.0.1:8823")
+#define TEST_WEBSOCKETSERVER_AS_CLIENT  (@"ws://127.0.0.1:8823")
+#define TEST_WEBSOCKETSERVER_AS_SERVER  (@"8824")
+#define TEST_WEBSOCKETSERVER_AS_CLIENT_TOSERVER (@"ws://127.0.0.1:8824")
+
+
 #define TEST_CONNECTIONIDENTITY_1 (@"roundaboutTest1")
 #define TEST_CONNECTIONIDENTITY_2   (@"roundaboutTest2")
 
@@ -68,9 +72,9 @@
 // WebSocket client
 //////////////////////////////////////
 
-- (void) testConnect {
+- (void) testConnectAsClient {
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_CLIENT],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
@@ -99,9 +103,9 @@
 /**
  一度開いたConnectionを閉じる
  */
-- (void) testCloseAll {
+- (void) testCloseAllAsClient {
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_CLIENT],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
@@ -127,9 +131,9 @@
 /**
  特定のConnectionを閉じる
  */
-- (void) testCloseSpecific {
+- (void) testCloseSpecificAsClient {
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_CLIENT],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
@@ -155,16 +159,16 @@
 /**
  複数のConnectionを開く
  */
-- (void) testOpenMulti {
+- (void) testOpenMultiAsClient {
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_CLIENT],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_CLIENT],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
@@ -187,16 +191,16 @@
 /**
  特定のConnectionを閉じて、他のConnectionが影響を受けない
  */
-- (void) testCloseSpecificAndRest1 {
+- (void) testCloseSpecificAndRest1AsClient {
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_CLIENT],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_CLIENT],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
@@ -219,18 +223,186 @@
 
 
 //////////////////////////////////////
-// WebSocket client
+// WebSocket server
 //////////////////////////////////////
 /**
  サーバとして立ち上げる。
  クライアントすべてへとoutbound-out、
  クライアントすべてからoutbound-in
- 
- 中身は一緒。立ち上げと寿命が異なるのみだね。
  */
-- (void) testGenerateAsServer {
+- (void) testConnect {
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_SERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
     
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 1) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    //接続できているconnectionが一つある
+    STAssertTrue([[roundaboutCont connections] count] == 1, @"not match, %d", [[roundaboutCont connections] count]);
+    
+    NSArray * key = [[[roundaboutCont connections] allKeys] objectAtIndex:0];
+    
+    NSNumber * type = [roundaboutCont connections][key][@"connectionType"];
+    STAssertTrue([type intValue] == KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET, @"not match, %@", type);
 }
 
+/**
+ 一度開いたConnectionを閉じる
+ */
+- (void) testCloseAll {
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_SERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
+    
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 1) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    [roundaboutCont closeAllConnections];
+    
+    //接続中のConnectionは存在しない
+    STAssertTrue([[roundaboutCont connections] count] == 0, @"not match, %d", [[roundaboutCont connections] count]);
+}
+
+/**
+ 特定のConnectionを閉じる
+ */
+- (void) testCloseSpecific {
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_SERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
+    
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 1) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    [roundaboutCont closeConnection:TEST_CONNECTIONIDENTITY_1];
+    
+    STAssertTrue([[roundaboutCont connections] count] == 0, @"not match, %d", [[roundaboutCont connections] count]);
+}
+
+
+/**
+ 複数のConnectionを開く
+ */
+- (void) testOpenMulti {
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_SERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
+    
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_SERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 2) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    STAssertTrue([[roundaboutCont connections] count] == 2, @"not match, %d", [[roundaboutCont connections] count]);
+}
+
+
+/**
+ 特定のConnectionを閉じて、他のConnectionが影響を受けない
+ */
+- (void) testCloseSpecificAndRest1 {
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_SERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
+    
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_SERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 2) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    [roundaboutCont closeConnection:TEST_CONNECTIONIDENTITY_1];
+    
+    STAssertTrue([[roundaboutCont connections] count] == 1, @"not match, %d", [[roundaboutCont connections] count]);
+}
+
+/**
+ 通信が可能かどうか、動作させてみる
+ */
+- (void) testServerEmit {
+    //server
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_SERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
+    
+    //client
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_CLIENT_TOSERVER],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
+     nil];
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 2) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+    
+    //この時点で、接続が確立している筈。
+    NSLog(@"hereComes");
+}
 
 @end
