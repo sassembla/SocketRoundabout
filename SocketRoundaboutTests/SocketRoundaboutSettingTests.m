@@ -271,17 +271,6 @@
     NSLog(@"通知がきているかどうかWebSocketサーバ側で確認2");
 }
 
-/**
- 重複するOperation接続先Identifierが既に存在する時、なんらかNoticeなりを出すか。
- connectに関してはOKだと思うんだけど、singletonかどうか、はあった方が良い。ハマる。
- connectionIdではなく、targetAddrについてのものなので、どういうAssertionが良いんだろう。
- SRからは一つ、というのを固めるか、それとも
- */
-- (void) testDuplicateIdentifierAlreadyExist {
-    
-}
-
-
 //////////////コマンドラインからの起動
 
 
