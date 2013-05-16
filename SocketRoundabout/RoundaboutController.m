@@ -65,7 +65,7 @@
             }
             
             if (m_connections[connectionId]) {
-                [messenger callParent:KS_ROUNDABOUTCONT_CONNECT_ALREADYEXIST, nil];
+                NSAssert1(false, @"connectionId:%@ is already exist.", connectionId);
             } else {
                 switch ([connectionType intValue]) {
                     case KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET:{

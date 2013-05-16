@@ -12,7 +12,9 @@
 #import "KSMessenger.h"
 
 #define TEST_MASTER (@"TEST_MASTER_2013/05/03 21:23:10")
-#define TEST_SETTINGFILE    (@"./setting.txt")
+#define TEST_SETTINGFILE_0      (@"./setting_0.txt")
+#define TEST_SETTINGFILE_1      (@"./setting_1.txt")
+#define TEST_SETTINGFILE_2      (@"./setting_2.txt")
 #define TEST_EMPTY_SETTINGFILE    (@"./empty.txt")
 #define TEST_NOTEXIST_SETTINGFILE    (@"./notexist.txt")
 #define TEST_SETTINGFILE_WITH_OPTION    (@"./settingWithOpt.txt")
@@ -114,7 +116,7 @@
 - (void) testInputSetting {
     int currentSettingSize = 1;
     
-    NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE,
+    NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE_0,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
     NSString * settingSource = [delegate defaultSettingSource];
@@ -269,6 +271,15 @@
     NSLog(@"通知がきているかどうかWebSocketサーバ側で確認2");
 }
 
+/**
+ 重複するOperation接続先Identifierが既に存在する時、なんらかNoticeなりを出すか。
+ connectに関してはOKだと思うんだけど、singletonかどうか、はあった方が良い。ハマる。
+ connectionIdではなく、targetAddrについてのものなので、どういうAssertionが良いんだろう。
+ SRからは一つ、というのを固めるか、それとも
+ */
+- (void) testDuplicateIdentifierAlreadyExist {
+    
+}
 
 
 //////////////コマンドラインからの起動
@@ -279,7 +290,7 @@
  コマンドラインからの起動
  */
 - (void) testLoadSettingAsCommandLine {
-    NSArray * clArray = @[@"-s", TEST_SETTINGFILE];
+    NSArray * clArray = @[@"-s", TEST_SETTINGFILE_1];
     
     NSTask * task1 = [[NSTask alloc] init];
     [task1 setLaunchPath:CURRENT_SR_CL];
@@ -302,7 +313,7 @@
 - (void) testRunAfterSetting {
     int currentSettingSize = 1;
     
-    NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE,
+    NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE_2,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
     NSString * setting = [delegate defaultSettingSource];

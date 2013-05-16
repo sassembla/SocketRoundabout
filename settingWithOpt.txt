@@ -1,10 +1,10 @@
 //1 WebSocketのOperationをセットする
-id:roundaboutTest0 type:0 destination:ws://127.0.0.1:8823 option:websocketas:client
-id:roundaboutTest1 type:1 destination:testNotif option:outputKey:TEST_OPTION
+id:roundaboutTest0_2013/05/16_13:42:02 type:0 destination:ws://127.0.0.1:8823 option:websocketas:client
+id:roundaboutTest1_2013/05/16_13:42:02 type:1 destination:testNotif option:outputKey:TEST_OPTION
 
 //接続待ち
 //connent
-connect:roundaboutTest1 to:roundaboutTest0
+connect:roundaboutTest1_2013/05/16_13:42:02 to:roundaboutTest0_2013/05/16_13:42:02
 
 //transfer
-trans:roundaboutTest1 to:roundaboutTest0 prefix:TEST_PREFIX postfix:TEST_POSTFIX
+trans:roundaboutTest1_2013/05/16_13:42:02 to:roundaboutTest0_2013/05/16_13:42:02 prefix:TEST_PREFIX postfix:TEST_POSTFIX
