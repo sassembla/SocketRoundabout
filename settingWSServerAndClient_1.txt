@@ -1,7 +1,7 @@
 //1 WebSocketのOperationをセットする
 
 //server
-id:roundaboutTest0_2013/05/16_18:44:42 type:0 destination:18833
+id:roundaboutTest0_2013/05/16_18:44:42 type:0 destination:8833
 
 //client
 id:roundaboutTest1_2013/05/16_18:44:42 type:0 destination:ws://127.0.0.1:8833 option:websocketas:client
