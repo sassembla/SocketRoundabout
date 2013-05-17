@@ -23,6 +23,7 @@
 #define TEST_EMITING_SETTINGFILE_FILE    (@"./settingWithEmitFile.txt")
 #define TEST_SETTINGFILE_WSSERVER_AND_CLIENT    (@"./settingWSServerAndClient_1.txt")
 #define TEST_SETTINGFILE_WSSERVER_AND_CLIENT2   (@"./settingWSServerAndClient_2.txt")
+#define TEST_SETTINGFILE_WSSERVER_AND_CLIENT3   (@"./settingWSServerAndClient_3.txt")
 
 #define TEST_BASE_SETTINGFILE   (@".")
 
@@ -427,6 +428,34 @@
     int currentSettingSize = 1;
     
     NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE_WSSERVER_AND_CLIENT2,
+                            KEY_MASTER:TEST_MASTER};
+    delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
+    NSString * settingSource = [delegate defaultSettingSource];
+    [delegate loadSetting:settingSource];
+    
+    //各行の内容を順にセットアップして、完了したら通知
+    
+    int i = 0;
+    while ([m_proceedLogArray count] < currentSettingSize) {
+        [[NSRunLoop currentRunLoop]runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_MASTER_TIMELIMIT < i) {
+            STFail(@"too late");
+            break;
+        }
+    }
+    
+    //emitがあるので、一通の通知を受信するはず
+    //WebSocket的なつながりなので、SocketRoundaboutのテストとは言えない感じ
+}
+
+/**
+ 別記法版
+ */
+- (void) testSettingWSServerAndWSClient_reverse_setAddressForServerAsWS_ {
+    int currentSettingSize = 1;
+    
+    NSDictionary * dict = @{KEY_SETTING:TEST_SETTINGFILE_WSSERVER_AND_CLIENT3,
                             KEY_MASTER:TEST_MASTER};
     delegate = [[AppDelegate alloc]initAppDelegateWithParam:dict];
     NSString * settingSource = [delegate defaultSettingSource];

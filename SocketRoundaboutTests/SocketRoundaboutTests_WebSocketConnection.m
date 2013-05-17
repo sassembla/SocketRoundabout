@@ -23,6 +23,7 @@
 #define TEST_WEBSOCKETSERVER_AS_SERVER_4  (@"8829")
 #define TEST_WEBSOCKETSERVER_AS_SERVER_5  (@"8830")
 #define TEST_WEBSOCKETSERVER_AS_SERVER_6  (@"8831")
+#define TEST_WEBSOCKETSERVER_AS_SERVER_7  (@"ws://127.0.0.1:8832")
 
 #define TEST_WEBSOCKETSERVER_AS_CLIENT_TOSERVER (@"ws://127.0.0.1:8831")
 
@@ -413,4 +414,26 @@
     NSLog(@"hereComes");
 }
 
+/**
+ 別記法でのサーバセットアップ
+ */
+- (void) testServerEmitWithAnotherTokenStyle {
+    //server
+    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
+     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER_AS_SERVER_7],
+     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
+     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
+     nil];
+   
+    
+    int i = 0;
+    while ([m_connectionIdArray count] < 1) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
+        i++;
+        if (TEST_TIMELIMIT < i) {
+            STFail(@"too long wait");
+            break;
+        }
+    }
+}
 @end

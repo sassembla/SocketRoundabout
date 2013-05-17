@@ -49,7 +49,18 @@
         //initialize
         switch (m_websocket_type) {
             case WEBSOCKET_TYPE_SERVER:{
-                NSInteger port = [targetAddr integerValue];
+                NSInteger port = 0;
+                
+                if ([targetAddr hasPrefix:WEBSOCKET_ADDRESS_DEFINE]) {
+                    NSString * portWithAddress = targetAddr;
+                    NSArray * array = [portWithAddress componentsSeparatedByString:@":"];
+                    NSAssert1([array count] == 3, @"shortage of ':', %@", portWithAddress);
+
+                    port = [array[2] integerValue];
+                } else {
+                    port = [targetAddr integerValue];
+                }
+                
                 NSAssert2(0 < port, @"failed to initialize WebSocket-server, named:%@ port:%@", connectionIdentity, targetAddr);
                 
                 m_server = [[MBWebSocketServer alloc]initWithPort:port delegate:self];
