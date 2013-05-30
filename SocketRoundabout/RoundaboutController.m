@@ -106,7 +106,7 @@
             NSAssert(dict[@"prefix"], @"prefix required");
             NSAssert(dict[@"postfix"], @"postfix required");
             
-            [self setTransferFrom:dict[@"from"] to:dict[@"to"] prefix:dict[@"prefix"] postfix:dict[@"postfix"]];
+            [self setTransferFrom:dict[@"from"] to:dict[@"to"] prefix:dict[@"prefix"] suffix:dict[@"postfix"]];
             
             [messenger callParent:KS_ROUNDABOUTCONT_SETTRANSFER_OVER,
              [messenger tag:@"from" val:dict[@"from"]],
@@ -290,14 +290,14 @@
 /**
  特定の接続に対して、存在すればtransferを設定する。
  */
-- (void) setTransferFrom:(NSString * )from to:(NSString * )to prefix:(NSString * )prefix postfix:(NSString * )postfix {
+- (void) setTransferFrom:(NSString * )from to:(NSString * )to prefix:(NSString * )prefix suffix:(NSString * )postfix {
 
     NSAssert(m_connections[from][DEFINE_OUTPUTS], @"no output exist:%@", from);
     NSAssert(m_connections[to][DEFINE_INPUTS], @"no input exist:%@", to);
 
     NSString * fromto = [self transferIdentityByFrom:from to:to];
     
-    SRTransfer * trans = [[SRTransfer alloc]initWithPrefix:prefix postfix:postfix];
+    SRTransfer * trans = [[SRTransfer alloc]initWithPrefix:prefix suffix:postfix];
     
     if (m_transferDict[fromto]) {}
     else {

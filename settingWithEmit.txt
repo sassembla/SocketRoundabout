@@ -7,7 +7,7 @@ id:roundaboutTest1_2013/05/16_13:37:00 type:1 destination:testNotif
 connect:roundaboutTest1_2013/05/16_13:37:00 to:roundaboutTest0_2013/05/16_13:37:00
 
 //transfer
-trans:roundaboutTest1_2013/05/16_13:37:00 to:roundaboutTest0_2013/05/16_13:37:00 prefix:TEST_PREFIX postfix:TEST_POSTFIX
+trans:roundaboutTest1_2013/05/16_13:37:00 to:roundaboutTest0_2013/05/16_13:37:00 prefix:TEST_PREFIX suffix:TEST_POSTFIX
 
 //emit
 emit:socketroundabout_ready to:roundaboutTest0_2013/05/16_13:37:00

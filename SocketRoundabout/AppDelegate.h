@@ -39,7 +39,7 @@
 
 #define CODEHEAD_TRANS      (@"trans:")
 #define CODE_PREFIX         (@"prefix:")
-#define CODE_POSTFIX        (@"postfix:")
+#define CODE_SUFFIX         (@"suffix:")
 
 #define CODEHEAD_EMIT       (@"emit:")
 

@@ -10,6 +10,6 @@
 
 @interface SRTransfer : NSObject
 
-- (id) initWithPrefix:(NSString * )prefix postfix:(NSString * )postfix;
+- (id) initWithPrefix:(NSString * )prefix suffix:(NSString * )postfix;
 - (NSString * )through:(NSString * )input;
 @end

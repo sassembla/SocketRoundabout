@@ -75,7 +75,7 @@
  prefix-postfixに対する値チェック
  */
 - (void) testTransferHasValidValue {
-    SRTransfer * trans = [[SRTransfer alloc] initWithPrefix:TEST_PREFIX postfix:TEST_POSTFIX];
+    SRTransfer * trans = [[SRTransfer alloc] initWithPrefix:TEST_PREFIX suffix:TEST_POSTFIX];
     
     NSString * expected = [[NSString alloc]initWithFormat:@"%@%@%@", TEST_PREFIX, TEST_MESSAGE, TEST_POSTFIX];
     STAssertTrue([[trans through:TEST_MESSAGE] isEqualToString:expected], @"not match, %@", [trans through:TEST_MESSAGE]);
@@ -86,7 +86,7 @@
  単体
  */
 - (void) testTransferArrayThroughsSingle {
-    SRTransfer * trans = [[SRTransfer alloc] initWithPrefix:TEST_PREFIX postfix:TEST_POSTFIX];
+    SRTransfer * trans = [[SRTransfer alloc] initWithPrefix:TEST_PREFIX suffix:TEST_POSTFIX];
     
     SRTransferArray * array = [[SRTransferArray alloc]init];
     [array addTransfer:trans];
@@ -103,7 +103,7 @@
     SRTransferArray * array = [[SRTransferArray alloc]init];
     
     for (int i = 0; i < 2; i++) {
-        SRTransfer * trans = [[SRTransfer alloc] initWithPrefix:TEST_PREFIX postfix:TEST_POSTFIX];
+        SRTransfer * trans = [[SRTransfer alloc] initWithPrefix:TEST_PREFIX suffix:TEST_POSTFIX];
         [array addTransfer:trans];
     }
     
@@ -119,7 +119,7 @@
     SRTransferArray * array = [[SRTransferArray alloc]init];
     
     for (int i = 0; i < 3; i++) {
-        SRTransfer * trans = [[SRTransfer alloc] initWithPrefix:TEST_PREFIX postfix:TEST_POSTFIX];
+        SRTransfer * trans = [[SRTransfer alloc] initWithPrefix:TEST_PREFIX suffix:TEST_POSTFIX];
         [array addTransfer:trans];
     }
     
@@ -165,7 +165,7 @@
     [rCont outFrom:TEST_CONNECTIONIDENTITY_3 into:TEST_CONNECTIONIDENTITY_4];
     
     //transferをセットする
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
     
     //transferの設置が確認できる
     NSArray * actual = [rCont transfersBetweenOutput:TEST_CONNECTIONIDENTITY_3 toInput:TEST_CONNECTIONIDENTITY_4];
@@ -207,7 +207,7 @@
     [rCont outFrom:TEST_CONNECTIONIDENTITY_3 into:TEST_CONNECTIONIDENTITY_4];
     
     //transferをセットする
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
     
     
     //WebSocketのTEST_CONNECTIONIDENTITY_3へとダミーメッセージ送付
@@ -253,7 +253,7 @@
     
     @try {
         //存在しないTEST_CONNECTIONIDENTITY_5に対して、transferをセットする
-        [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_5 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
+        [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_5 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
         STFail(@"no error, but failure. error should be occer");
     }
     @catch (NSException *exception) {}
@@ -296,8 +296,8 @@
     [rCont outFrom:TEST_CONNECTIONIDENTITY_3 into:TEST_CONNECTIONIDENTITY_4];
     
     //transfer
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX2 postfix:TEST_POSTFIX2];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX2 suffix:TEST_POSTFIX2];
     
     //ダミーのoutput
     [rCont dummyOutput:TEST_CONNECTIONIDENTITY_3 message:TEST_MESSAGE];
@@ -359,8 +359,8 @@
     
 
     //transfer
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_5 to:TEST_CONNECTIONIDENTITY_6 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_5 to:TEST_CONNECTIONIDENTITY_6 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
 
     
     //ダミーメッセージを各outから流す
@@ -426,11 +426,11 @@
     
     
     //transfer
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
 
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_5 to:TEST_CONNECTIONIDENTITY_6 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_5 to:TEST_CONNECTIONIDENTITY_6 prefix:TEST_PREFIX postfix:TEST_POSTFIX];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_5 to:TEST_CONNECTIONIDENTITY_6 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_5 to:TEST_CONNECTIONIDENTITY_6 prefix:TEST_PREFIX suffix:TEST_POSTFIX];
     
     
     //ダミーメッセージを各outから流す

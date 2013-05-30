@@ -46,7 +46,7 @@ typedef enum {
 - (NSArray * ) inputsOf:(NSString * )connectionId;
 
 
-- (void) setTransferFrom:(NSString * )from to:(NSString * )to prefix:(NSString * )prefix postfix:(NSString * )postfix;
+- (void) setTransferFrom:(NSString * )from to:(NSString * )to prefix:(NSString * )prefix suffix:(NSString * )postfix;
 - (NSArray * )transfersBetweenOutput:(NSString * )output toInput:(NSString * )input;
 
 

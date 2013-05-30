@@ -16,7 +16,7 @@
     NSString * m_postfix;
 }
 
-- (id) initWithPrefix:(NSString * )prefix postfix:(NSString * )postfix {
+- (id) initWithPrefix:(NSString * )prefix suffix:(NSString * )postfix {
     if (self = [super init]) {
         m_prefix = [[NSString alloc]initWithString:prefix];
         m_postfix = [[NSString alloc]initWithString:postfix];

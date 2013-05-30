@@ -319,7 +319,7 @@
     
     
     //transfer
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_1 prefix:@"ss@filtering:{\"name\":\"scala\",\"source\":\"" postfix:@"\"}"];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_1 prefix:@"ss@filtering:{\"name\":\"scala\",\"source\":\"" suffix:@"\"}"];
     
     
     //4を作成
@@ -535,7 +535,7 @@
     
     
     //フィルタのセット
-    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:@"ss@filtering:{\"name\":\"scala\",\"source\":\"" postfix:@"\"}"];
+    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:@"ss@filtering:{\"name\":\"scala\",\"source\":\"" suffix:@"\"}"];
     
     
     //ここまでで、nnotifdを人力で起動させないと駄目。 -i = NNOTIFD_IDENTITY(TEST_NNOTIFD_ID_MANUAL)

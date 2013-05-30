@@ -237,7 +237,7 @@ void uncaughtExceptionHandler(NSException * exception) {
      この3タイプを分解する
      id:TEST_CONNECTIONIDENTITY_1 type:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION destination:TEST_WEBSOCKETSERVER,
      connect:TEST_CONNECTIONIDENTITY_1 to:TEST_CONNECTIONIDENTITY_2,
-     trans:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX postfix:TEST_POSTFIX
+     trans:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:TEST_PREFIX suffix:TEST_POSTFIX
      */
     NSArray * execsArray = [exec componentsSeparatedByString:CODE_DELIM];
     
@@ -291,12 +291,12 @@ void uncaughtExceptionHandler(NSException * exception) {
     } else if ([execsArray[0] hasPrefix:CODEHEAD_TRANS]) {
         NSAssert1([execsArray[1] hasPrefix:CODE_TO], @"%@ required", CODE_TO);
         NSAssert1([execsArray[2] hasPrefix:CODE_PREFIX], @"%@ required", CODE_PREFIX);
-        NSAssert1([execsArray[3] hasPrefix:CODE_POSTFIX], @"%@ required", CODE_POSTFIX);
+        NSAssert1([execsArray[3] hasPrefix:CODE_SUFFIX], @"%@ required", CODE_SUFFIX);
         
         NSString * from = [execsArray[0] componentsSeparatedByString:CODEHEAD_TRANS][1];
         NSString * to = [execsArray[1] componentsSeparatedByString:CODE_TO][1];
         NSString * prefix = [execsArray[2] componentsSeparatedByString:CODE_PREFIX][1];
-        NSString * postfix = [execsArray[3] componentsSeparatedByString:CODE_POSTFIX][1];
+        NSString * postfix = [execsArray[3] componentsSeparatedByString:CODE_SUFFIX][1];
         
         [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_SETTRANSFER,
          [messenger tag:@"from" val:from],
