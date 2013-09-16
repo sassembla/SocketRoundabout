@@ -14,7 +14,7 @@
 #define TEST_MASTER (@"TEST_MASTER")
 
 
-#define TEST_NOTIFICATION_IDENTITY  (@"TEST_NOTIFICATION_IDENTITY_2013/04/25 0:16:43")
+#define TEST_NOTIFICATION_IDENTITY  (@"nsdist://TEST_NOTIFICATION_IDENTITY_2013/04/25 0:16:43")
 #define TEST_CONNECTIONIDENTITY_1 (@"roundaboutTest1")
 #define TEST_CONNECTIONIDENTITY_2   (@"roundaboutTest2")
 
@@ -99,7 +99,6 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     
@@ -115,11 +114,6 @@
     
     //接続できているconnectionが一つある
     STAssertTrue([[roundaboutCont connections] count] == 1, @"not match, %d", [[roundaboutCont connections] count]);
-    
-    NSArray * key = [[[roundaboutCont connections] allKeys] objectAtIndex:0];
-    
-    NSNumber * type = [roundaboutCont connections][key][@"connectionType"];
-    STAssertTrue([type intValue] == KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION, @"not match, %@", type);
 }
 
 /**
@@ -129,7 +123,6 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     
@@ -156,7 +149,6 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     
@@ -183,13 +175,11 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     int i = 0;
@@ -213,13 +203,11 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     int i = 0;
@@ -245,7 +233,6 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     int i = 0;
@@ -273,7 +260,6 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     int i = 0;
@@ -307,7 +293,6 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATION_IDENTITY],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      [messenger tag:@"connectionOption" val:@{@"outputKey":TEST_KEY}],//出力時のuserinfo内のキーをTEST_KEYの値のものに変化させる。
      nil];
     

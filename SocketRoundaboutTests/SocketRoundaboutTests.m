@@ -15,10 +15,10 @@
 
 #define TEST_WEBSOCKETSERVER   (@"ws://127.0.0.1:8823")
 
-#define TEST_NOTIFICATIONSERVER     (@"notif://2013/04/29_17:52:05")
-#define TEST_NOTIFICATIONSERVER_1   (@"notif://2013/05/08_20:40:40")
-#define TEST_NOTIFICATIONSERVER_2   (@"notif://2013/05/08_18:22:35")
-#define TEST_NOTIFICATIONSERVER_3   (@"notif://2013/05/08_20:41:09")
+#define TEST_NOTIFICATIONSERVER     (@"nsdist://2013/04/29_17:52:05")
+#define TEST_NOTIFICATIONSERVER_1   (@"nsdist://2013/05/08_20:40:40")
+#define TEST_NOTIFICATIONSERVER_2   (@"nsdist://2013/05/08_18:22:35")
+#define TEST_NOTIFICATIONSERVER_3   (@"nsdist://2013/05/08_20:41:09")
 
 #define TEST_CONNECTIONIDENTITY_1   (@"roundaboutTest1")
 #define TEST_CONNECTIONIDENTITY_2   (@"roundaboutTest2")
@@ -222,14 +222,12 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     //2
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
@@ -281,7 +279,6 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
@@ -289,14 +286,12 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_1],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     //3 DistNotif
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_2],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_3],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     
@@ -326,7 +321,6 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_3],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_4],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     
@@ -379,14 +373,12 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     //2
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
      [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
      nil];
     
@@ -448,14 +440,12 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     //out側
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_2],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
      nil];
     
     
@@ -480,108 +470,5 @@
     //接続先であるTEST_CONNECTIONIDENTITY_2の送信カウンタは上がっている筈
     STAssertTrue([rCont transitInputCount:TEST_CONNECTIONIDENTITY_2] == 1, @"not match, %d", [rCont transitInputCount:TEST_CONNECTIONIDENTITY_2]);    
 }
-
-
-//#define GLOBAL_NNOTIF   (@"/Users/mondogrosso/Desktop/nnotifd/tool/nnotif")
-//#define GLOBAL_NNOTIFD   (@"/Users/mondogrosso/Desktop/nnotifd/tool/nnotifd")
-
-///**
-// DistNotifのInとOutを用意し、接続、Gradle動作までを行う。
-// */
-//- (void) testInputDistNotifToDistNotifToGradleNotifThenOutputToWebSocket_MANUALLY {
-//    //偽In
-//    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-//     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_1],
-//     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-//     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
-//     nil];
-//    
-//    //out側、nnotifdへと向かう
-//    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-//     [messenger tag:@"connectionTargetAddr" val:TEST_NNOTIFD_ID_MANUAL],//nnotifdが受け取れるidentityにセット、送信。自分自身は受け取らない。
-//     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-//     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
-//     [messenger tag:@"connectionOption" val:@{@"outputKey":@"NN_DEFAULT_ROUTE"}],//nnotifdが受け取るkey
-//     nil];
-//    
-//    //下記はgradle | nnotif の受け側
-//    
-//    //gradle | nnotif を受けるDistNotif
-//    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-//     [messenger tag:@"connectionTargetAddr" val:TEST_NOTIFICATIONSERVER_3],
-//     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_3],
-//     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION]],
-//     nil];
-//    
-//    //2
-//    [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
-//     [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
-//     [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_4],
-//     [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
-//     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
-//     nil];
-//    
-//    int i = 0;
-//    while ([m_connectionIdArray count] < 4) {
-//        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-//        i++;
-//        if (TEST_TIMELIMIT < i) {
-//            STFail(@"too long wait");
-//            break;
-//        }
-//    }
-//    
-//    //connect DistNotif1から2へ入力、nnotifdへとout, nnotifdからgradle | nnotif起動、 DistNotif3がそれを受け、WS4へとout
-//    [rCont outFrom:TEST_CONNECTIONIDENTITY_1 into:TEST_CONNECTIONIDENTITY_2];
-//    [rCont outFrom:TEST_CONNECTIONIDENTITY_3 into:TEST_CONNECTIONIDENTITY_4];
-//    
-//    
-//    //フィルタのセット
-//    [rCont setTransferFrom:TEST_CONNECTIONIDENTITY_3 to:TEST_CONNECTIONIDENTITY_4 prefix:@"ss@filtering:{\"name\":\"scala\",\"source\":\"" suffix:@"\"}"];
-//    
-//    
-////    
-//    NSTask * task1 = [[NSTask alloc] init];
-//	[task1 setLaunchPath:GLOBAL_NNOTIFD];
-//	[task1 setArguments:@[@"-i", TEST_NNOTIFD_ID_MANUAL]];
-//	[task1 launch];
-//    
-//    
-//    //nnotifで、nnotif1にInputする
-//    TestDistNotificationSender2 * nnotifSender = [[TestDistNotificationSender2 alloc]init];
-//    
-//    //stdinを、SocketRoundaboutのNotifに向ける
-//    NSArray * execsArray = @[@"/bin/sh", @"/Users/sassembla/Desktop/SocketRoundabout/tool/s2.sh"];
-//    
-//    //notifでexecuteを送り込む
-//    NSArray * execArray = @[@"nn@", @"-e",[self jsonizedString:execsArray]];
-//    NSString * exec = [execArray componentsJoinedByString:@" "];
-//    
-//    [nnotifSender sendNotification:TEST_NOTIFICATIONSERVER_1 withMessage:exec withKey:@"message"];
-//    
-//    
-//    //単純に待つ
-//    i = 0;
-//    while (i < TEST_TIMELIMIT_LONG) {
-//        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
-//        i++;
-//        NSLog(@"waiting..%d", i);
-//    }
-//
-//    //1にoutがある
-//    STAssertTrue([rCont transitOutputCount:TEST_CONNECTIONIDENTITY_1] == 1, @"not match, %d", [rCont transitOutputCount:TEST_CONNECTIONIDENTITY_1]);
-//
-//    //2にinがある
-//    STAssertTrue([rCont transitInputCount:TEST_CONNECTIONIDENTITY_2] == 1, @"not match, %d", [rCont transitInputCount:TEST_CONNECTIONIDENTITY_2]);
-//
-//    //3にoutが複数ある
-//    STAssertTrue(0 < [rCont transitOutputCount:TEST_CONNECTIONIDENTITY_3], @"not match, %d", [rCont transitOutputCount:TEST_CONNECTIONIDENTITY_3]);
-//    
-//    //4にinが複数ある
-//    STAssertTrue(0 < [rCont transitInputCount:TEST_CONNECTIONIDENTITY_4] == 1, @"not match, %d", [rCont transitInputCount:TEST_CONNECTIONIDENTITY_4]);
-//     
-//     [task1 terminate];
-//}
-
 
 @end

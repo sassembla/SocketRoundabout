@@ -1,10 +1,10 @@
 //1 WebSocketのOperationをセットする
 
 //server
-id:roundaboutTest0_2013/05/17_00:52:57 type:0 destination:ws://127.0.0.1:8834
+id:roundaboutTest0_2013/05/17_00:52:57 destination:ws://127.0.0.1:8834
 
 //client
-id:roundaboutTest1_2013/05/17_00:52:57 type:0 destination:ws://127.0.0.1:8834 option:websocketas:client
+id:roundaboutTest1_2013/05/17_00:52:57 destination:ws://127.0.0.1:8834 option:websocketas:client
 
 //emitをserverに行い、clientが受け取る
 emit:something to:roundaboutTest1_2013/05/17_00:52:57

@@ -254,17 +254,15 @@ void uncaughtExceptionHandler(NSException * exception) {
     NSArray * execsArray = [exec componentsSeparatedByString:CODE_DELIM];
     
     if ([execsArray[0] hasPrefix:CODEHEAD_ID]) {
-        NSAssert1([execsArray[1] hasPrefix:CODE_TYPE], @"%@ required", CODE_TYPE);
-        NSAssert1([execsArray[2] hasPrefix:CODE_DESTINATION], @"%@ required", CODE_DESTINATION);
+        NSAssert1([execsArray[1] hasPrefix:CODE_DESTINATION], @"%@ required", CODE_DESTINATION);
         
         NSString * connectionId = [execsArray[0] componentsSeparatedByString:CODEHEAD_ID][1];
-        NSString * connectionType = [execsArray[1] componentsSeparatedByString:CODE_TYPE][1];
-        NSString * connectionTargetAddr = [execsArray[2] componentsSeparatedByString:CODE_DESTINATION][1];
+        NSString * connectionTargetAddr = [execsArray[1] componentsSeparatedByString:CODE_DESTINATION][1];
         
         //optionが存在する場合がある。
-        if (3 < [execsArray count]) {
+        if (2 < [execsArray count]) {
             //要素が存在するので、分解する。
-            NSArray * headAndKeyAndValues = [execsArray[3] componentsSeparatedByString:CODE_OPTION];
+            NSArray * headAndKeyAndValues = [execsArray[2] componentsSeparatedByString:CODE_OPTION];
             NSArray * keyAndValues = [headAndKeyAndValues[1] componentsSeparatedByString:CODE_COMMA];
 
             NSMutableDictionary * optionDict = [[NSMutableDictionary alloc]init];
@@ -277,7 +275,6 @@ void uncaughtExceptionHandler(NSException * exception) {
             [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
              [messenger tag:@"connectionTargetAddr" val:connectionTargetAddr],
              [messenger tag:@"connectionId" val:connectionId],
-             [messenger tag:@"connectionType" val:connectionType],
              [messenger tag:@"connectionOption" val:optionDict],
              nil];
             
@@ -285,7 +282,6 @@ void uncaughtExceptionHandler(NSException * exception) {
             [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
              [messenger tag:@"connectionTargetAddr" val:connectionTargetAddr],
              [messenger tag:@"connectionId" val:connectionId],
-             [messenger tag:@"connectionType" val:connectionType],
              nil];
         }
         

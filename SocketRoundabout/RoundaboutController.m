@@ -49,12 +49,11 @@
         case KS_ROUNDABOUTCONT_CONNECT:{
             NSAssert(dict[@"connectionTargetAddr"], @"connectionTarget required");
             NSAssert(dict[@"connectionId"], @"connectionId required");
-            NSAssert(dict[@"connectionType"], @"connectionType required");
             
             //辞書が既に同じ名前のconnectionを持っていなければ、socketConnectionOperationを新規に作成する。
             NSString * connectionTarget = dict[@"connectionTargetAddr"];
             NSString * connectionId = dict[@"connectionId"];
-            NSNumber * connectionType = dict[@"connectionType"];
+
             
             //optionとして渡す値
             NSDictionary * connectionOpt;
@@ -67,7 +66,9 @@
             if (m_connections[connectionId]) {
                 NSAssert1(false, @"connectionId:%@ is already exist.", connectionId);
             } else {
-                switch ([connectionType intValue]) {
+//                connectionTargetAddrから接続タイプを判断
+                int connectionType = [self detectConnectionTypeFromProtocol:connectionTarget];
+                switch (connectionType) {
                     case KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET:{
                         [self createWebSocketConnection:connectionTarget withConnectionId:connectionId withOption:connectionOpt];
                         break;
@@ -198,6 +199,24 @@
     
 }
 
+/**
+ コネクションのためのアドレスに含まれる文字列から、コネクションの型を判別しintで返す。
+ */
+- (int) detectConnectionTypeFromProtocol:(NSString * )protocolWithAddr {
+    if ([protocolWithAddr hasPrefix:PROTOCOL_WEBSOCKET]) {
+        return KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET;
+    }
+    
+    if ([protocolWithAddr hasPrefix:PROTOCOL_NSDISTNOTIFICATION]) {
+        return KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION;
+    }
+    
+    NSAssert1(false, @"undefined protocol:%@", protocolWithAddr);
+    return -1;
+}
+
+
+
 
 
 - (void) createWebSocketConnection:(NSString * )connectionTarget withConnectionId:(NSString * )connectionId withOption:(NSDictionary * )opt {
@@ -206,6 +225,7 @@
     NSMutableArray * outArray = [[NSMutableArray alloc]init];
     NSMutableArray * inArray = [[NSMutableArray alloc]init];
     
+    // 登録 connectionTypeを明確に記憶する。
     NSDictionary * connectionDict = @{
                                       DEFINE_CONNECTOR: ope,
                                       DEFINE_TARGET: connectionTarget,
@@ -232,6 +252,7 @@
     NSMutableArray * outArray = [[NSMutableArray alloc]init];
     NSMutableArray * inArray = [[NSMutableArray alloc]init];
     
+    // 登録 connectionTypeを明確に記憶する。
     NSDictionary * connectionDict = @{DEFINE_CONNECTOR: distNotifOpe,
                                       DEFINE_TARGET: receiverName,
                                       DEFINE_TYPE: [NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION],
@@ -396,28 +417,30 @@
 
 - (void) input:(NSString * )connectionId message:(NSString * )message {
     NSAssert1(m_connections[connectionId], @"input: connectionId is not valid, %@", connectionId);
-    NSString * connectionType;
+    NSString * connectionTarget;
     int connectionSendExec = 0;
     
     switch ([m_connections[connectionId][@"connectionType"] intValue]) {
         case KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET:{
-            connectionType = KS_WEBSOCKETCONNECTIONOPERATION;
+            connectionTarget = KS_WEBSOCKETCONNECTIONOPERATION;
             connectionSendExec = KS_WEBSOCKETCONNECTIONOPERATION_INPUT;
             break;
         }
             
         case KS_ROUNDABOUTCONT_CONNECTION_TYPE_NOTIFICATION:{
-            connectionType = KS_DISTRIBUTEDNOTIFICATIONOPERATION;
+            connectionTarget = KS_DISTRIBUTEDNOTIFICATIONOPERATION;
             connectionSendExec = KS_DISTRIBUTEDNOTIFICATIONOPERATION_INPUT;
             break;
         }
         
-        default:
+        default:{
+            NSAssert(false, @"no-input definition found in connection record.");
             break;
+        }
     }
     
     //send
-    [messenger call:connectionType withExec:connectionSendExec,
+    [messenger call:connectionTarget withExec:connectionSendExec,
      [messenger tag:@"operationId" val:connectionId],
      [messenger tag:@"message" val:message],
      nil];

@@ -282,35 +282,6 @@
     NSLog(@"通知がきているかどうかWebSocketサーバ側で確認2");
 }
 
-//////////////コマンドラインからの起動
-
-
-
-/**
- コマンドラインからの起動
- */
-//- (void) testLoadSettingAsCommandLine {
-//    NSArray * clArray = @[@"-s", TEST_SETTINGFILE_1, @"-i", TEST_IDENTITY];
-//    
-//    NSTask * task1 = [[NSTask alloc] init];
-//    [task1 setLaunchPath:CURRENT_SR_CL];
-//    [task1 setArguments:clArray];
-//    [task1 launch];
-//    
-//    //セッティングを読み込んで起動しているはず。UIは無い。
-//   
-////    nnotifでアプリケーションへと通知
-//    NSString * currentIdentity = [[NSString alloc]initWithFormat:@"%@:%@", DISTNOTIF_IDENTITY, TEST_IDENTITY];
-//    NSArray * clArray2 = @[@"-t", currentIdentity, @"-i", @"kill"];
-//    NSTask * task2 = [[NSTask alloc] init];
-//    [task2 setLaunchPath:GLOBAL_NNOTIF];
-//    [task2 setArguments:clArray2];
-//    [task2 launch];
-//    [task2 waitUntilExit];
-//    
-//    [task1 waitUntilExit];
-//}
-
 
 //////////////設定を行った後の挙動
 

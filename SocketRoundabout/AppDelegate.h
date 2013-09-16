@@ -30,7 +30,6 @@
 #define CODE_COLON          (@":")
 
 #define CODEHEAD_ID         (@"id:")
-#define CODE_TYPE           (@"type:")
 #define CODE_DESTINATION    (@"destination:")
 #define CODE_OPTION         (@"option:")
 
