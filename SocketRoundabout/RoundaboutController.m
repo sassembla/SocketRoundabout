@@ -221,7 +221,7 @@
 
 - (void) createWebSocketConnection:(NSString * )connectionTarget withConnectionId:(NSString * )connectionId withOption:(NSDictionary * )opt {
     WebSocketConnectionOperation * ope = [[WebSocketConnectionOperation alloc]initWebSocketConnectionOperationWithMaster:[messenger myNameAndMID] withConnectionTarget:connectionTarget withConnectionIdentity:connectionId withOption:opt];
-    NSLog(@"createWebSocket %@ %@", [messenger myName], [messenger myMID]);
+   
     NSMutableArray * outArray = [[NSMutableArray alloc]init];
     NSMutableArray * inArray = [[NSMutableArray alloc]init];
     
