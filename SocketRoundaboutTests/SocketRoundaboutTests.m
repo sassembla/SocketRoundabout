@@ -124,7 +124,7 @@
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
-     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
+     [messenger tag:@"connectionOption" val:@{@"type":@"client"}],
      nil];
 
     //2
@@ -132,7 +132,7 @@
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
-     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
+     [messenger tag:@"connectionOption" val:@{@"type":@"client"}],
      nil];
     
     int i = 0;
@@ -166,7 +166,7 @@
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
-     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
+     [messenger tag:@"connectionOption" val:@{@"type":@"client"}],
      nil];
     
     //2
@@ -174,7 +174,7 @@
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
      [messenger tag:@"connectionType" val:[NSNumber numberWithInt:KS_ROUNDABOUTCONT_CONNECTION_TYPE_WEBSOCKET]],
-     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
+     [messenger tag:@"connectionOption" val:@{@"type":@"client"}],
      nil];
     
     int i = 0;

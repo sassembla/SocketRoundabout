@@ -42,7 +42,7 @@
         
         if ([opt[KEY_WEBSOCKET_TYPE] isEqualToString:OPTION_TYPE_CLIENT]) {
             m_websocket_type = WEBSOCKET_TYPE_CLIENT;
-        } else {
+        } else {// default
             m_websocket_type = WEBSOCKET_TYPE_SERVER;
         }
         

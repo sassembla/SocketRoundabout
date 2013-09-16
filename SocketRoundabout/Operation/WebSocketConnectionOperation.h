@@ -16,7 +16,7 @@
 
 #define KS_WEBSOCKETCONNECTIONOPERATION (@"KS_WEBSOCKETCONNECTIONOPERATION")
 
-#define KEY_WEBSOCKET_TYPE  (@"websocketas")
+#define KEY_WEBSOCKET_TYPE  (@"type")
 
 #define OPTION_TYPE_CLIENT  (@"client")
 #define OPTION_TYPE_SERVER  (@"server")
