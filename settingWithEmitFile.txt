@@ -10,4 +10,4 @@ connect:roundaboutTest1_2013/05/16_13:38:43 to:roundaboutTest0_2013/05/16_13:38:
 trans:roundaboutTest1_2013/05/16_13:38:43 to:roundaboutTest0_2013/05/16_13:38:43 prefix:TEST_PREFIX suffix:TEST_POSTFIX
 
 //emitFile
-emitfile:/Users/sassembla/Desktop/SocketRoundabout/socketroundabout_ready.txt to:roundaboutTest0_2013/05/16_13:38:43
+emitfile:./socketroundabout_ready.txt to:roundaboutTest0_2013/05/16_13:38:43
