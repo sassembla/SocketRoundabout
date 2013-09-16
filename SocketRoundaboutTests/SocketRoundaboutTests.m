@@ -228,7 +228,7 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
+     [messenger tag:@"connectionOption" val:@{@"type":@"client"}],
      nil];
     
     int i = 0;
@@ -255,7 +255,7 @@
     
     
     //送付
-    [sender sendNotification:TEST_NOTIFICATIONSERVER withMessage:TEST_DISTNOTIF_MESSAGE withKey:@"message"];
+    [sender sendNotification:[TEST_NOTIFICATIONSERVER stringByReplacingOccurrencesOfString:PROTOCOL_NSDISTNOTIFICATION withString:@""] withMessage:TEST_DISTNOTIF_MESSAGE withKey:@"message"];
     
     while ([rCont transitOutputCount:TEST_CONNECTIONIDENTITY_1] == 0) {
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0]];
@@ -279,7 +279,7 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_1],
-     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
+     [messenger tag:@"connectionOption" val:@{@"type":@"client"}],
      nil];
     
     //2 DistNotif
@@ -379,7 +379,7 @@
     [messenger call:KS_ROUNDABOUTCONT withExec:KS_ROUNDABOUTCONT_CONNECT,
      [messenger tag:@"connectionTargetAddr" val:TEST_WEBSOCKETSERVER],
      [messenger tag:@"connectionId" val:TEST_CONNECTIONIDENTITY_2],
-     [messenger tag:@"connectionOption" val:@{@"websocketas":@"client"}],
+     [messenger tag:@"connectionOption" val:@{@"type":@"client"}],
      nil];
     
     int i = 0;
@@ -395,6 +395,7 @@
     //connect
     [rCont outFrom:TEST_CONNECTIONIDENTITY_1 into:TEST_CONNECTIONIDENTITY_2];
     
+    
     //接続送信
     //nnotifdを起動
     TestRunNNOTIFD * nnotifdRunner = [[TestRunNNOTIFD alloc]init];
@@ -403,7 +404,7 @@
     //nnotifでnnotifdにビルド信号を送り込む
     TestDistNotificationSender2 * nnotifSender = [[TestDistNotificationSender2 alloc]init];
 
-    NSArray * execsArray = @[@"/bin/pwd", @"|", NNOTIF, @"-t", TEST_NOTIFICATIONSERVER, @"-v", @"-o", TEST_NNOTIF_LOG, @"--ignorebl"];
+    NSArray * execsArray = @[@"/bin/pwd", @"|", NNOTIF, @"-t", [TEST_NOTIFICATIONSERVER stringByReplacingOccurrencesOfString:PROTOCOL_NSDISTNOTIFICATION withString:@""], @"-v", @"-o", TEST_NNOTIF_LOG, @"--ignorebl"];
     
     //notifでexecuteを送り込む
     NSArray * execArray = @[@"nn@", @"-e",[self jsonizedString:execsArray]];
@@ -428,7 +429,7 @@
     NSArray * execArray2 = @[@"nn@", @"-kill"];
     NSString * exec2 = [execArray2 componentsJoinedByString:@" "];
 
-    [nnotifSender sendNotification:TEST_NNOTIFD_ID withMessage:exec2 withKey:@"NN_DEFAULT_ROUTE"];
+    [nnotifSender sendNotification:[TEST_NNOTIFD_ID stringByReplacingOccurrencesOfString:PROTOCOL_NSDISTNOTIFICATION withString:@""] withMessage:exec2 withKey:@"NN_DEFAULT_ROUTE"];
 }
 
 /**

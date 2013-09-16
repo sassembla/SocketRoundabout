@@ -7,6 +7,7 @@
 //
 
 #import "DistNotificationOperation.h"
+#import "RoundaboutController.h"
 #import "KSMessenger.h"
 
 @implementation DistNotificationOperation {
@@ -28,7 +29,9 @@
         [messenger connectParent:masterNameAndMID];
         
         m_operationId = [[NSString alloc]initWithString:connectionId];
-        m_receiverName = [[NSString alloc]initWithString:receiverName];
+        
+        // notification name is without prefix of protocol.
+        m_receiverName = [[[NSString alloc]initWithString:receiverName] stringByReplacingOccurrencesOfString:PROTOCOL_NSDISTNOTIFICATION withString:@""];
 
         m_messageCount = 0;
         

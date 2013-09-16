@@ -249,7 +249,7 @@
     TestDistNotificationSender * sender = [[TestDistNotificationSender alloc]init];
     
     //送付
-    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage" withKey:@"message"];
+    [sender sendNotification:[TEST_NOTIFICATION_IDENTITY stringByReplacingOccurrencesOfString:PROTOCOL_NSDISTNOTIFICATION withString:@""] withMessage:@"testMessage" withKey:@"message"];
 
     //一件取得できる
     STAssertTrue([roundaboutCont roundaboutMessageCount] == 1, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
@@ -276,8 +276,8 @@
     TestDistNotificationSender * sender = [[TestDistNotificationSender alloc]init];
     
     //送付
-    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage" withKey:@"message"];
-    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage2" withKey:@"message"];
+    [sender sendNotification:[TEST_NOTIFICATION_IDENTITY stringByReplacingOccurrencesOfString:PROTOCOL_NSDISTNOTIFICATION withString:@""] withMessage:@"testMessage" withKey:@"message"];
+    [sender sendNotification:[TEST_NOTIFICATION_IDENTITY stringByReplacingOccurrencesOfString:PROTOCOL_NSDISTNOTIFICATION withString:@""] withMessage:@"testMessage2" withKey:@"message"];
     
     //2件取得できる
     STAssertTrue([roundaboutCont roundaboutMessageCount] == 2, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
@@ -310,7 +310,7 @@
     TestDistNotificationSender * sender = [[TestDistNotificationSender alloc]init];
     
     //送付
-    [sender sendNotification:TEST_NOTIFICATION_IDENTITY withMessage:@"testMessage" withKey:@"message"];
+    [sender sendNotification:[TEST_NOTIFICATION_IDENTITY stringByReplacingOccurrencesOfString:PROTOCOL_NSDISTNOTIFICATION withString:@""] withMessage:@"testMessage" withKey:@"message"];
     
     //1件取得できる
     STAssertTrue([roundaboutCont roundaboutMessageCount] == 1, @"not match, %d", [roundaboutCont roundaboutMessageCount]);
