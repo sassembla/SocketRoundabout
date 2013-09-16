@@ -80,7 +80,6 @@ void uncaughtExceptionHandler(NSException * exception) {
  特になんのガードも無いため、一つのファイルだけにするのが好ましい。
  */
 - (void) loadSetting:(NSString * )source {
-    NSAssert(source, @"source is nil.");
     NSMutableArray * settingLineArray;
     
     if ([source isEqualToString:PATH_NO_SETTINGS_RUN]) {
