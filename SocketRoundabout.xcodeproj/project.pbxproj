@@ -20,7 +20,6 @@
 		13967ACF1743EB2D001F43BA /* MBWebSocketServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 13967ACB1743EB2D001F43BA /* MBWebSocketServer.m */; };
 		13967AD01743EB2D001F43BA /* MBWebSocketServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 13967ACB1743EB2D001F43BA /* MBWebSocketServer.m */; };
 		13967AD11743EB2D001F43BA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 13967ACC1743EB2D001F43BA /* README.md */; };
-		13967AD21743EB2D001F43BA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 13967ACC1743EB2D001F43BA /* README.md */; };
 		13A0FDED1737BD1800CCAE71 /* compass.icns in Resources */ = {isa = PBXBuildFile; fileRef = 13A0FDEC1737BD1800CCAE71 /* compass.icns */; };
 		13A0FDF11737E24F00CCAE71 /* DandDWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */; };
 		13A0FDF21737E24F00CCAE71 /* DandDWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */; };
@@ -203,24 +202,14 @@
 		13E211EC171E92AD00AD84BB /* SocketRoundabout */ = {
 			isa = PBXGroup;
 			children = (
+				B7549F2E17E6B02C006A01E9 /* Transfer */,
+				B7549F3217E6B07F006A01E9 /* UI */,
+				B7549F2F17E6B040006A01E9 /* Connections */,
 				13E211F8171E92AD00AD84BB /* AppDelegate.h */,
 				13E211F9171E92AD00AD84BB /* AppDelegate.m */,
-				13A0FDEE1737E24F00CCAE71 /* DandDWindowController.h */,
-				13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */,
-				13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */,
 				13E211ED171E92AD00AD84BB /* Supporting Files */,
 				13B961611726C45200766021 /* RoundaboutController.h */,
 				13B961621726C45200766021 /* RoundaboutController.m */,
-				13B961651726C5DA00766021 /* WebSocketConnectionOperation.h */,
-				13B961661726C5DA00766021 /* WebSocketConnectionOperation.m */,
-				13935D391727ECFC00E10D59 /* DistNotificationOperation.h */,
-				13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */,
-				138F6B2E1733ACCC00D6061B /* SRTransfer.h */,
-				138F6B2F1733ACCC00D6061B /* SRTransfer.m */,
-				138F6B321733B01300D6061B /* SRTransferArray.h */,
-				138F6B331733B01300D6061B /* SRTransferArray.m */,
-				13A0FDF31738956D00CCAE71 /* MainWindow.h */,
-				13A0FDF41738956E00CCAE71 /* MainWindow.m */,
 			);
 			path = SocketRoundabout;
 			sourceTree = "<group>";
@@ -282,6 +271,56 @@
 				13E2122E171E942700AD84BB /* KSMessenger.m */,
 			);
 			path = KSMessenger;
+			sourceTree = "<group>";
+		};
+		B7549F2E17E6B02C006A01E9 /* Transfer */ = {
+			isa = PBXGroup;
+			children = (
+				138F6B2E1733ACCC00D6061B /* SRTransfer.h */,
+				138F6B2F1733ACCC00D6061B /* SRTransfer.m */,
+				138F6B321733B01300D6061B /* SRTransferArray.h */,
+				138F6B331733B01300D6061B /* SRTransferArray.m */,
+			);
+			name = Transfer;
+			sourceTree = "<group>";
+		};
+		B7549F2F17E6B040006A01E9 /* Connections */ = {
+			isa = PBXGroup;
+			children = (
+				B7549F3117E6B062006A01E9 /* NSDistributedNotification */,
+				B7549F3017E6B053006A01E9 /* WebSocket */,
+			);
+			name = Connections;
+			sourceTree = "<group>";
+		};
+		B7549F3017E6B053006A01E9 /* WebSocket */ = {
+			isa = PBXGroup;
+			children = (
+				13B961651726C5DA00766021 /* WebSocketConnectionOperation.h */,
+				13B961661726C5DA00766021 /* WebSocketConnectionOperation.m */,
+			);
+			name = WebSocket;
+			sourceTree = "<group>";
+		};
+		B7549F3117E6B062006A01E9 /* NSDistributedNotification */ = {
+			isa = PBXGroup;
+			children = (
+				13935D391727ECFC00E10D59 /* DistNotificationOperation.h */,
+				13935D3A1727ECFC00E10D59 /* DistNotificationOperation.m */,
+			);
+			name = NSDistributedNotification;
+			sourceTree = "<group>";
+		};
+		B7549F3217E6B07F006A01E9 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				13A0FDF31738956D00CCAE71 /* MainWindow.h */,
+				13A0FDF41738956E00CCAE71 /* MainWindow.m */,
+				13A0FDEE1737E24F00CCAE71 /* DandDWindowController.h */,
+				13A0FDEF1737E24F00CCAE71 /* DandDWindowController.m */,
+				13A0FDF01737E24F00CCAE71 /* DandDWindowController.xib */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,7 +407,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13E2120E171E92AD00AD84BB /* InfoPlist.strings in Resources */,
-				13967AD21743EB2D001F43BA /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

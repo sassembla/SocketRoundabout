@@ -6,24 +6,30 @@
 //  Copyright (c) 2013年 KISSAKI Inc,. All rights reserved.
 //
 
+/*
+    セッティングの動作試験
+ 
+ */
+
 #import <SenTestingKit/SenTestingKit.h>
 #import "AppDelegate.h"
 
 #import "KSMessenger.h"
 
 #define TEST_MASTER (@"TEST_MASTER_2013/05/03 21:23:10")
-#define TEST_SETTINGFILE_0      (@"./setting_0.txt")
-#define TEST_SETTINGFILE_1      (@"./setting_1.txt")
-#define TEST_SETTINGFILE_2      (@"./setting_2.txt")
-#define TEST_EMPTY_SETTINGFILE    (@"./empty.txt")
+
+#define TEST_SETTINGFILE_0      (@"./TestResource/setting_0.txt")
+#define TEST_SETTINGFILE_1      (@"./TestResource/setting_1.txt")
+#define TEST_SETTINGFILE_2      (@"./TestResource/setting_2.txt")
+#define TEST_EMPTY_SETTINGFILE    (@"./TestResource/empty.txt")
 #define TEST_NOTEXIST_SETTINGFILE    (@"./notexist.txt")
-#define TEST_SETTINGFILE_WITH_OPTION    (@"./settingWithOpt.txt")
+#define TEST_SETTINGFILE_WITH_OPTION    (@"./TestResource/settingWithOpt.txt")
 #define TEST_SETTINGFILE_WITH_OPTION_MULTI  (@"./settingWithOpt_multi.txt")//未使用、まだ複数のオプションには対応していない。
-#define TEST_EMITING_SETTINGFILE    (@"./settingWithEmit.txt")
-#define TEST_EMITING_SETTINGFILE_FILE    (@"./settingWithEmitFile.txt")
-#define TEST_SETTINGFILE_WSSERVER_AND_CLIENT    (@"./settingWSServerAndClient_1.txt")
-#define TEST_SETTINGFILE_WSSERVER_AND_CLIENT2   (@"./settingWSServerAndClient_2.txt")
-#define TEST_SETTINGFILE_WSSERVER_AND_CLIENT3   (@"./settingWSServerAndClient_3.txt")
+#define TEST_EMITING_SETTINGFILE    (@"./TestResource/settingWithEmit.txt")
+#define TEST_EMITING_SETTINGFILE_FILE    (@"./TestResource/settingWithEmitFile.txt")
+#define TEST_SETTINGFILE_WSSERVER_AND_CLIENT    (@"./TestResource/settingWSServerAndClient_1.txt")
+#define TEST_SETTINGFILE_WSSERVER_AND_CLIENT2   (@"./TestResource/settingWSServerAndClient_2.txt")
+#define TEST_SETTINGFILE_WSSERVER_AND_CLIENT3   (@"./TestResource/settingWSServerAndClient_3.txt")
 
 #define TEST_BASE_SETTINGFILE   (@".")
 
@@ -32,7 +38,7 @@
 #define GLOBAL_NNOTIF   (@"./tool/nnotif")
 #define TEST_NNOTIFD_ID_MANUAL  (@"NNOTIFD_IDENTITY")
 
-#define TEST_NNOTIF_LOG (@"./nnotif.log")
+#define TEST_NNOTIF_LOG (@"./log/nnotif.log")
 
 #define TEST_NNOTIFD_IDENTITY   (@"NNOTIFD_IDENTITY")
 #define TEST_NNOTIFD_OUTPUT (@"./s.log")//this points user's home via nnotifd
@@ -40,6 +46,9 @@
 #define TEST_SR_DISTNOTIF   (@"testNotif")
 
 #define CURRENT_SR_CL   (@"./app/SocketRoundabout")
+
+#define TEST_IDENTITY   (@"TEST_IDENTITY")
+
 
 @interface TestDistNotificationSender3 : NSObject @end
 @implementation TestDistNotificationSender3
@@ -280,18 +289,27 @@
 /**
  コマンドラインからの起動
  */
-- (void) testLoadSettingAsCommandLine {
-    NSArray * clArray = @[@"-s", TEST_SETTINGFILE_1];
-    
-    NSTask * task1 = [[NSTask alloc] init];
-    [task1 setLaunchPath:CURRENT_SR_CL];
-    [task1 setArguments:clArray];
-    [task1 launch];
-    
-    //セッティングを読み込んで起動しているはず。UIは無い。
-    
-    [task1 terminate];
-}
+//- (void) testLoadSettingAsCommandLine {
+//    NSArray * clArray = @[@"-s", TEST_SETTINGFILE_1, @"-i", TEST_IDENTITY];
+//    
+//    NSTask * task1 = [[NSTask alloc] init];
+//    [task1 setLaunchPath:CURRENT_SR_CL];
+//    [task1 setArguments:clArray];
+//    [task1 launch];
+//    
+//    //セッティングを読み込んで起動しているはず。UIは無い。
+//   
+////    nnotifでアプリケーションへと通知
+//    NSString * currentIdentity = [[NSString alloc]initWithFormat:@"%@:%@", DISTNOTIF_IDENTITY, TEST_IDENTITY];
+//    NSArray * clArray2 = @[@"-t", currentIdentity, @"-i", @"kill"];
+//    NSTask * task2 = [[NSTask alloc] init];
+//    [task2 setLaunchPath:GLOBAL_NNOTIF];
+//    [task2 setArguments:clArray2];
+//    [task2 launch];
+//    [task2 waitUntilExit];
+//    
+//    [task1 waitUntilExit];
+//}
 
 
 //////////////設定を行った後の挙動

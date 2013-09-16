@@ -12,6 +12,8 @@
 
 #import "MainWindow.h"
 
+#define PATH_NO_SETTINGS_RUN (@"NO_SETTINGS_RUN")
+
 @implementation AppDelegate {
     KSMessenger * messenger;
     
@@ -34,6 +36,9 @@ void uncaughtExceptionHandler(NSException * exception) {
     return YES;
 }
 
+/**
+ init with command line
+ */
 - (id) initAppDelegateWithParam:(NSDictionary * )argsDict {
     
     if (self = [super init]) {
@@ -41,14 +46,14 @@ void uncaughtExceptionHandler(NSException * exception) {
         if (argsDict[KEY_MASTER]) [messenger connectParent:argsDict[KEY_MASTER]];
         
         //ファイルから開く場合、
-        if (m_defaultSettingSource) {NSLog(@"opening:%@", m_defaultSettingSource);} else {
+        if (m_defaultSettingSource) {
+            NSLog(@"opening:%@", m_defaultSettingSource);} else {
             if (argsDict[KEY_SETTING]) {
                 m_defaultSettingSource = [[NSString alloc]initWithString:argsDict[KEY_SETTING]];
             } else {
                 NSAssert(argsDict[PRIVATEKEY_BASEPATH], @"basePath get error");
                 
-                //現在のディレクトリはどこか、起動引数からわかるはず
-                m_defaultSettingSource = [[NSString alloc]initWithFormat:@"%@/%@",argsDict[PRIVATEKEY_BASEPATH], DEFAULT_SETTINGS];
+                m_defaultSettingSource = PATH_NO_SETTINGS_RUN;
             }
         }
         
@@ -76,25 +81,33 @@ void uncaughtExceptionHandler(NSException * exception) {
  */
 - (void) loadSetting:(NSString * )source {
     NSAssert(source, @"source is nil.");
+    NSMutableArray * settingLineArray;
+    
+    if ([source isEqualToString:PATH_NO_SETTINGS_RUN]) {
+        settingLineArray = [[NSMutableArray alloc]init];//empty
+    } else {
         
-    NSFileHandle * handle = [NSFileHandle fileHandleForReadingAtPath:source];
-    
-    if (handle) {} else {
-        if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_ERROR, nil];
-        [self log:[NSString stringWithFormat:@"%@%@",@"cannot load file:%@", source]];
-        return;
+        NSAssert(source, @"source is nil.");
+        
+        NSFileHandle * handle = [NSFileHandle fileHandleForReadingAtPath:source];
+        
+        if (handle) {} else {
+            if ([messenger hasParent]) [messenger callParent:SOCKETROUNDABOUT_MASTER_LOADSETTING_ERROR, nil];
+            [self log:[NSString stringWithFormat:@"%@%@",@"cannot load file:%@", source]];
+            return;
+        }
+        
+        NSData * data = [handle readDataToEndOfFile];
+        NSString * string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
+        settingLineArray = [[NSMutableArray alloc]initWithArray:[string componentsSeparatedByString:@"\n"]];
     }
-    
-    NSData * data = [handle readDataToEndOfFile];
-    NSString * string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-    NSMutableArray * array = [[NSMutableArray alloc]initWithArray:[string componentsSeparatedByString:@"\n"]];
     
     //remove emptyLine and comment, not expect codehead line.
     m_lines = [[NSMutableArray alloc]init];
     
     NSArray * execList = @[CODEHEAD_ID, CODEHEAD_CONNECT, CODEHEAD_TRANS, CODEHEAD_EMIT, CODEHEAD_EMITFILE, MARK_NO_CODEHEAD];
-    for (NSString * line in array) {
+    for (NSString * line in settingLineArray) {
         for (NSString * expect in execList) {
             if ([line hasPrefix:expect]) [m_lines addObject:line];
         }
