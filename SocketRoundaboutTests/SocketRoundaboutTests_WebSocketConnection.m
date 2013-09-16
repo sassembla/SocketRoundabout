@@ -31,7 +31,7 @@
 #define TEST_CONNECTIONIDENTITY_1 (@"roundaboutTest1")
 #define TEST_CONNECTIONIDENTITY_2   (@"roundaboutTest2")
 
-#define TEST_TIMELIMIT  (3)
+#define TEST_TIMELIMIT  (5)
 @interface SocketRoundaboutTests_WebSocketConnection : SenTestCase {
     KSMessenger * messenger;
     RoundaboutController * roundaboutCont;
