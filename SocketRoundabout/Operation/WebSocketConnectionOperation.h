@@ -21,7 +21,6 @@
 #define OPTION_TYPE_CLIENT  (@"client")
 #define OPTION_TYPE_SERVER  (@"server")
 
-#define WEBSOCKET_ADDRESS_DEFINE    (@"ws://")
 
 
 typedef enum {
