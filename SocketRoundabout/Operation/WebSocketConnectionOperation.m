@@ -51,15 +51,11 @@
             case WEBSOCKET_TYPE_SERVER:{
                 NSInteger port = 0;
                 
-                if ([targetAddr hasPrefix:WEBSOCKET_ADDRESS_DEFINE]) {
-                    NSString * portWithAddress = targetAddr;
-                    NSArray * array = [portWithAddress componentsSeparatedByString:@":"];
-                    NSAssert1([array count] == 3, @"shortage of ':', %@", portWithAddress);
+                NSString * portWithAddress = targetAddr;
+                NSArray * array = [portWithAddress componentsSeparatedByString:@":"];
+                NSAssert1([array count] == 3, @"shortage of ':', %@", portWithAddress);
 
-                    port = [array[2] integerValue];
-                } else {
-                    port = [targetAddr integerValue];
-                }
+                port = [array[2] integerValue];
                 
                 NSAssert2(0 < port, @"failed to initialize WebSocket-server, named:%@ port:%@", connectionIdentity, targetAddr);
                 
