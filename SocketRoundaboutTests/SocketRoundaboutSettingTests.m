@@ -45,8 +45,6 @@
 
 #define TEST_SR_DISTNOTIF   (@"testNotif")
 
-#define CURRENT_SR_CL   (@"./app/SocketRoundabout")
-
 #define TEST_IDENTITY   (@"TEST_IDENTITY")
 
 
